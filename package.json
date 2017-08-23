@@ -1,18 +1,17 @@
 {
-  "name": "application-name",
-  "version": "2.0.0",
-  "private": true,
+  "name": "searchbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
   "scripts": {
-    "start": "node server.js"
-  },  
-"license": "Apache",
-"dependencies": {
-    "botbuilder": "^3.7.0",
-    "html-entities": "^1.2.0",
-    "request": "^2.78.0",
-    "restify": "^4.3.0"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-"engines": {
-    "node": "~0.10.0 || ~4.2.0"
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "botbuilder": "^3.8.2",
+    "dotenv-extended": "^2.0.0",
+    "request": "^2.78.0",
+    "restify": "^4.2.0"
   }
 }
