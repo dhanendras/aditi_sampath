@@ -9,9 +9,10 @@ var checkout = require('./checkout');
 var catalog = require('./services/catalog');
 
 var connector = new builder.ChatConnector({
-  appId: process.env.MICROSOFT_APP_ID,
-  appPassword: process.env.MICROSOFT_APP_PASSWORD
+    appId: '95a0a3f3-0616-4339-b161-1555e6784b4c',
+    appPassword: '3rqVr45QvS1ONmvGi5YV1Mp'
 });
+
 
 var server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
