@@ -9,10 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "async": "^1.5.2",
-     "botbuilder": "^3.7.0",
-    "html-entities": "^1.2.0",
-    "request": "^2.78.0",
-	"restify": "^4.1.1"
+    "botbuilder": "^3.8.2",
+    "restify": "^4.3.0"
   }
 }
