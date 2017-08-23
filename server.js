@@ -1,16 +1,18 @@
 
 //
-var http = require('http');
 var builder = require('botbuilder');
 var analyticsService = require('./models/text-analytics');
+var restify = require('restify');
+var server = restify.createServer();
 
-http.createServer(function (req, res) {
-    
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-    res.end('Hello, world!');
-    
-}).listen(process.env.PORT || 8080);
+server.listen(8080, function() {
+    console.log('%s listening to %s', server.name, server.url);
+});
 
+
+server.get('/', function(req, res, next) {
+    return 'hello');
+});
 // Create bot
 var connector = new builder.ChatConnector({
     appId: '95a0a3f3-0616-4339-b161-1555e6784b4c',
