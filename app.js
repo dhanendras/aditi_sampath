@@ -19,7 +19,10 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
   console.log('%s listening to %s', server.name, server.url);
 });
 server.post('/api/messages', connector.listen());
-
+server.get('/', restify.serveStatic({
+    'directory': '.',
+    'default': 'index.html'
+}));
 var CartIdKey = 'CardId';
 
 var bot = new builder.UniversalBot(connector, (session) => {
