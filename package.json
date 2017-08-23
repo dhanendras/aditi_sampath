@@ -6,6 +6,12 @@
     "start": "node server"
   },  
 "license": "Apache",
+"dependencies": {
+    "botbuilder": "^3.7.0",
+    "html-entities": "^1.2.0",
+    "request": "^2.78.0",
+    "restify": "^4.3.0"
+  },
 "engines": {
     "node": "~0.10.0 || ~4.2.0"
   }
