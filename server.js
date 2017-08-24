@@ -1,7 +1,7 @@
 
 var builder = require('botbuilder');
 var restify = require('restify');
-//var analyticsService = require('./models/text-analytics');
+var analyticsService = require('./models/text-analytics');
 
 var restify = require('restify');
 var port = process.env.PORT || 8080;
