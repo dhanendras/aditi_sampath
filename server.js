@@ -14,7 +14,9 @@ function respond(req, res, next) {
 var server = restify.createServer();
 server.get('/hello/:name', respond);
 server.head('/hello/:name', respond);
-
+server.get(/\/public\/?.*/, restify.serveStatic({
+    directory: __dirname
+}));
 server.listen(port, function() {
   console.log('%s listening at %s', server.name, server.url);
 });
