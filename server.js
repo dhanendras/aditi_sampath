@@ -4,6 +4,7 @@ var restify = require('restify');
 var analyticsService = require('./models/text-analytics');
 var QnAClient = require('./client');
 const mysql = require('mysql2');
+const conn = new mysql.createConnection(config);
 var port = process.env.PORT || 8080;
 var config =
 {
@@ -266,7 +267,7 @@ bot.dialog('ezone3',[
     function(session,results){
         session.send('Let us start with a brief video which talks about our Innovation Ecosystem.');
         const msg = new builder.Message(session);
-        msg.addAttachment({contentType: 'video/mp4', contentUrl: 'https://youtu.be/A9Vu9n7YxrI'});
+        msg.addAttachment({contentType: 'video/mp4', contentUrl: 'https://www.youtube.com/watch?v=BenViYeVyLE'});
         session.send(msg);
         session.beginDialog('ezone4');
     }]);
