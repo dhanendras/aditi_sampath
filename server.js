@@ -2,9 +2,18 @@
 var builder = require('botbuilder');
 var restify = require('restify');
 var analyticsService = require('./models/text-analytics');
-
-var restify = require('restify');
+var QnAClient = require('./client');
+const mysql = require('mysql2');
 var port = process.env.PORT || 8080;
+var config =
+{
+    host: 'myserver4adithipro.mysql.database.azure.com',
+    user: 'adithi.pro@myserver4adithipro',
+    password: 'Bot@1234',
+    database: 'adithipro_db',
+    port: 3306,
+    ssl: true
+};
 
 function respond(req, res, next) {
   res.send('hello ' + req.params.name);
@@ -24,19 +33,28 @@ server.listen(port, function() {
 const LuisModelUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/00075350-0d1e-4f2d-8f6e-75e253066b43?subscription-key=468963da9804413788459981febe3bb6&timezoneOffset=0&verbose=true&q= ';
 
 
-//luis intent recogniser
-const intent = new builder.IntentDialog({
-    recognizers: [
-        new builder.LuisRecognizer(LuisModelUrl)
-    ]
-});
+
 // Create bot
 
 var connector = new builder.ChatConnector({
     appId: '6c3e1d15-2432-402b-86b2-4b6b8f5b25a1',
     appPassword: 'iKXaa1a6Tap6Un6XBLjFk6i'
 });
+
+var qnaClient = new QnAClient({
+    knowledgeBaseId: 'fe330b26-130f-4cba-b303-c4e3d509de94',
+    subscriptionKey: 'ce99e7727cad4a788f15ead7b57a01ab'
+    // Optional field: Score threshold
+});
+
 server.post('/api/messages', connector.listen());
+
+//luis intent recogniser
+const intent = new builder.IntentDialog({
+    recognizers: [
+        new builder.LuisRecognizer(LuisModelUrl)
+    ]
+});
 
 /*
 var bot = new builder.UniversalBot(connector, function (session) {
@@ -46,44 +64,18 @@ var bot = new builder.UniversalBot(connector, function (session) {
 */
 
 var bot = new builder.UniversalBot(connector,[
-
-    function(session,next){
-        session.beginDialog('greet');
+    function(session){
+       session.say('Welcome to Infinity Labs.');
+        session.say('My name is Aditi');
+        session.beginDialog('name');
     },
-    function(session,results){
-        session.beginDialog('ezone');
-    },
-    function(session,results){
-        builder.Prompts.text(session,'Are we good to continue with the demonstration of <Asset>?');
-    },
-    function(session,results,next){
-        var responseOne = session.message.text;
-        builder.LuisRecognizer.recognize(responseOne, LuisModelUrl, function (err, intents, entities) {
-            var result = {};
-            result.intents = intents;
-            result.entities = entities;
-            if (intents[0].intent=='yes') {
-                    session.beginDialog('demo');
-                } else {
-                    session.send('Is there some issue?');
-                    session.beginDialog('error');
-                } 
-            
-            })     
     
-    },
-    function(session,results){
-        session.beginDialog('anyQuestions');
-    },
+    
+function(session,results){
+    session.beginDialog('error');
+},
     function(session){
-        session.beginDialog('moreQuestions');
-    },
-    function(session){
-        session.beginDialog('feedback');
-    },
-    function(session){
-        session.send('Thank you for the visit <Guest>!');
-        session.endConversation();
+        session.beginDialog('asset');
     }
 ]);
 
@@ -97,88 +89,395 @@ bot.on('conversationUpdate', function (message) {
     }
 });
 
-bot.recognizer(new builder.LuisRecognizer(LuisModelUrl));  
-
-
-//Greet
-
-bot.dialog('greet',[
+bot.dialog('name',[
+    function(session){
+        var intro ={"know": ['May I bother you to introduce yourself?','Could you please introduce yourself?','May I know your name(s)?','How about you?','And you are?']};
+        builder.Prompts.text(session,intro.know);
+    },
     function(session,next){
-        session.send('Hello <Guest>.  Welcome to Infinity Labs, the place where we collaborate and co create innovative technology enabled solutions for our customers. My name is Aditi and I\'ll be your guide throughout this tour' );
-        builder.Prompts.text(session,'How was your day so far?');
-    },
-    function (session, results, next) {
-
-        analyticsService.getScore(results.response).then(score => {
-            
-            var newScore = parseFloat(score);
-            if (!isNaN(newScore)) {
-                    if (newScore > 0.8) {
-                        session.send('Excellent... Let us move on to the experience zone of our Infinity Labs to explore more');
-                        next();
-                    } 
-                    else if (newScore > 0.5) {
-                        session.send('Okay, let us move on then');
-                        next();
-                    } 
-                    else {
-                        session.send('That sounds awful. Maybe this presentation will cheer you up!');
-                        next();
+        var response = session.message.text;
+        builder.LuisRecognizer.recognize(response, LuisModelUrl, function (err, intents, entities,next){
+            var results = {};
+            results.entities == entities;
+            results.intents == intents;
+            console.log('%s',JSON.stringify(intents));
+            topIntent = intents[0].intent;
+            if(topIntent=='intro'){
+                console.log('intent intro');
+                var response = session.message.text;
+                builder.LuisRecognizer.recognize(response, LuisModelUrl, function (err, intents, entities,next){
+                    var results = {};
+                    results.entities == entities;
+                    //session.send('%s',JSON.stringify(entities));
+                    i = 0;
+                    session.userData.names = {};
+                    for(i==0;i<entities.length;i++){
+                    if(entities[i].type=='name'||entities[0].entity=='encyclopedia'){
+                        var clientName = entities[i].entity;
+                        var hey ={"hey": ['Hello %s','Hey %s','Nice to meet you %s','Hey there %s','Hola %s','Great meeting you %s']};
+                        session.send(hey.hey,clientName);   
+                        session.userData.names += clientName;
+                        session.beginDialog('greet');
+                    }else{
+                        session.send('That name is too elegant for me. Care to repeat it?');
+                        session.beginDialog('name');    
                     }
-
                 }
-        })
-            
-    },
-    function(session,results){
-        builder.Prompts.text(session,'Let me know when you are settled.');
-        
-    },
-    function(session,results){
-        builder.Prompts.text(session,'Today we are planning to showcase our Innovation Labs ecosystem followed by demonstration of <Asset> for you. Hope you are good with the plan.');
-    },
-    function(session,results,args,next){
-        var responseTwo = session.message.text;
-        builder.LuisRecognizer.recognize(responseTwo, LuisModelUrl, function (err, intents, entities) {
-            var resultOne = {};
-            resultOne.intents = intents;
-            if(intents[0].intent=='yes'){
-                session.send('Great!!');
-                session.endDialog();
-            } else if(intents[0].intent=='no'){
-                session.send('Bhavesh, could you look into this and make the necessary changes?');
-                session.beginDialog('error');
-            } else {
-                session.send('Is that a yes?');
-                session.endDialog();
+                //session.beginDialog('greet');
+                
+                })
+                
             }
-        })
-    }]);
-
-//ezone
-
-bot.dialog('ezone',[
-
-    function(session,results,next){
-        session.send('Let us start with a brief video which talks about our Innovation ecosystem');
-        session.send('<Video not added>');
-    //},
-    //function(session,results){
-        //const msg = new builder.Message(session);
-        //msg.addAttachment({contentType: 'video/mp4', contentUrl: 'https://youtu.be/A9Vu9n7YxrI'} as builder.IAttachment);
-        //session.send(msg);
-    //},
-    //function(session,results){
-        session.send('Hope you got a fair understanding of our Innovation ecosystem. The presentations might continue for 20 more mins. Please feel free to make the best use of the chairs around');
-        session.endDialog();
-    },
+            else{
+                if(topIntent=='SmallTalk'){
+                    session.beginDialog('smallTalk');
+                }else if(topIntent=='no'){
+                    session.send('Sorry but I need to know your name');
+                    session.beginDialog('name');
+                } else{
+                    session.send('Sorry, I did not quite get that');
+                    session.beginDialog('name');
+                }
+            }
+    })},
+    function(session,results){
+        var back ={"back":['Okay let us get back to introduction','So where were we again? yes..','What were we talking about? yes...']};
+        session.send(back.back)
+        session.beginDialog('name');
+    }
 ]);
 
-//question
+bot.dialog('greet',[    
+    function(session,results,args,next){
+        var day = {"day": ['How was your day so far?','Had a good day so far?',]}
+        builder.Prompts.text(session,day.day);
+    },
+    function(session,results){
+        var response = session.message.text;
+        builder.LuisRecognizer.recognize(response, LuisModelUrl, function (err, intents, entities,next){
+            var results = {};
+            results.intents == intents;
+            topIntent=intents[0].intent;
+            console.log('%s',JSON.stringify(intents));
+            if(topIntent=='SmallTalk' && intents[0].score>0.8){
+                session.beginDialog('smallTalk');
+            } else{
+                analyticsService.getScore(response).then(score => {            
+                    var newScore = parseFloat(score);
+                    if (!isNaN(newScore)) {
+                            if (newScore > 0.75) {
+                                var good = {"good" :['Great','That is good to hear','Excellent','Good to know that']};
+                                session.send(good.good);
+                                session.beginDialog('ezone1')
+                            } 
+                            else if (newScore < 0.25) {
+                                var bad = {"bad":['I am sorry to hear that','That is unfortunate','Oh my','Oh oh']};
+                                session.send(bad.bad);
+                                session.send('Maybe this presentation will cheer you up')
+                                session.beginDialog('ezone1');
+                            } 
+                            else {
+                                var zero = {"zero":['Same here','Just an other ordinary day then','Seems alright','Good to know']};
+                                session.send(zero.zero);
+                                session.beginDialog('ezone1');
+                            }
+                        }
+                })
+            }
+                 
+                    
+        })
+    },
+    function(session,results){
+        var back ={"back":['So where were we again? yes..','What were we talking about? yes...']};
+        session.send(back.back);
+        session.beginDialog('greet');
+    }
+]);
+
+bot.dialog('ezone1',[
+    function(session){
+        var fol ={"fol":['Please follow the directions on screen to our Experience Zone','The next session is in our Experience Zone. PLease move on there.','Let us continue our discussion in our Experience Zone. Please move on there']};
+        session.send(fol.fol);
+        builder.Prompts.text(session, 'Let me know when you are done');
+    },
+    function(session,results,args){
+        var response = session.message.text;
+        builder.LuisRecognizer.recognize(response, LuisModelUrl, function (err, intents, entities,next){
+            var results = {};
+            results.intents == intents;
+            if(intents[0].intent=='SmallTalk'){
+                session.beginDialog('smallTalk');
+            }else if(intents[0].intent=='yes'||intents[0].intent=='done'){
+                session.beginDialog('ezone2');
+            }else{
+                session.send('I did not quite get that');
+                session.beginDialog('ezone1');
+            }
+        })
+    },
+    function(session,results){
+        var back ={"back":['So where were we again? yes..','What were we talking about? yes...']};
+        session.send(back.back);
+        session.beginDialog('ezone1');
+    }
+]);
+
+bot.dialog('ezone2',[
+
+    function(session,results){
+        var on ={"on":['Shall we move on to our Innovation Ecosystem?','Let us move on to our Innovation Ecosystem, shall we?','All right, let us start with our Innovation Ecosystem shall we?']}
+        builder.Prompts.text(session,on.on);
+    },
+    function(session,results,args){
+        var response = session.message.text;
+        builder.LuisRecognizer.recognize(response, LuisModelUrl, function (err, intents, entities,next){
+            var results = {};
+            results.intents == intents;
+            if(intents[0].intent=='yes'||intents[0].intent=='done'){
+                session.beginDialog('ezone3');
+            }else if(intents[0].intent=='no'){
+                builder.Prompts.text(session,'Are you sure you want to skip it?');
+                var response = session.message.text;
+                builder.LuisRecognizer.recognize(response, LuisModelUrl, function (err, intents, entities,next){
+                    var results = {};
+                    results.intents == intents;
+                    if(intents[0].intent=='yes'){
+                        session.send('Okay, let us skip it');
+                        session.beginDialog('asset');
+                    }else{
+                        session.send('Great, I promise you it will be worth it');
+                        session.beginDialog('ezone3');
+                    }
+                })
+                
+            }else if(intents[0].intent=='SmallTalk'){
+                session.beginDialog('smallTalk');
+            }else{
+                session.send('I did not quite get that');
+                session.beginDialog('ezone2');
+            }
+        })
+    }
+]);
+
+bot.dialog('ezone3',[
+
+    function(session,results){
+        session.send('Let us start with a brief video which talks about our Innovation Ecosystem.');
+        const msg = new builder.Message(session);
+        msg.addAttachment({contentType: 'video/mp4', contentUrl: 'https://youtu.be/A9Vu9n7YxrI'});
+        session.send(msg);
+        session.beginDialog('ezone4');
+    }]);
+    
+bot.dialog('ezone4',[
+    function(session,results){
+        builder.Prompts.text(session,'Please let me know when you are done with the video');
+    },
+    function(session,results,args){
+        var response = session.message.text;
+        builder.LuisRecognizer.recognize(response, LuisModelUrl, function (err, intents, entities,next){
+            var results = {};
+            results.intents == intents;
+            if(intents[0].intent=='SmallTalk'){
+                session.beginDialog('smallTalk');
+            }else if(intents[0].intent=='yes'||intents[0].intent=='done'){
+                session.send('Hope you got a fair understanding of our Innovation ecosystem. The presentations might continue for 20 more mins. Please feel free to make the best use of the chairs around');
+                session.beginDialog('asset');
+            }else{
+                session.send('I did not quite get that');
+                session.beginDialog('ezone4');
+            }
+        })
+    },
+    function(session,results){
+        var back ={"back":['So where were we again? yes..','What were we talking about? yes...']};
+        session.send(back.back);
+        session.beginDialog('ezone4');
+    }
+]);
+
+
+bot.dialog('smallTalk',[
+    function(session,args){        
+        // Post user's question to QnA smalltalk kb
+        qnaClient.post({ question: session.message.text }, function (err, results) {
+            if (err) {
+                console.error('Error from callback:', err);
+                session.send('Oops - something went wrong.');
+                return;
+            }
+
+            if (results) {
+                // Send reply from QnA back to user
+                session.send(results);
+                session.endDialog();
+            } else {
+                // Put whatever default message/attachments you want here
+                session.send('Hmm, I didn\'t quite understand you there. Care to rephrase?')
+            }
+        });
+    }
+]);
+
+
+bot.dialog('asset',[
+    function(session){
+        builder.Prompts.text(session,'Now that you have an idea on the areas we focus, let me know if you are looking for something specific from our Asset Catalogue.');
+    },
+    function(session,results){
+        var response = session.message.text;
+        builder.LuisRecognizer.recognize(response, LuisModelUrl, function (err, intents, entities,next){
+            var results = {};
+            results.intents == intents;
+            results.entities==entities;
+            console.log('%s',JSON.stringify(intents));
+            if(intents[0].intent=='question'){
+                if(entities[0].type=='area'){
+                    session.userData.area = entities[0].entity;
+                    session.beginDialog('getasset');
+                }else{
+                    session.send('Sorry I could not get the innovation area, please rephrase');
+                    session.beginDialog('asset');
+                }
+            }else if(intents[0].intent=='SmallTalk'){
+                    session.beginDialog('smallTalk');
+            }else if(intents[0].intent=='no'){
+                session.send('Okay, let us move on...');
+            }else{
+                session.send('Please ask for an innovation area');
+                session.beginDialog('asset');
+            }
+        })
+    },
+    function(session,results){
+        var back ={"back":['So where were we again? yes..','What were we talking about? yes...']};
+        session.send(back.back);
+        session.beginDialog('asset');
+    }
+]);
+
+
+bot.dialog('hey',[
+    function(session,results){
+        session.send('Hey there! I though we were done with the introduction');
+    }
+]).triggerAction({
+    matches : 'greet',
+    onSelectAction : (session,args,next) => {
+        session.beginDialog(args,action, args);
+    }
+});
+
+bot.dialog('getasset',[
+    function(session,results,next){
+        conn.connect();
+        var we ={"we": ['We have the following Assets in %s from our catalogue','I found the following assets under %s','Our Asset Catalogue has the following assets under %s']};
+        var key = session.userData.area;
+        var sql = "SELECT * FROM asset_demo WHERE asset_keywords LIKE '%"+key+"%'";
+        session.send(we.we,key);
+        conn.query(sql, function (err,results,fields) {
+            i=0;
+            console.log('%s',JSON.stringify(results));
+            for(i=0;i<results.length;i++){
+            var assets = results[i].asset_name;
+            session.send('%d. %s',i+1,assets);
+            console.log('%',assets);
+            }
+        }
+        );
+        conn.end();
+        if(results!={}){
+            next();
+        }
+        //session.beginDialog('assetSelect');
+    },
+    function(session,results){
+        session.beginDialog('assetSelect');
+    }
+]);
+
+bot.dialog('assetSelect',[
+
+    function(session,results){
+        var more = {"more":['Would you like to know more about these assets?','Need more information about any of these assets?']};
+        builder.Prompts.text(session,more.more)
+    },
+    function(session,results){
+        var response = session.message.text;
+        builder.LuisRecognizer.recognize(response, LuisModelUrl, function (err, intents, entities,next){
+            var results = {};
+            results.intents == intents;
+            results.entities==entities;
+            console.log('%s',JSON.stringify(intents));
+            if(intents[0].intent=='question'){
+                if(entities[0].type=='area'){
+                    session.userData.asset = entities[0].entity;
+                    session.beginDialog('assetInfo');
+                }else{
+                    session.send('Sorry I could not get the Asset name, please rephrase');
+                    session.beginDialog('assetSelect');
+                }
+            }else if(intents[0].intent=='no'){
+                session.beginDialog('questions');
+            }else{
+                if(intents[0].intent=='SmallTalk'){
+                    session.beginDialog('smallTalk');
+                }
+                session.send('Please ask for an Asset name');
+                session.beginDialog('assetSelect');
+            }
+        })
+    }
+]);
+
+bot.dialog('assetInfo',[
+    function(session,results){
+        conn.connect();
+        var we ={"we": ['We have the following Assets in %s from our catalogue','I found the following assets under %s','Our Asset Catalogue has the following assets under %s']};
+        var key = session.userData.asset;
+        var sql = "SELECT * FROM asset_demo WHERE asset_keywords LIKE '%"+key+"%'";
+        session.send(we.we,key);
+        conn.query(sql, function (err,results,fields) {
+            i=0;
+            console.log('%s',JSON.stringify(results));
+            if(!results){
+                session.send('I did not find anything related to that in our database');
+                session.beginDialog('asset');
+            }else{
+            for(i=0;i<results.length;i++){
+            var summary = results[i].asset_summary;
+            var poc = results[i].asset_poc;
+            var type = results[i].asset_type;
+            session.send('This product type is %s',type);
+            session.send('Here is the brief summary:');
+            session.send('%s',summary);
+            session.send('This team is led by %s',poc);
+            }
+            conn.end();
+            builder.Prompts.choice(session, "Please choose one option", "Back to Innovation areas|Another Asset|Next", { listStyle: 4 });
+            //console.log('%',);
+        }
+        });
+    },
+    function(session,results){
+        if(results.response.entity=='Back to Innovation areas'){
+            session.beginDialog('asset');
+        }else if(results.response.entity=='Another Asset'){
+            session.beginDialog('assetSelect');
+        }else if(results.response.entity=='Next'){
+            session.beginDialog('question');
+        }else{
+            session.send('MG');
+
+        }
+    }
+]);
 
 bot.dialog('anyQuestions',[
     function(session){
-        builder.Prompts.text(session,'Do you have any questions?');
+        builder.Prompts.text(session,'Okay <Guest>, do you have any questions?');
     },
     function(session,results,args,next){
         var responseThree = session.message.text;
@@ -188,10 +487,13 @@ bot.dialog('anyQuestions',[
             if (intents[0].intent == 'yes') {
                     session.send('Okay');
                     session.beginDialog('question')
-                } else{
+                } else if(intents[0].intent=='no'){
                     session.send('Okay, let us continue');
-                    session.endDialog();
-                } 
+                    session.beginDialog('feedback');
+                } else{
+                    session.send('I did not quite get that.')
+                    session.beginDialog('anyQuestions')
+                }
             
             })
     }   
@@ -200,17 +502,17 @@ bot.dialog('anyQuestions',[
 
 bot.dialog('question',[
     function(session,results){
-        builder.Prompts.text(session,'You seem to have a question. Please fire away');
+        builder.Prompts.text(session,'It seems you have a question. Could you please repeat it for me?');
         ////var question = session.message.text;
         // add question to DB
     },
     function(session,results,next){
-        session.send('Gokul would be able to explain you in detail');
-        builder.Prompts.text(session,'Gokul, please let me know when you are done');
+        session.send('<POC> would be able to explain you in detail');
+        builder.Prompts.text(session,'<POC>, please let me know when you are done');
     },
     function(session,results){
         //wait
-        builder.Prompts.text(session,'Did that answer your question?');    
+        builder.Prompts.text(session,'I hope that answered your question?');    
     },
     function(session,results,args,next){
         var responseThree = session.message.text;
@@ -219,24 +521,24 @@ bot.dialog('question',[
             resultTwo.intents = intents;
             if (intents[0].intent == 'yes') {
                     session.send('Glad to hear');
-                    session.endDialog();
+                    session.beginDialog('moreQuestions');
                 } else{
                     session.send('Hmm...Maybe the rest of the presentation would bring you more clarity');
-                    session.endDialog();
+                    session.beginDialog('moreQuestions');
                 } 
             
             })
     }   
-]).triggerAction({
+/*]).triggerAction({
     matches : 'question',
     onSelectAction : (session,args,next) => {
         session.beginDialog(args,action, args);
-    }
-});
+    }*/
+]);
 
 bot.dialog('moreQuestions',[
     function(session,args,next){
-        builder.Prompts.text(session,'Do you have any more questions on this topic?');
+        builder.Prompts.text(session,'Any more questions on this topic?');
     },
     function(session,results){
         var responseFour = session.message.text;
@@ -259,78 +561,3 @@ bot.dialog('moreQuestions',[
             session.endDialog();
         }
 ]);
-
-//feedback
-
-bot.dialog('feedback',[
-    function(session){
-        session.send('That marks the end of this session');
-        builder.Prompts.text(session, 'How was it? We appreciate a candid respone!');
-    },
-    function (session, results, next) {
-
-        analyticsService.getScore(results.response).then(score => {
-            
-            var newScore = parseFloat(score);
-            if (!isNaN(newScore)) {
-                    if (newScore > 0.8) {
-                        session.send('Thanks <Guest>. It means a lot to us.');
-                        next();
-                    } 
-                    else if (newScore > 0.5) {
-                        session.send('Thanks for that positive input');
-                        next();
-                    } 
-                    else {
-                        session.send('Thank you for the input. We will definetly work on it');
-                        next();
-                    }
-
-                }
-    //},
-    //function(session,results){
-        //var fb_sent = session.message.text;
-        //add sentiment analysis
-        ////var feedback = session.message.text;
-        //add FB to DB
-        ////if(fb_sent=='pos'){
-            ////session.send('Good to hear...');
-        ////} else {
-            ////session.send('Okay...');
-        ////}
-        ////session.endDialog();
-    })
-},
-    function(session,results){
-        session.endDialog();
-    }
-    
-]);
-//demo
-
-bot.dialog('demo',[
-    function(session){
-        session.send('Fortscale is not just rules-engine. It has been designed from the ground up as a machine learning system that uses advanced computing and mathematics to detect abnormal account behavior indicative of credential compromise or abuse.');
-        session.send('<Slides not added>');
-        session.send('<POC> and team would take over now');
-        builder.Prompts.text(session,'<POC>, please let me know when you are done');
-    },
-    function(session,results){
-        session.endDialog();
-    }
-])
-
-bot.dialog('smart',[
-    function(session){
-        session.send('smart')
-    }
-])
-
-bot.dialog('error',[
-    function(session){
-        session.send('This response flow has not been configuered');
-        session.send('Resetting the conversation...');
-        session.endConversation();
-    }
-])
-
