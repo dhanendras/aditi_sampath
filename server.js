@@ -4,7 +4,7 @@ var restify = require('restify');
 var analyticsService = require('./models/text-analytics');
 var QnAClient = require('./client');
 const mysql = require('mysql2');
-const conn = new mysql.createConnection(config);
+
 var port = process.env.PORT || 8080;
 var config =
 {
@@ -15,6 +15,8 @@ var config =
     port: 3306,
     ssl: true
 };
+
+const conn = new mysql.createConnection(config);
 
 function respond(req, res, next) {
   res.send('hello ' + req.params.name);
