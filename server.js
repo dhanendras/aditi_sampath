@@ -67,7 +67,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
 */
 
 var bot = new builder.UniversalBot(connector,[
-    /*function(session){
+    function(session){
        session.say('Welcome to Infinity Labs.');
         session.say('My name is Aditi');
         session.beginDialog('name');
@@ -76,7 +76,7 @@ var bot = new builder.UniversalBot(connector,[
     
 function(session,results){
     session.beginDialog('error');
-},*/
+},
     function(session){
         session.beginDialog('asset');
     }
