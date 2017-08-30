@@ -67,7 +67,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
 */
 
 var bot = new builder.UniversalBot(connector,[
-    function(session){
+    /*function(session){
        session.say('Welcome to Infinity Labs.');
         session.say('My name is Aditi');
         session.beginDialog('name');
@@ -76,7 +76,7 @@ var bot = new builder.UniversalBot(connector,[
     
 function(session,results){
     session.beginDialog('error');
-},
+},*/
     function(session){
         session.beginDialog('asset');
     }
@@ -378,7 +378,7 @@ bot.dialog('getasset',[
         conn.connect();
         var we ={"we": ['We have the following Assets in %s from our catalogue','I found the following assets under %s','Our Asset Catalogue has the following assets under %s']};
         var key = session.userData.area;
-        var sql = "SELECT * FROM asset_demo WHERE asset_keywords LIKE '%"+key+"%'";
+        var sql = "SELECT * FROM asset_demo_2 WHERE asset_keywords LIKE '%"+key+"%'";
         session.send(we.we,key);
         conn.query(sql, function (err,results,fields) {
             i=0;
@@ -390,7 +390,7 @@ bot.dialog('getasset',[
             }
         }
         );
-        conn.end();
+        //conn.end();
         if(results!={}){
             next();
         }
@@ -440,7 +440,7 @@ bot.dialog('assetInfo',[
         conn.connect();
         var we ={"we": ['We have the following Assets in %s from our catalogue','I found the following assets under %s','Our Asset Catalogue has the following assets under %s']};
         var key = session.userData.asset;
-        var sql = "SELECT * FROM asset_demo WHERE asset_keywords LIKE '%"+key+"%'";
+        var sql = "SELECT * FROM asset_demo_2 WHERE asset_keywords LIKE '%"+key+"%'";
         session.send(we.we,key);
         conn.query(sql, function (err,results,fields) {
             i=0;
@@ -458,7 +458,7 @@ bot.dialog('assetInfo',[
             session.send('%s',summary);
             session.send('This team is led by %s',poc);
             }
-            conn.end();
+            //conn.end();
             builder.Prompts.choice(session, "Please choose one option", "Back to Innovation areas|Another Asset|Next", { listStyle: 4 });
             //console.log('%',);
         }
