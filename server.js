@@ -81,7 +81,7 @@ var bot = new builder.UniversalBot(connector,[
     }
 ]);
 
-/*bot.on('conversationUpdate', function (message) {
+bot.on('conversationUpdate', function (message) {
     if (message.membersAdded) {
         message.membersAdded.forEach(function (identity) {
             if (identity.id === message.address.bot.id) {
@@ -89,7 +89,7 @@ var bot = new builder.UniversalBot(connector,[
             }
         });
     }
-});*/
+});
 
 bot.dialog('name',[
     function(session){
