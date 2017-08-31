@@ -521,8 +521,8 @@ bot.dialog('question',[
         // add question to DB
     },
     function(session,results,next){
-        session.send('<POC> would be able to explain you in detail');
-        builder.Prompts.text(session,'<POC>, please let me know when you are done');
+        session.send('POC would be able to explain you in detail');
+        builder.Prompts.text(session,'POC, please let me know when you are done');
     },
     function(session,results){
         //wait
