@@ -68,8 +68,8 @@ var bot = new builder.UniversalBot(connector, function (session) {
 
 var bot = new builder.UniversalBot(connector,[
     function(session){
-       session.say('Welcome to Infinity Labs.');
-        session.say('My name is Aditi');
+       session.send('Welcome to Infinity Labs.');
+        session.send('My name is Aditi');
         session.beginDialog('name');
     },
     
@@ -119,8 +119,8 @@ bot.dialog('name',[
                         var clientName = entities[i].entity;
                         var hey ={"hey": ['Hello %s','Hey %s','Nice to meet you %s','Hey there %s','Hola %s','Great meeting you %s']};
                         session.send(hey.hey,clientName);   
-                        session.userData.names += clientName;
-                        session.beginDialog('greet');
+                        session.userData.names == clientName;
+                        //session.beginDialog('greet');
                     }else{
                         session.send('That name is too elegant for me. Care to repeat it?');
                         session.beginDialog('name');    
@@ -142,7 +142,9 @@ bot.dialog('name',[
                     session.beginDialog('name');
                 }
             }
-    })},
+    })
+        session.beginDialog('greet');
+},
     function(session,results){
         var back ={"back":['Okay let us get back to introduction','So where were we again? yes..','What were we talking about? yes...']};
         session.send(back.back)
@@ -200,7 +202,7 @@ bot.dialog('greet',[
 
 bot.dialog('ezone1',[
     function(session){
-        var fol ={"fol":['Please follow the directions on screen to our Experience Zone','The next session is in our Experience Zone. PLease move on there.','Let us continue our discussion in our Experience Zone. Please move on there']};
+        var fol ={"fol":['Please follow the directions on screen to our Experience Zone','The next session is in our Experience Zone. Please move on there...','Let us continue our discussion in our Experience Zone. Please move on there']};
         session.send(fol.fol);
         builder.Prompts.text(session, 'Let me know when you are done');
     },
@@ -241,24 +243,28 @@ bot.dialog('ezone2',[
                 session.beginDialog('ezone3');
             }else if(intents[0].intent=='no'){
                 builder.Prompts.text(session,'Are you sure you want to skip it?');
-                var response = session.message.text;
-                builder.LuisRecognizer.recognize(response, LuisModelUrl, function (err, intents, entities,next){
-                    var results = {};
-                    results.intents == intents;
-                    if(intents[0].intent=='yes'){
-                        session.send('Okay, let us skip it');
-                        session.beginDialog('asset');
-                    }else{
-                        session.send('Great, I promise you it will be worth it');
-                        session.beginDialog('ezone3');
-                    }
-                })
+            
+                
                 
             }else if(intents[0].intent=='SmallTalk'){
                 session.beginDialog('smallTalk');
             }else{
                 session.send('I did not quite get that');
                 session.beginDialog('ezone2');
+            }
+        })
+    },
+    function(session,results){
+        var response = session.message.text;
+        builder.LuisRecognizer.recognize(response, LuisModelUrl, function (err, intents, entities,next){
+            var results = {};
+            results.intents == intents;
+            if(intents[0].intent=='yes'){
+                session.send('Okay, let us skip it');
+                session.beginDialog('asset');
+            }else{
+                session.send('Great, I promise you it will be worth it');
+                session.beginDialog('ezone3');
             }
         })
     }
@@ -287,6 +293,7 @@ bot.dialog('ezone4',[
                 session.beginDialog('smallTalk');
             }else if(intents[0].intent=='yes'||intents[0].intent=='done'){
                 session.send('Hope you got a fair understanding of our Innovation ecosystem. The presentations might continue for 20 more mins. Please feel free to make the best use of the chairs around');
+                session.send('Now that you have an idea on the areas we focus,');
                 session.beginDialog('asset');
             }else{
                 session.send('I did not quite get that');
@@ -327,7 +334,7 @@ bot.dialog('smallTalk',[
 
 bot.dialog('asset',[
     function(session){
-        builder.Prompts.text(session,'Now that you have an idea on the areas we focus, let me know if you are looking for something specific from our Asset Catalogue.');
+        builder.Prompts.text(session,'Let me know if you are looking for a specific innovation area from our Asset Catalogue.');
     },
     function(session,results){
         var response = session.message.text;
@@ -355,7 +362,7 @@ bot.dialog('asset',[
         })
     },
     function(session,results){
-        var back ={"back":['So where were we again? yes..','What were we talking about? yes...']};
+        var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
         session.send(back.back);
         session.beginDialog('asset');
     }
@@ -364,7 +371,7 @@ bot.dialog('asset',[
 
 bot.dialog('hey',[
     function(session,results){
-        session.send('Hey there! I though we were done with the introduction');
+        session.send('Hey there! I thought we were done with the introduction');
     }
 ]).triggerAction({
     matches : 'greet',
@@ -432,6 +439,11 @@ bot.dialog('assetSelect',[
                 session.beginDialog('assetSelect');
             }
         })
+    },
+    function(session,results){
+        var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
+        session.send(back.back);
+        session.beginDialog('assetSelect');
     }
 ]);
 
@@ -470,9 +482,9 @@ bot.dialog('assetInfo',[
         }else if(results.response.entity=='Another Asset'){
             session.beginDialog('assetSelect');
         }else if(results.response.entity=='Next'){
-            session.beginDialog('question');
+            session.beginDialog('anyQuestions');
         }else{
-            session.send('MG');
+            session.send('Invalid selection');
 
         }
     }
@@ -480,7 +492,7 @@ bot.dialog('assetInfo',[
 
 bot.dialog('anyQuestions',[
     function(session){
-        builder.Prompts.text(session,'Okay <Guest>, do you have any questions?');
+        builder.Prompts.text(session,'Okay %s, do you have any questions?',session.userData.names);
     },
     function(session,results,args,next){
         var responseThree = session.message.text;
@@ -564,3 +576,28 @@ bot.dialog('moreQuestions',[
             session.endDialog();
         }
 ]);
+
+bot.dialog('help',[
+    function(session){
+        builder.Prompts.choice(session, "Please choose one option", "Innovation Ecosystem|Asset Catalog|Questions|Restart", { listStyle: 4 });
+    },
+    function(session,results){
+        if(results.response.entity=='Innovation Ecosystem'){
+            session.send('Okay, jumping to Innovation Ecosystem...');
+            session.beginDialog('ezone2');
+        }else if(results.response.entity=='Asset Catalog'){
+            session.send('Okay, jumping to Asset Catalog...');
+            session.beginDialog('asset');
+        }else if(results.response.entity=='Questions'){
+            session.send('Okay, jumping to Questions...');
+            session.beginDialog('anyQuestions');
+        }else if(results.response.entity=='Restart'){
+            session.send('Okay, starting over...');
+            session.beginDialog('/');
+
+        }
+    }
+
+]).triggerAction({
+    matches: /^help$|^start over$|^go back*restart/i
+});
