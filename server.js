@@ -578,7 +578,7 @@ bot.dialog('moreQuestions',[
 
 bot.dialog('help',[
     function(session){
-        builder.Prompts.choice(session, "Please choose one option", "Innovation Ecosystem|Asset Catalog|Questions|Feedback|Restart", { listStyle: 4 });
+        builder.Prompts.choice(session, "Please choose one option", "Innovation Ecosystem|Asset Catalog|Questions|Feedback|Restart|End", { listStyle: 4 });
     },
     function(session,results){
         if(results.response.entity=='Innovation Ecosystem'){
@@ -597,6 +597,9 @@ bot.dialog('help',[
         }else if(results.response.entity=='Feedback'){
             session.send('Okay, heading over to Feedback section');
             session.beginDialog('feedback');
+        }else if(results.response.entity=='End'){
+            session.send('Okay');
+            session.beginDialog('end');
         } else{
             session.beginDialog('help')
         }
@@ -654,4 +657,6 @@ bot.dialog('end',[
             }
         })
     }
-]);
+]).triggerAction({
+    matches: /^bye$|^goodbye$|^good bye*see you/i
+});
