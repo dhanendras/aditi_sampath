@@ -81,7 +81,7 @@ var bot = new builder.UniversalBot(connector,[
     }
 ]);
 
-bot.on('conversationUpdate', function (message) {
+/*bot.on('conversationUpdate', function (message) {
     if (message.membersAdded) {
         message.membersAdded.forEach(function (identity) {
             if (identity.id === message.address.bot.id) {
@@ -89,7 +89,7 @@ bot.on('conversationUpdate', function (message) {
             }
         });
     }
-});
+});*/
 
 bot.dialog('name',[
     function(session){
@@ -650,7 +650,7 @@ bot.dialog('end',[
                 session.beginDialog('bye');
             }else {
                 session.send('The session has ended. Type help to go to a specefic instance');
-                session.beginDialog('bye')
+                session.beginDialog('end')
             }
         })
     }
