@@ -175,7 +175,7 @@ bot.dialog('greet',[
                                 session.beginDialog('ezone1')
                             } 
                             else if (newScore < 0.25) {
-                                var bad = {"bad":['I am sorry to hear that','That is unfortunate','Oh my','Oh oh']};
+                                var bad = {"bad":['I am sorry to hear that','That is unfortunate','Oh I am sorry','Oh oh']};
                                 session.send(bad.bad);
                                 session.send('Maybe this presentation will cheer you up')
                                 session.beginDialog('ezone1');
@@ -579,25 +579,60 @@ bot.dialog('moreQuestions',[
 
 bot.dialog('help',[
     function(session){
-        builder.Prompts.choice(session, "Please choose one option", "Innovation Ecosystem|Asset Catalog|Questions|Restart", { listStyle: 4 });
+        builder.Prompts.choice(session, "Please choose one option", "Innovation Ecosystem|Asset Catalog|Questions|Feedback|Restart", { listStyle: 4 });
     },
     function(session,results){
         if(results.response.entity=='Innovation Ecosystem'){
-            session.send('Okay, jumping to Innovation Ecosystem...');
+            session.send('Okay, heading over to Innovation Ecosystem...');
             session.beginDialog('ezone2');
         }else if(results.response.entity=='Asset Catalog'){
-            session.send('Okay, jumping to Asset Catalog...');
+            session.send('Okay, heading over to Asset Catalog...');
             session.beginDialog('asset');
         }else if(results.response.entity=='Questions'){
-            session.send('Okay, jumping to Questions...');
+            session.send('Okay, heading over to Questions...');
             session.beginDialog('anyQuestions');
         }else if(results.response.entity=='Restart'){
             session.send('Okay, starting over...');
             session.beginDialog('/');
 
+        }else if(results.response.entity=='Feedback'){
+            session.send('Okay, heading over to Feedback section');
+            session.beginDialog('/');
+        } else{
+            session.beginDialog('help')
         }
-    }
-
-]).triggerAction({
+}]).triggerAction({
     matches: /^help$|^start over$|^go back*restart/i
 });
+
+
+
+bot.dialog('feedback',[
+    function(session){
+        var fb ={"fb": ['How did you find the tour?','What do you think about the tour?','So what do have have to say about the tour?']}
+        session.send(fb.fb);
+        builder.Prompts.text(session,'We would appreciate a candid feedback');
+    },
+    function (session, results, next) {
+
+        analyticsService.getScore(results.response).then(score => {
+            
+            var newScore = parseFloat(score);
+            if (!isNaN(newScore)) {
+                    if (newScore > 0.8) {
+                        session.send('Thanks %s! It means a lot to us. Hope we get to see you again',session.userData.name);
+                        next();
+                    } 
+                    else if (newScore > 0.5) {
+                        session.send('Thanks for that positive input %s. We hope to impress you next time',session.userData.name);
+                        next();
+                    } 
+                    else {
+                        session.send('Thank you for the honest input %s. We will definetly work on it',session.userData.name);
+                        next();
+                    }
+
+                }
+            })
+        }
+    ]);
