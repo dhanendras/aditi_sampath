@@ -564,7 +564,7 @@ bot.dialog('moreQuestions',[
                     session.beginDialog('question');
                 } else if(intents[0].intent=='no') {
                     session.send('Wonderful. Let us continue.');
-                    session.endDialog();
+                    session.beginDialog('feedback');
                 } else {
                     session.send('I did not quite get that');
                     session.beginDialog('moreQuestions');
