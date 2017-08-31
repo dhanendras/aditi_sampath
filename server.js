@@ -634,5 +634,8 @@ bot.dialog('feedback',[
 
                 }
             })
+        },
+        function(session,results){
+            session.endConversation();
         }
     ]);
