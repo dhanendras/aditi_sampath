@@ -635,6 +635,26 @@ bot.dialog('feedback',[
             })
         },
         function(session,results){
-            session.endConversation();
+            session.ebeginDialog('end');
         }
     ]);
+
+bot.dialog('end',[
+    function(session){
+        var bye={"bye":['Good bye!','See you','Thank you. Good bye','So long!','See you again']};
+        builder.Prompts.text(session,bye.bye);
+    },
+    function(session,results){
+        var responseFour = session.message.text;
+        builder.LuisRecognizer.recognize(responseFour, LuisModelUrl, function (err, intents, entities) {
+            var resultThree = {};
+            resultThree.intents = intents;
+            if (intents[0].intent == 'bye'){
+                session.beginDialog('bye');
+            }else {
+                session.send('The session has ended. Type help to go to a specefic instance');
+                session.beginDialog('bye')
+            }
+        })
+    }
+]);
