@@ -68,8 +68,9 @@ var bot = new builder.UniversalBot(connector, function (session) {
 
 var bot = new builder.UniversalBot(connector,[
     function(session){
-        session.send('Welcome to Infinity Labs.');
-        session.send('My name is Aditi');
+        var hey ={"hey":['Hello, welcome to Infinity Labs','Hey there, welcome to Infinity Labs','Hi, welcome to Infinity Labs'],"aditi":['Aditi here','My name is Aditi','This is Aditi']};
+        session.send(hey.hey);
+        session.send(hey.aditi);
         session.beginDialog('name');
     },
 
