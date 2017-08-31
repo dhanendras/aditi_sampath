@@ -597,7 +597,7 @@ bot.dialog('help',[
 
         }else if(results.response.entity=='Feedback'){
             session.send('Okay, heading over to Feedback section');
-            session.beginDialog('/');
+            session.beginDialog('feedback');
         } else{
             session.beginDialog('help')
         }
