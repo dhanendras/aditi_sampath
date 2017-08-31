@@ -68,21 +68,20 @@ var bot = new builder.UniversalBot(connector, function (session) {
 
 var bot = new builder.UniversalBot(connector,[
     function(session){
-       session.send('Welcome to Infinity Labs.');
+        session.send('Welcome to Infinity Labs.');
         session.send('My name is Aditi');
         session.beginDialog('name');
     },
-    
-    
-function(session,results){
-    session.beginDialog('error');
+
+    function(session,results){
+        session.beginDialog('error');
 },
     function(session){
         session.beginDialog('asset');
     }
 ]);
 
-bot.on('conversationUpdate', function (message) {
+/*bot.on('conversationUpdate', function (message) {
     if (message.membersAdded) {
         message.membersAdded.forEach(function (identity) {
             if (identity.id === message.address.bot.id) {
@@ -90,7 +89,7 @@ bot.on('conversationUpdate', function (message) {
             }
         });
     }
-});
+});*/
 
 bot.dialog('name',[
     function(session){
