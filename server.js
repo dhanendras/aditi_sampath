@@ -116,17 +116,17 @@ bot.dialog('name',[
                     session.userData.names = {};
                     for(i==0;i<entities.length;i++){
                     if(entities[i].type=='name'||entities[0].entity=='encyclopedia'){
-                        var clientName = entities[i].entity;
+                        var name = entities[i].entity;
                         var hey ={"hey": ['Hello %s','Hey %s','Nice to meet you %s','Hey there %s','Hola %s','Great meeting you %s']};
-                        session.send(hey.hey,clientName);   
-                        session.userData.names == clientName;
+                        session.send(hey.hey,name);   
                         //session.beginDialog('greet');
                     }else{
                         session.send('That name is too elegant for me. Care to repeat it?');
                         session.beginDialog('name');    
                     }
                 }
-                //session.beginDialog('greet');
+                session.userData.name=name;
+                session.beginDialog('greet');
                 
                 })
                 
@@ -143,7 +143,6 @@ bot.dialog('name',[
                 }
             }
     })
-        session.beginDialog('greet');
 },
     function(session,results){
         var back ={"back":['Okay let us get back to introduction','So where were we again? yes..','What were we talking about? yes...']};
@@ -492,7 +491,8 @@ bot.dialog('assetInfo',[
 
 bot.dialog('anyQuestions',[
     function(session){
-        builder.Prompts.text(session,'Okay %s, do you have any questions?',session.userData.names);
+        session.send('Okay %s',session.userData.name);
+        builder.Prompts.text(session,'Do you have any questions?');
     },
     function(session,results,args,next){
         var responseThree = session.message.text;
