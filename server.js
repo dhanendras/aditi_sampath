@@ -40,8 +40,8 @@ const LuisModelUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/
 // Create bot
 
 var connector = new builder.ChatConnector({
-    appId: '6c3e1d15-2432-402b-86b2-4b6b8f5b25a1',
-    appPassword: 'iKXaa1a6Tap6Un6XBLjFk6i'
+    appId: '95a0a3f3-0616-4339-b161-1555e6784b4c',
+    appPassword: '8XjAupopDJzuiEHzqNbpdOV'
 });
 
 var qnaClient = new QnAClient({
