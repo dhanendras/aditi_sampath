@@ -40,7 +40,7 @@ const LuisModelUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/
 // Create bot
 
 var connector = new builder.ChatConnector({
-    appId: '95a0a3f3-0616-4339-b161-1555e6784b4c',
+    appId: '9513ae39-73af-4ac0-bef8-d09c700976f4',
     appPassword: '8XjAupopDJzuiEHzqNbpdOV'
 });
 
