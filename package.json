@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node server.js"
-  },  
-"license": "Apache",
-"engines": {
+  },
+  "license": "Apache",
+  "engines": {
     "node": "~0.10.0 || ~4.2.0"
   },
   "dependencies": {
@@ -18,5 +18,4 @@
     "request-promise": "^4.2.1",
     "mysql2": "^1.4.2"
   }
-  
 }
