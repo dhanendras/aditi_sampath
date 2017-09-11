@@ -5,7 +5,7 @@
 const request = require('request');
 
 const TEXT_ANALYTICS_API_URL = 'https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment',
-      TEXT_ANALYTICS_KEY = 'bd8cbfc69ce34b319fd64fb1dd6ba505';
+      TEXT_ANALYTICS_KEY = '6e7ddb0d6fec4fe4b36de6da156e884e';
 
 /**
  * Gets the correct spelling for the given text

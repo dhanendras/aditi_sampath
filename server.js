@@ -384,7 +384,7 @@ bot.dialog('getasset',[
         conn.connect();
         var we ={"we": ['We have the following Assets in %s from our catalogue','I found the following assets under %s','Our Asset Catalogue has the following assets under %s']};
         var key = session.userData.area;
-        var sql = "SELECT * FROM asset_demo_2 WHERE asset_keywords LIKE '%"+key+"%'";
+        var sql = "SELECT * FROM asset_catalog WHERE asset_keywords LIKE '%"+key+"%'";
         session.send(we.we,key);
         conn.query(sql, function (err,results,fields) {
             i=0;
@@ -451,7 +451,7 @@ bot.dialog('assetInfo',[
         conn.connect();
         var we ={"we": ['We have the following Assets in %s from our catalogue','I found the following assets under %s','Our Asset Catalogue has the following assets under %s']};
         var key = session.userData.asset;
-        var sql = "SELECT * FROM asset_demo_2 WHERE asset_keywords LIKE '%"+key+"%'";
+        var sql = "SELECT * FROM asset_catalog WHERE asset_keywords LIKE '%"+key+"%'";
         session.send(we.we,key);
         conn.query(sql, function (err,results,fields) {
             i=0;
