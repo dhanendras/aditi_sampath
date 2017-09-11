@@ -8,8 +8,8 @@ const mysql = require('mysql2');
 var port = process.env.PORT || 8080;
 var config =
 {
-    host: 'myserver4aditidb.mysql.database.azure.com',
-    user: 'aditi.db@myserver4aditidb',
+    host: 'myserver4aditibot.mysql.database.azure.com',
+    user: 'aditi.bot@myserver4aditibot',
     password: 'digass@1234',
     database: 'aditidb',
     port: 3306,
