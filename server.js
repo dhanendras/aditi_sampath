@@ -8,10 +8,10 @@ const mysql = require('mysql2');
 var port = process.env.PORT || 8080;
 var config =
 {
-    host: 'myserver4adithipro.mysql.database.azure.com',
-    user: 'adithi.pro@myserver4adithipro',
-    password: 'Bot@1234',
-    database: 'adithipro_db',
+    host: 'myserver4aditidb.mysql.database.azure.com',
+    user: 'aditi.db@myserver4aditidb',
+    password: 'digass@1234',
+    database: 'aditidb',
     port: 3306,
     ssl: true
 };
@@ -33,7 +33,7 @@ server.listen(port, function() {
   console.log('%s listening at %s', server.name, server.url);
 });
 
-const LuisModelUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/00075350-0d1e-4f2d-8f6e-75e253066b43?subscription-key=468963da9804413788459981febe3bb6&timezoneOffset=0&verbose=true&q= ';
+const LuisModelUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/2e39461e-9c53-44eb-8b3c-ebc41ce1bd2c?subscription-key=e512d01835354a6f829e54078ca66503&timezoneOffset=0&verbose=true&q=  ';
 
 
 
