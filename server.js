@@ -94,7 +94,7 @@ var bot = new builder.UniversalBot(connector,[
 
 bot.dialog('name',[
     function(session){
-        var intro ={"know": ['May I bother you to introduce yourself?','Could you please introduce yourself?','May I know your name(s)?','How about you?','And you are?']};
+        var intro ={"know": ['May I bother you to introduce yourself?','Could you please introduce yourself?','May I know your name?','How about yours?','And you are?']};
         builder.Prompts.text(session,intro.know);
     },
     function(session,next){
@@ -106,26 +106,21 @@ bot.dialog('name',[
             console.log('%s',JSON.stringify(intents));
             topIntent = intents[0].intent;
             if(topIntent=='intro'){
-                console.log('intent intro');
                 var response = session.message.text;
                 builder.LuisRecognizer.recognize(response, LuisModelUrl, function (err, intents, entities,next){
                     var results = {};
                     results.entities == entities;
-                    //session.send('%s',JSON.stringify(entities));
-                    i = 0;
-                    session.userData.names = {};
-                    for(i==0;i<entities.length;i++){
-                    if(entities[i].type=='name'||entities[0].entity=='encyclopedia'){
-                        var name = entities[i].entity;
+                    session.send('%s',JSON.stringify(entities));
+                    session.userData.name = {};
+                    if(entities[0].type=='name'||entities[0].entity=='encyclopedia'){
+                        var name = entities[0].entity;
                         var hey ={"hey": ['Hello %s','Hey %s','Nice to meet you %s','Hey there %s','Hola %s','Great meeting you %s']};
                         session.send(hey.hey,name);   
-                        //session.beginDialog('greet');
+                        session.userData.name=name;
                     }else{
-                        session.send('That name is too elegant for me. Care to repeat it?');
+                        session.send('That name seems too elegant for me...');
                         session.beginDialog('name');    
                     }
-                }
-                session.userData.name=name;
                 session.beginDialog('greet');
                 
                 })
@@ -135,7 +130,8 @@ bot.dialog('name',[
                 if(topIntent=='SmallTalk'){
                     session.beginDialog('smallTalk');
                 }else if(topIntent=='no'){
-                    session.send('Sorry but I need to know your name');
+                    var he={"he":['Haha, I did not expect that...','I really need a name for a smooth conversation...','Sorry, but I need to know your name...']}
+                    session.send(he.he);
                     session.beginDialog('name');
                 } else{
                     session.send('Sorry, I did not quite get that');
@@ -145,7 +141,7 @@ bot.dialog('name',[
     })
 },
     function(session,results){
-        var back ={"back":['Okay let us get back to introduction','So where were we again? yes..','What were we talking about? yes...']};
+        var back ={"back":['So where were we again? yes..','What were we talking about? yes...']};
         session.send(back.back)
         session.beginDialog('name');
     }
@@ -163,9 +159,7 @@ bot.dialog('greet',[
             results.intents == intents;
             topIntent=intents[0].intent;
             console.log('%s',JSON.stringify(intents));
-            if(topIntent=='SmallTalk' && intents[0].score>0.8){
-                session.beginDialog('smallTalk');
-            } else{
+        
                 analyticsService.getScore(response).then(score => {            
                     var newScore = parseFloat(score);
                     if (!isNaN(newScore)) {
@@ -177,17 +171,21 @@ bot.dialog('greet',[
                             else if (newScore < 0.25) {
                                 var bad = {"bad":['I am sorry to hear that','That is unfortunate','Oh I am sorry','Oh oh']};
                                 session.send(bad.bad);
-                                session.send('Maybe this presentation will cheer you up')
-                                session.beginDialog('ezone1');
+                                //session.send('Maybe this presentation will cheer you up');
+                                session.beginDialog('cheer1');
                             } 
                             else {
-                                var zero = {"zero":['Same here','Just an other ordinary day then','Seems alright','Good to know']};
-                                session.send(zero.zero);
-                                session.beginDialog('ezone1');
+                                if(topIntent=='SmallTalk'&&intents[0].score>0.8){
+                                    session.beginDialog('smallTalk');
+                                }else{
+                                    var zero = {"zero":['Same here','Just an other ordinary day then','Seems alright','Good to know']};
+                                    session.send(zero.zero);
+                                    session.beginDialog('ezone1');
                             }
                         }
+                        }
                 })
-            }
+            
                  
                     
         })
@@ -196,6 +194,12 @@ bot.dialog('greet',[
         var back ={"back":['So where were we again? yes..','What were we talking about? yes...']};
         session.send(back.back);
         session.beginDialog('greet');
+    }
+]);
+//hello it's sampath. 
+bot.dialog('garage',[
+    function(session){
+        session.send('')
     }
 ]);
 
@@ -230,7 +234,7 @@ bot.dialog('ezone1',[
 bot.dialog('ezone2',[
 
     function(session,results){
-        var on ={"on":['Shall we move on to our Innovation Ecosystem?','Let us move on to our Innovation Ecosystem, shall we?','All right, let us start with our Innovation Ecosystem shall we?']}
+        var on ={"on":['Shall we move on to our Innovation Ecosystem?','Let us move on to our Innovation Ecosystem, shall we?','All right, let us start with our Innovation Ecosystem shall we?']};
         builder.Prompts.text(session,on.on);
     },
     function(session,results,args){
@@ -241,10 +245,7 @@ bot.dialog('ezone2',[
             if(intents[0].intent=='yes'||intents[0].intent=='done'){
                 session.beginDialog('ezone3');
             }else if(intents[0].intent=='no'){
-                builder.Prompts.text(session,'Are you sure you want to skip it?');
-            
-                
-                
+                builder.Prompts.text(session,'Are you sure you want to skip it?');    
             }else if(intents[0].intent=='SmallTalk'){
                 session.beginDialog('smallTalk');
             }else{
@@ -295,7 +296,7 @@ bot.dialog('ezone4',[
                 session.send('Now that you have an idea on the areas we focus,');
                 session.beginDialog('asset');
             }else{
-                session.send('I did not quite get that');
+                session.send('Are you done? I could not understand...');
                 session.beginDialog('ezone4');
             }
         })
@@ -324,9 +325,154 @@ bot.dialog('smallTalk',[
                 session.endDialog();
             } else {
                 // Put whatever default message/attachments you want here
-                session.send('Hmm, I didn\'t quite understand you there. Care to rephrase?')
+                session.beginDialog('question');
             }
         });
+    }
+]);
+
+bot.dialog('service1',[
+    function(session){
+        session.send();
+        var ser = {"ser":['We have the following kinds of services','These are our service offerings in broad terms','Our service offerings can be categorised into the following types']}
+        builder.Prompts.choice(session,ser.ser, "Transformational|Technology|Lifecycle|Platforms", { listStyle: 4 });
+    },
+    function(session,results,next){
+        if(results.response.entity=='Transformational'){
+            session.userData.service1='Transformational';
+            next();
+        }else if(results.response.entity=='Technology'){
+            session.userData.service1='Technology';
+            next();
+        }else if(results.response.entity=='Lifecycle'){
+            session.userData.service1='Lifecycle';
+            next();
+        }else if(results.response.entity=='Platforms'){
+            session.userData.service1='Platforms';
+            next();
+        }else{
+            session.send('Invalid selection');
+        }
+    },
+    function(session,results){
+        session.beginDialog('service2');
+    }
+]);
+
+bot.dialog('service2',[
+    function(session,results,next){
+        conn.connect();
+        var key = session.userData.service1;
+        var sql = "SELECT * FROM service_catalog WHERE category LIKE '%"+key+"%'";
+        conn.query(sql, function (err,results,fields) {
+            i=0;
+            var subcat = [];
+            console.log('%s',JSON.stringify(results));
+            for(i=0;i<results.length;i++){
+            subcat.push(results[0].subcategory);
+            }
+            console.log('%',subcat);
+        }
+        );
+        //conn.end();
+        if(results!={}){
+            next();
+        }
+        //session.beginDialog('assetSelect');
+    },
+    function(session,results){
+        session.beginDialog('service3');
+    }
+]);
+
+bot.dialog('service3',[
+    function(session){
+        session.send();
+        var ser = {"ser":['We have the following categories within %s','These are our service offerings under %s','Our service offerings within %s services can be categorised into the following lines']}
+        builder.Prompts.choice(session,ser.ser, subcat[0]+'|'+subcat[1]+'|'+subcat[2], { listStyle: 4 });
+    },
+    function(session,results,next){
+        if(results.response.entity==subcat[0]){
+            session.userData.service2=subcat[0];
+            next();
+        }else if(results.response.entity==subcat[1]){
+            session.userData.service2=subcat[1];
+            next();
+        }else if(results.response.entity==subcat[2]){
+            session.userData.service2=subcat[2];
+            next();
+        }else{
+            session.send('Invalid selection');
+        }
+    },
+    function(session,results){
+        session.beginDialog('service4');
+    }
+]);
+
+bot.dialog('service4',[
+    function(session,results,next){
+        conn.connect();
+        var key = session.userData.service2;
+        var sql = "SELECT * FROM service_catalog WHERE subcategory LIKE '%"+key+"%'";
+        conn.query(sql, function (err,results,fields) {
+            i=0;
+            var service = [];
+            console.log('%s',JSON.stringify(results));
+            for(i=0;i<results.length;i++){
+            service.push(results[0].service);
+            }
+            console.log('%',service);
+            session.send('We have %d services related to %s under %s',results.length,session.userData.service2,session.userData.service2);
+        }
+        );
+        //conn.end();
+        if(results!={}){
+            next();
+        }
+        //session.beginDialog('assetSelect');
+    },
+    function(session,results){
+
+        session.beginDialog('service5');
+    }
+]);
+
+bot.dialog('service5',[
+    function(session){
+        session.send('Please refer to the comprehensive list on the television screen')
+        builder.Prompts.text(session,'Let me know if you are looking for a specefic service from the list');
+    },
+    function(session,results){
+        var response = session.message.text;
+        builder.LuisRecognizer.recognize(response, LuisModelUrl, function (err, intents, entities,next){
+            var results = {};
+            results.intents == intents;
+            results.entities==entities;
+            console.log('%s',JSON.stringify(intents));
+            if(intents[0].intent=='question'){
+                if(entities[0].type=='asset'){
+                    session.userData.service3 = entities[0].entity;
+                    session.beginDialog('getService');
+                }else{
+                    session.send('Oops, I could not get the service line you mentioned...');
+                    session.beginDialog('service5');
+                }
+            }else if(intents[0].intent=='SmallTalk'){
+                    session.beginDialog('smallTalk');
+            }else if(intents[0].intent=='no'){
+                session.send('Okay, let us move on...');
+                session.beginDialog('service7');
+            }else{
+                session.send('Please ask for an innovation area');
+                session.beginDialog('asset');
+            }
+        })
+    },
+    function(session,results){
+        var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
+        session.send(back.back);
+        session.beginDialog('asset');
     }
 ]);
 
@@ -368,16 +514,6 @@ bot.dialog('asset',[
 ]);
 
 
-bot.dialog('hey',[
-    function(session,results){
-        session.send('Hey there! I thought we were done with the introduction');
-    }
-]).triggerAction({
-    matches : 'greet',
-    onSelectAction : (session,args,next) => {
-        session.beginDialog(args,action, args);
-    }
-});
 
 bot.dialog('getasset',[
     function(session,results,next){
@@ -460,15 +596,13 @@ bot.dialog('assetInfo',[
                 session.send('I did not find anything related to that in our database');
                 session.beginDialog('asset');
             }else{
-            for(i=0;i<results.length;i++){
             var summary = results[i].asset_summary;
             var poc = results[i].asset_poc;
             var type = results[i].asset_type;
-            session.send('This product type is %s',type);
+            session.send("This asset comes under the '%s' type",type);
             session.send('Here is the brief summary:');
             session.send('%s',summary);
             session.send('This team is led by %s',poc);
-            }
             //conn.end();
             builder.Prompts.choice(session, "Please choose one option", "Back to Innovation areas|Another Asset|Next", { listStyle: 4 });
             //console.log('%',);
@@ -499,21 +633,23 @@ bot.dialog('anyQuestions',[
         builder.LuisRecognizer.recognize(responseThree, LuisModelUrl, function (err, intents, entities) {
             var resultTwo = {};
             resultTwo.intents = intents;
+            if(responseThree.length)
             if (intents[0].intent == 'yes') {
-                    session.send('Okay');
-                    session.beginDialog('question')
-                } else if(intents[0].intent=='no'){
-                    session.send('Okay, let us continue');
-                    session.beginDialog('feedback');
-                } else{
-                    session.send('I did not quite get that.')
-                    session.beginDialog('anyQuestions')
-                }
+                session.send('Okay');
+                session.beginDialog('question')
+            } else if(intents[0].intent=='no'){
+                session.send('Okay, let us continue');
+                session.beginDialog('feedback');
+            } else{
+                session.send('I did not quite get that.')
+                session.beginDialog('anyQuestions')
+            }
+                   
             
-            })
+        })
     }   
 
-])
+]);
 
 bot.dialog('question',[
     function(session,results){
@@ -661,3 +797,40 @@ bot.dialog('end',[
 ]).triggerAction({
     matches: /^bye$|^goodbye$|^good bye*see you/i
 });
+bot.dialog('cheer1',[
+    function(session){
+
+        session.send('Hope that made your day slightly better...');
+        session.beginDialog('cheer2');
+    }
+]);
+
+bot.dialog('cheer2',[
+    function(session){
+        builder.Prompt.text(session,'Shall we move on?');
+    },
+    function(session,results){
+        var response = session.message.text;
+        builder.LuisRecognizer.recognize(responseFour, LuisModelUrl, function (err, intents, entities) {
+            var results = {};
+            results.intents = intents;
+            if (intents[0].intent == 'yes'||intents[0].intent=='done'){
+                session.send('Happy to cheer you...');
+                session.beginDialog('ezone1');
+            }else if(intents[0].intnet='SmallTalk'){
+                session.beginDialog('smallTalk');
+            }else if(intents[0].intent=='no'){
+                session.send('Well, let me tell you another joke then...');
+                session.beginDialog('cheer1');
+            }else{
+                session.send('Sorry I did not quite get that');
+                session.beginDialog('cheer2')
+            }
+        })
+    },
+    function(session,results){
+        var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
+        session.send(back.back);
+        session.beginDialog('cheer2');
+    }
+]);

@@ -2,13 +2,13 @@ var builder = require('botbuilder');
 var restify = require('restify');
 var QnAClient = require('./client');
 const mysql = require('mysql2');
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 3978;
 var config =
 {
-    host: 'myserver4adithipro.mysql.database.azure.com',
-    user: 'adithi.pro@myserver4adithipro',
-    password: 'Bot@1234',
-    database: 'adithipro_db',
+    host: 'myserver4aditibot.mysql.database.azure.com',
+    user: 'aditi.bot@myserver4aditibot',
+    password: 'digass@1234',
+    database: 'aditidb',
     port: 3306,
     ssl: true
 };
@@ -17,7 +17,7 @@ const conn = new mysql.createConnection(config);
 server.listen(port, function() {
   console.log('%s listening at %s', server.name, server.url);
 });
-const LuisModelUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/2e39461e-9c53-44eb-8b3c-ebc41ce1bd2c?subscription-key=468963da9804413788459981febe3bb6&verbose=true&timezoneOffset=0&spellCheck=true&q=';
+const LuisModelUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/2e39461e-9c53-44eb-8b3c-ebc41ce1bd2c?subscription-key=e512d01835354a6f829e54078ca66503&timezoneOffset=0&verbose=true&q=';
 var connector = new builder.ChatConnector({
     appId: '6c3e1d15-2432-402b-86b2-4b6b8f5b25a1',
     appPassword: 'iKXaa1a6Tap6Un6XBLjFk6i'
@@ -116,7 +116,7 @@ bot.dialog('getasset',[
         conn.connect();
         var we ={"we": ['We have the following Assets in %s from our catalogue','I found the following assets under %s','Our Asset Catalogue has the following assets under %s']};
         var key = session.userData.area;
-        var sql = "SELECT * FROM asset_demo_2 WHERE asset_keywords LIKE '%"+key+"%'";
+        var sql = "SELECT * FROM asset_catalog WHERE asset_keywords LIKE '%"+key+"%'";
         session.send(we.we,key);
         conn.query(sql, function (err,results,fields) {
             i=0;
@@ -181,10 +181,10 @@ bot.dialog('assetSelect',[
 bot.dialog('assetInfo',[
     function(session,results,next){
         conn.connect();
-        var we ={"we": ['We have the following Assets related %s from our catalogue','I found the following assets under %s','Our Asset Catalogue has the following assets under %s']};
+        //var we ={"we": ['We have the following Assets related to %s from our catalogue','I found the following assets under %s','Our Asset Catalogue has the following assets under %s']};
         var key = session.userData.asset||session.conversationData.asset;
-        var sql = "SELECT * FROM asset_demo_2 WHERE asset_keywords LIKE '%"+key+"%'";
-        session.send(we.we,key);
+        var sql = "SELECT * FROM asset_catalog WHERE asset_keywords LIKE '%"+key+"%'";
+        //session.send(we.we,key);
         console.log(session.userData.asset);
         console.log(session.userData.info);
         conn.query(sql, function (err,results,fields) {
@@ -204,8 +204,10 @@ bot.dialog('assetInfo',[
                             session.send('%s',summary);
                         }else if(session.userData.info=='poc'){
                             session.send('This team is led by %s',poc);
-                        } else{
-    
+                        //} else if(){
+                            
+                        }else{
+
                         }
                     }
                 } else if(session.userData.info==null){
