@@ -928,7 +928,7 @@ bot.dialog('feedback',[
 
 bot.dialog('input',[
     function(session){
-        builder.Prompt.text(session,'Please leave a feedback mentioning the areas I can improve. I am constantly learning!');
+        builder.Prompts.text(session,'Please leave a feedback mentioning the areas I can improve. I am constantly learning!');
     },
     function(session,results){
         session.send('Thank you for the input...');
