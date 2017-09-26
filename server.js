@@ -574,7 +574,7 @@ bot.dialog('service5',[
     function(session,results){
         var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
         session.send(back.back);
-        session.beginDialog('asset');
+        session.beginDialog('service5');
     }
 ]);
 
@@ -595,7 +595,7 @@ bot.dialog('getService',[
             var cases= results[0].case;
             session.send("This service is led by %s. %s are some related case studies. The advantage layers for this service include %s",person,cases,advantages);
             //conn.end();
-            builder.Prompts.choice(session, "Please choose one option", "Another Service|Another Category|Another Servie Type|Move on", { listStyle: 4 });
+            builder.Prompts.choice(session, "Please choose one option", "Another Service|Another Category|Another Service Type|Move on", { listStyle: 4 });
             //console.log('%',);
         }
         });
@@ -605,7 +605,7 @@ bot.dialog('getService',[
             session.beginDialog('service5');
         }else if(results.response.entity=='Another Category'){
             session.beginDialog('service3');
-        }else if(results.response.entity=='Another Servie Type'){
+        }else if(results.response.entity=='Another Service Type'){
             session.beginDialog('service1');
         }else if(results.response.entity=='Move on'){
             session.beginDialog('ezone1');
@@ -634,7 +634,7 @@ bot.dialog('asset',[
                     session.beginDialog('smallTalk');
             }else if(intents[0].intent=='no'){
                 session.send('Okay, let us move on...');
-                session.beginDialog('feedback');
+                session.beginDialog('demo');
             }else{
                 session.send('Sorry I could not understand...');
                 session.beginDialog('asset');
