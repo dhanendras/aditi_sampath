@@ -1020,7 +1020,7 @@ bot.dialog('end',[
 });
 bot.dialog('cheer1',[
     function(session){
-        var jokes = {"jokes":['The past, present and future walked into a bar. It was tense','']}
+        var jokes = {"jokes":['The past, present and future walked into a bar. It was tense','I saw a sign that said "Watch for Children". Seems like a fair trade.','A Bhudhist monk goes to a hotdog vendor and says, "Make me one with everything"']}
         session.send(jokes.jokes);
         session.send('Hope that made your day slightly better...');
         session.beginDialog('cheer2');
