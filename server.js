@@ -199,9 +199,53 @@ bot.dialog('greet',[
 //hello it's sampath. 
 bot.dialog('garage',[
     function(session){
-        session.send('This is our Innovation Garage')
+        session.send('This is our Innovation Garage. We have interns from universities across India working on projects related to:');
+        var facts = {"facts":[' Infinity labs is UST\'s innovation incubation system.','Infinity labs is located at 5 cities worldwide(Trivandrum,Aliso Viejo,Bentonville,Tel Aviv,Madrid ) and 4 more coming in Leon,London,Costa Rica,Bangalore','These are some of the fields in which infinity labs is involved : Knowledge management system , accelerated training , industry specific models etc.','These are some of the highlights of infinity labs @ Trivandrum : Innovation in machine learning and AI , Blockchain innovations , Vibrant internship programs , Social platforms','Infinity labs occassionally conduct various programs like hackathons , ideathons , tech talks and trainings.','Infinity labs research areas includes : smart cities and digital Governments , industrial IOT , Blockchain and digital finance, cyber defence , quantum computing and cryptography.','Infinity labs have completed almost 70 business problems , 12 hackathons , 25 tech talks , 150 Academic internships and involved in many activities in 200 days.']}
+        builder.Prompts.choice(session,ser.ser, "Quantum computing|Mobility|Machine learning|IOT|Image processing|Cyber security|Blockchain|Augmented reality|Artificial intelligence", { listStyle: 4 });
+    },
+    function(session,results,next){
+        session.send('Please choose an area to know more about current projects.')
+        if(results.response.entity=='Quantum computing'){
+            session.userData.proj=1;
+            next();
+        }else if(results.response.entity=='Mobility'){
+            session.userData.proj=2;
+            next();
+        }else if(results.response.entity=='Machine Learning'){
+            session.userData.proj=3;
+            next();
+        }else if(results.response.entity=='IOT'){
+            session.userData.proj=4;
+            next();
+        }else if(results.response.entity=='Image processing'){
+            session.userData.proj=5;
+            next();
+        }else if(results.response.entity=='Cyber security'){
+            session.userData.proj=6;
+            next();
+        }else if(results.response.entity=='Blockchain'){
+            session.userData.proj=7;
+            next();
+        }else if(results.response.entity=='Augmented reality'){
+            session.userData.proj=8;
+            next();
+        }else if(results.response.entity=='Artificial intelligence'){
+            session.userData.proj=9;
+            next();
+        }else if(results.response.entity=='Move on'){
+            session.userData.proj=9;
+            session.send('Okay let us move on');
+            session.beginDialog('ezone1');
+        }else{
+            session.send('Invalid selection');
+        }
+    },
+    function(session,results){
+        session.beginDialog('garage2');
     }
 ]);
+
+
 
 bot.dialog('ezone1',[
     function(session){
@@ -234,7 +278,7 @@ bot.dialog('ezone1',[
 bot.dialog('ezone2',[
 
     function(session,results){
-        var on ={"on":['Shall we move on to our Innovation Ecosystem?','Let us move on to our Innovation Ecosystem, shall we?','All right, let us start with our Innovation Ecosystem shall we?']};
+        var on ={"on":['Shall we move on to our first Demo?','Let us move on to our first Demo, shall we?','All right, let us start with our first Demo shall we?']};
         builder.Prompts.text(session,on.on);
     },
     function(session,results,args){
@@ -271,16 +315,24 @@ bot.dialog('ezone2',[
 ]);
 
 bot.dialog('ezone3',[
+    function(session){
+        
+
+    }
+]);
+
+bot.dialog('ezone4',[
 
     function(session,results){
-        session.send('Let us start with a brief video which talks about our Innovation Ecosystem.');
+        session.send('We have scheduled a demo on UST Maya Robotic Process Automation. It is led by Muralikrishnan Nair. This asset falls under our Infrastructure Management area with the puropose of resolving IMS related issues and tickets.');
+        session.send('The following video would give you a better idea');
         const msg = new builder.Message(session);
         msg.addAttachment({contentType: 'video/mp4', contentUrl: 'https://www.youtube.com/watch?v=BenViYeVyLE'});
         session.send(msg);
-        session.beginDialog('ezone4');
+        session.beginDialog('ezone5');
     }]);
     
-bot.dialog('ezone4',[
+bot.dialog('ezone5',[
     function(session,results){
         builder.Prompts.text(session,'Please let me know when you are done with the video');
     },
@@ -292,19 +344,24 @@ bot.dialog('ezone4',[
             if(intents[0].intent=='SmallTalk'){
                 session.beginDialog('smallTalk');
             }else if(intents[0].intent=='yes'||intents[0].intent=='done'){
-                session.send('Hope you got a fair understanding of our Innovation ecosystem. The presentations might continue for 20 more mins. Please feel free to make the best use of the chairs around');
-                session.send('Now that you have an idea on the areas we focus,');
-                session.beginDialog('asset');
+                session.send('Hope you got a fair understanding of our asset');
+                session.beginDialog('anyQuestions');
             }else{
                 session.send('Are you done? I could not understand...');
-                session.beginDialog('ezone4');
+                session.beginDialog('ezone5');
             }
         })
     },
     function(session,results){
         var back ={"back":['So where were we again? yes..','What were we talking about? yes...']};
         session.send(back.back);
-        session.beginDialog('ezone4');
+        session.beginDialog('ezone5');
+    }
+]);
+
+bot.dialog('ezone5',[
+    function(session){
+        session.send()
     }
 ]);
 
@@ -489,14 +546,41 @@ bot.dialog('getService',[
     }
 ]);
 
-bot.dialog('demo1',[
+bot.dialog('asset',[
     function(session){
-        session.send('')
+        builder.PromptText.text(session,'Now that we are done with the demo would you like to know more about our Asset Catalog?');
+    },
+    function(session,results){
+        var response = session.message.text;
+        builder.LuisRecognizer.recognize(response, LuisModelUrl, function (err, intents, entities,next){
+            var results = {};
+            results.intents == intents;
+            results.entities==entities;
+            console.log('%s',JSON.stringify(intents));
+            if(intents[0].intent=='yes'){
+                session.beginDialog('asset1');
+                
+            }else if(intents[0].intent=='SmallTalk'){
+                    session.beginDialog('smallTalk');
+            }else if(intents[0].intent=='no'){
+                session.send('Okay, let us move on...');
+                session.beginDialog('feedback');
+            }else{
+                session.send('Sorry I could not understand...');
+                session.beginDialog('asset');
+            }
+        })
+    },
+    function(session,results){
+        var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
+        session.send(back.back);
+        session.beginDialog('asset');
     }
 ]);
 
-bot.dialog('asset',[
+bot.dialog('asset1',[
     function(session){
+        session.send('Please refer to the television screen for a comprehensive list of our Assets.');
         builder.Prompts.text(session,'Let me know if you are looking for a specific innovation area from our Asset Catalogue.');
     },
     function(session,results){
@@ -633,7 +717,7 @@ bot.dialog('assetInfo',[
         }else if(results.response.entity=='Another Asset'){
             session.beginDialog('assetSelect');
         }else if(results.response.entity=='Next'){
-            session.beginDialog('anyQuestions');
+            session.beginDialog('feedback');
         }else{
             session.send('Invalid selection');
 
@@ -657,7 +741,7 @@ bot.dialog('anyQuestions',[
                 session.beginDialog('question')
             } else if(intents[0].intent=='no'){
                 session.send('Okay, let us continue');
-                session.beginDialog('feedback');
+                session.beginDialog('asset');
             } else{
                 session.send('I did not quite get that.')
                 session.beginDialog('anyQuestions')
@@ -676,8 +760,8 @@ bot.dialog('question',[
         // add question to DB
     },
     function(session,results,next){
-        session.send('POC would be able to explain you in detail');
-        builder.Prompts.text(session,'POC, please let me know when you are done');
+        session.send('Muralikrishnan Nair would be able to explain you in detail');
+        builder.Prompts.text(session,'Murali, please let me know when you are done');
     },
     function(session,results){
         //wait
@@ -719,7 +803,7 @@ bot.dialog('moreQuestions',[
                     session.beginDialog('question');
                 } else if(intents[0].intent=='no') {
                     session.send('Wonderful. Let us continue.');
-                    session.beginDialog('feedback');
+                    session.beginDialog('asset');
                 } else {
                     session.send('I did not quite get that');
                     session.beginDialog('moreQuestions');
@@ -769,6 +853,7 @@ bot.dialog('help',[
 
 bot.dialog('feedback',[
     function(session){
+        session.send('Well, that marks the end of this tour...');
         var fb ={"fb": ['How did you find the tour?','What do you think about the tour?','So what do have have to say about the tour?']}
         session.send(fb.fb);
         builder.Prompts.text(session,'We would appreciate a candid feedback');
@@ -781,21 +866,27 @@ bot.dialog('feedback',[
             if (!isNaN(newScore)) {
                     if (newScore > 0.8) {
                         session.send('Thanks %s! It means a lot to us. Hope we get to see you again',session.userData.name);
-                        session.beginDialog('end');
+                        session.beginDialog('morefb');
                     } 
                     else if (newScore > 0.5) {
                         session.send('Thanks for that positive input %s. We hope to impress you next time',session.userData.name);
-                        session.beginDialog('end');
+                        session.beginDialog('morefb');
                     } 
                     else {
                         session.send('Thank you for the honest input %s. We will definetly work on it',session.userData.name);
-                        session.beginDialog('end');
+                        session.beginDialog('input');
                     }
 
                 }
             })
         }
     ]);
+
+bot.dialog('input',[
+    function(session){
+        
+    }
+]);
 
 bot.dialog('end',[
     function(session){
