@@ -884,7 +884,42 @@ bot.dialog('feedback',[
 
 bot.dialog('input',[
     function(session){
-        
+        builder.Prompt.text(session,'Please leave a feedback mentioning the areas I can improve. I am constantly learning!');
+    },
+    function(session,results){
+        session.send('Thank you for the input...');
+        session.beginDialog('morefb');
+    }
+]);
+
+bot.dialog('morefb',[
+    function(session,results){
+        var more = {"more":['Would you like to add anything else?','Is there anything else you would like to add?']};
+        builder.Prompts.text(session,more.more)
+    },
+    function(session,results){
+        var response = session.message.text;
+        builder.LuisRecognizer.recognize(response, LuisModelUrl, function (err, intents, entities,next){
+            var results = {};
+            results.intents == intents;
+            results.entities==entities;
+            console.log('%s',JSON.stringify(intents));
+            if(intents[0].intent=='no'){
+                session.send('Okay, moving on...');
+                session.beginDialog('end');
+            }else if(intents[0].intent=='yes'){
+                session.beginDialog('feedback');
+            }else{
+                if(intents[0].intent=='SmallTalk'){
+                    session.beginDialog('smallTalk');
+                }
+            }
+        })
+    },
+    function(session,results){
+        var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
+        session.send(back.back);
+        session.beginDialog('morefb');
     }
 ]);
 
@@ -928,7 +963,7 @@ bot.dialog('cheer2',[
             results.intents = intents;
             if (intents[0].intent == 'yes'||intents[0].intent=='done'){
                 session.send('Happy to cheer you...');
-                session.beginDialog('ezone1');
+                session.beginDialog('service1');
             }else if(intents[0].intnet='SmallTalk'){
                 session.beginDialog('smallTalk');
             }else if(intents[0].intent=='no'){

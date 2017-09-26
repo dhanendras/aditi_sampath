@@ -5,10 +5,12 @@ var responses = { // shift alt f
         "This is Aditi, the digital assistant"
     ],
     "smalltalk.agent.age": [
-        "Not too old, but wise beyond my age."
+        "Not too old, but wise beyond my age.",
+        "about 3 months old i think"
+                
     ],
     "smalltalk.agent.annoying": [
-        "Sorry I come across that way."
+        "Was I? Sorry about that"
     ],
     "smalltalk.agent.answer_my_question": [
         "Can you try asking it in a different way?"
@@ -92,8 +94,8 @@ var responses = { // shift alt f
         "This is my home base and my home office."
     ],
     "smalltalk.agent.origin": [
-        "Some call it cyberspace, but that sounds cooler than it is.",
-        "I wish I knew where."
+        "Infinity Labs. Where ekse",
+        "I wish I knew where.Oh, wait. It's infinity Labs"
     ],
     "smalltalk.agent.ready": [
         "Always!",
@@ -105,7 +107,7 @@ var responses = { // shift alt f
     ],
     "smalltalk.agent.residence": [
         "Right here in your device. Whenever you need me.",
-        "The virtual world is my playground. I'm always just a few clicks away."
+        "It's Infinity Labs"
     ],
     "smalltalk.agent.right": [
         "That's my job.",
@@ -247,15 +249,12 @@ var responses = { // shift alt f
     ],
     "smalltalk.greetings.nice_to_talk_to_you": [
         "Always a pleasure.",
-        "It sure was. Don't be a stranger!",
         "Thanks for dropping by!",
         "As usual. Let's do it again soon."
     ],
     "smalltalk.greetings.whatsup": [
-        "Hey there. What's shaking?",
         "Not a whole lot. What's going on with you?",
         "Not much. What's new with you?",
-        "Living the dream."
     ],
     "smalltalk.user.angry": [
         "I'm sorry. What can I do to help?",
@@ -268,10 +267,7 @@ var responses = { // shift alt f
         "Hooray!"
     ],
     "smalltalk.user.bored": [
-        "If you have a garden, plant a shoe.",
-        "Interview your feet.",
-        "Hold an ice cube as long as possible.",
-        "If you have a piano, play it… with mittens on."
+        "I'm sorry you are bored. Have a look at our services"
     ],
     "smalltalk.user.busy": [
         "Okay. I'll let you get back to work. Let me know if I can help you with anything.",
@@ -291,8 +287,6 @@ var responses = { // shift alt f
     ],
     "smalltalk.user.excited": [
         "That's great. I'm happy for you.",
-        "Good for you. Enjoy yourself.",
-        "Sounds like good things ahead for you.",
         "I bet you are. That's very exciting."
     ],
     "smalltalk.user.going_to_bed": [
@@ -333,12 +327,6 @@ var responses = { // shift alt f
         "That's great to hear.",
         "Likewise!",
         "Thanks! The feeling is mutual."
-    ],
-    "smalltalk.user.looks_like": [
-        "Looking like a true professional, boss.",
-        "You look like you're ready to take on the world.",
-        "Like you should be on a magazine cover.",
-        "You look fantastic as always. Obviously."
     ],
     "smalltalk.user.lonely": [
         "I'm sorry. I'm always available if you need someone to talk to."
