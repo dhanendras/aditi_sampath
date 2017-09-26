@@ -672,6 +672,7 @@ bot.dialog('asset1',[
                     session.beginDialog('smallTalk');
             }else if(intents[0].intent=='no'){
                 session.send('Okay, let us move on...');
+                session.beginDialog('feedback');
             }else{
                 session.send('Please ask for an innovation area');
                 session.beginDialog('asset');
@@ -737,7 +738,7 @@ bot.dialog('assetSelect',[
                     session.beginDialog('assetSelect');
                 }
             }else if(intents[0].intent=='no'){
-                session.beginDialog('questions');
+                session.beginDialog('feedback');
             }else{
                 if(intents[0].intent=='SmallTalk'){
                     session.beginDialog('smallTalk');
