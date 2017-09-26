@@ -288,7 +288,7 @@ bot.dialog('garage2',[
         }else if(results.response.entity=='Move on'){
             session.send('Okay, moving on...');
             session.beginDialog('ezone1');
-        }else if(results.response.entity=='Move on'){
+        }else if(results.response.entity=='Lab trivia'){
             session.beginDialog('garage3');
         }
     }
@@ -297,7 +297,7 @@ bot.dialog('garage2',[
 bot.dialog('garage3',[
     function(session){
         var facts = {"facts":[' Infinity labs is UST\'s innovation incubation system.','Infinity labs is located at 5 cities worldwide(Trivandrum,Aliso Viejo,Bentonville,Tel Aviv,Madrid ) and 4 more coming in Leon,London,Costa Rica,Bangalore','These are some of the fields in which infinity labs is involved : Knowledge management system , accelerated training , industry specific models etc.','These are some of the highlights of infinity labs @ Trivandrum : Innovation in machine learning and AI , Blockchain innovations , Vibrant internship programs , Social platforms','Infinity labs occassionally conduct various programs like hackathons , ideathons , tech talks and trainings.','Infinity labs research areas includes : smart cities and digital Governments , industrial IOT , Blockchain and digital finance, cyber defence , quantum computing and cryptography.','Infinity labs have completed almost 70 business problems , 12 hackathons , 25 tech talks , 150 Academic internships and involved in many activities in 200 days.']}
-        session.send('%s',facts.facts);
+        session.send('Did you know, %s',facts.facts);
         builder.Prompts.text(session,'Would you like to know more facts?');
     },
     function(session,results,args){
