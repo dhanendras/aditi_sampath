@@ -338,7 +338,7 @@ bot.dialog('ezone2',[
             var results = {};
             results.intents == intents;
             if(intents[0].intent=='yes'||intents[0].intent=='done'){
-                session.beginDialog('ezone3');
+                session.beginDialog('ezone4');
             }else if(intents[0].intent=='no'){
                 builder.Prompts.text(session,'Are you sure you want to skip it?');    
             }else if(intents[0].intent=='SmallTalk'){
@@ -359,7 +359,7 @@ bot.dialog('ezone2',[
                 session.beginDialog('asset');
             }else{
                 session.send('Great, I promise you it will be worth it');
-                session.beginDialog('ezone3');
+                session.beginDialog('ezone4');
             }
         })
     }
