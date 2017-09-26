@@ -72,13 +72,6 @@ var bot = new builder.UniversalBot(connector,[
         session.send(hey.hey);
         session.send(hey.aditi);
         session.beginDialog('name');
-    },
-
-    function(session,results){
-        session.beginDialog('error');
-},
-    function(session){
-        session.beginDialog('asset');
     }
 ]);
 
@@ -452,7 +445,8 @@ bot.dialog('smallTalk',[
                 session.endDialog();
             } else {
                 // Put whatever default message/attachments you want here
-                session.beginDialog('question');
+                session.send('Sorry, I could not quite get that');
+                session.endDialog();
             }
         });
     }
