@@ -177,7 +177,13 @@ bot.dialog('greet',[
                             else {
                                 if(topIntent=='SmallTalk'&&intents[0].score>0.8){
                                     session.beginDialog('smallTalk');
-                                }else{
+                                }else if(topIntent=='no'){
+                                    var bad = {"bad":['I am sorry to hear that','That is unfortunate','Oh I am sorry','Oh oh']};
+                                    session.send(bad.bad);
+                                    //session.send('Maybe this presentation will cheer you up');
+                                    session.beginDialog('cheer1');
+                                }
+                                else{
                                     var zero = {"zero":['Same here','Just an other ordinary day then','Seems alright','Good to know']};
                                     session.send(zero.zero);
                                     session.beginDialog('service1');
@@ -244,7 +250,52 @@ bot.dialog('garage',[
         session.beginDialog('garage2');
     }
 ]);
-
+bot.dialog('garage2',[
+    function(session){
+        if(session.userData.proj=1){
+            session.send('We have the following ongoing projects: quantum cryptography, quantum blockchain,quantum machine learning ');
+            next();
+        }else if(session.userData.proj=2){
+            session.send('We have the following ongoing projects: Task management agile projects, securing traffic violtion details of the users, development of a map view of all government institutions, simple chat application in Android and ios');
+            next();
+        }else if(session.userData.proj=3){
+            session.send('We have the following ongoing projects: creating a digital experience of infinity labs');
+            next();
+        }else if(session.userData.proj=4){
+            session.send('We have the following ongoing projects: tracking abandoned carts using Lora technology, electronic shelf label, integrating autonomous car');
+            next();
+        }else if(session.userData.proj=5){
+            session.send('We have the following ongoing projects: securing authenticity using blockchain by capturing fingerprint, biometric blockchain verification');
+            next();
+        }else if(session.userData.proj=6){
+            session.send('We have the following ongoing projects: automation of penetration tools using python and ML, developing a new communication protocol for private network, ransomware using ML ');
+            next();
+        }else if(session.userData.proj=7){
+            session.send('We have the following ongoing projects: secruring the land registry details, media player desktop application, browser addon');
+            next();
+        }else if(session.userData.proj=8){
+            session.send('We have the following ongoing projects: data visualisation templates, Creating an AR experience room ');
+            next();
+        }else if(session.userData.proj=9){
+            session.send('We have the following ongoing projects: AI enabled finance trading system, development of a context sensitive dynamic feedback platform ');
+            next();
+        }
+    },
+    function(session,results){
+        builder.Prompts.choice(session,'Please choose an option', "Another Area|Move on", { listStyle: 4 });
+    },
+    function(session,results,next){
+        if(results.response.entity=='Another area'){
+            session.beginDialog('garage');
+        }else if(results.response.entity=='Move on'){
+            session.send('Okay, moving on...');
+            session.beginDialog('ezone1');
+        }else{
+            session.send('Invalid selection');
+            session.beginDialog('garage2');
+        }
+    }
+]);
 
 
 bot.dialog('ezone1',[
@@ -533,7 +584,7 @@ bot.dialog('getService',[
         }else if(results.response.entity=='Another Servie Type'){
             session.beginDialog('service1');
         }else if(results.response.entity=='Move on'){
-            session.beginDialog('demo1');
+            session.beginDialog('ezone1');
         }else{
             session.send('Invalid selection');
 
@@ -812,15 +863,15 @@ bot.dialog('moreQuestions',[
 
 bot.dialog('help',[
     function(session){
-        builder.Prompts.choice(session, "Please choose one option", "Service|Innovation Ecosystem|Asset Catalog|Questions|Feedback|Restart|End", { listStyle: 4 });
+        builder.Prompts.choice(session, "Please choose one option", "Service|Garage|Demo|Asset|Questions|Feedback|Restart|End", { listStyle: 4 });
     },
     function(session,results){
         if(results.response.entity=='Service'){
             session.send('Okay, heading over to Service Catalog...');
             session.beginDialog('service1');
-        }else if(results.response.entity=='Innovation Ecosystem'){
-            session.send('Okay, heading over to Innovation Ecosystem...');
-            session.beginDialog('ezone2');
+        }else if(results.response.entity=='Garage'){
+            session.send('Okay, heading over to Garage narrative...');
+            session.beginDialog('garage');
         }else if(results.response.entity=='Asset Catalog'){
             session.send('Okay, heading over to Asset Catalog...');
             session.beginDialog('asset');
@@ -941,7 +992,8 @@ bot.dialog('end',[
 });
 bot.dialog('cheer1',[
     function(session){
-        var jokes = {"jokes":['The past, preswent and future walked into a bar. It was tense','']}
+        var jokes = {"jokes":['The past, present and future walked into a bar. It was tense','']}
+        session.send(jokes.jokes);
         session.send('Hope that made your day slightly better...');
         session.beginDialog('cheer2');
     }
@@ -949,11 +1001,11 @@ bot.dialog('cheer1',[
 
 bot.dialog('cheer2',[
     function(session){
-        builder.Prompt.text(session,'Shall we move on?');
+        builder.Prompts.text(session,'Shall we move on?');
     },
     function(session,results){
         var response = session.message.text;
-        builder.LuisRecognizer.recognize(responseFour, LuisModelUrl, function (err, intents, entities) {
+        builder.LuisRecognizer.recognize(response, LuisModelUrl, function (err, intents, entities) {
             var results = {};
             results.intents = intents;
             if (intents[0].intent == 'yes'||intents[0].intent=='done'){
