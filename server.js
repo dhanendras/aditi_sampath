@@ -365,12 +365,7 @@ bot.dialog('ezone2',[
     }
 ]);
 
-bot.dialog('ezone3',[
-    function(session){
-        
 
-    }
-]);
 
 bot.dialog('ezone4',[
 
@@ -594,7 +589,7 @@ bot.dialog('getService',[
 
 bot.dialog('asset',[
     function(session){
-        builder.PromptText.text(session,'Now that we are done with the demo would you like to know more about our Asset Catalog?');
+        builder.Prompts.text(session,'Now that we are done with the demo would you like to know more about our Asset Catalog?');
     },
     function(session,results){
         var response = session.message.text;
@@ -872,7 +867,7 @@ bot.dialog('help',[
         }else if(results.response.entity=='Garage'){
             session.send('Okay, heading over to Garage narrative...');
             session.beginDialog('garage');
-        }else if(results.response.entity=='Asset Catalog'){
+        }else if(results.response.entity=='Asset'){
             session.send('Okay, heading over to Asset Catalog...');
             session.beginDialog('asset');
         }else if(results.response.entity=='Questions'){
@@ -885,6 +880,9 @@ bot.dialog('help',[
         }else if(results.response.entity=='Feedback'){
             session.send('Okay, heading over to Feedback section');
             session.beginDialog('feedback');
+        }else if(results.response.entity=='Demo'){
+            session.send('Okay moving on to Demo');
+            session.beginDialog('ezone1');
         }else if(results.response.entity=='End'){
             session.send('Okay');
             session.beginDialog('end');
