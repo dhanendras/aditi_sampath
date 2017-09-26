@@ -564,7 +564,7 @@ bot.dialog('service5',[
                     session.beginDialog('smallTalk');
             }else if(intents[0].intent=='no'){
                 session.send('Okay, let us move on...');
-                session.beginDialog('asset');
+                session.beginDialog('ezone1');
             }else{
                 session.send('Sorry I couldnot get that');
                 session.beginDialog('service5');
@@ -634,7 +634,7 @@ bot.dialog('asset',[
                     session.beginDialog('smallTalk');
             }else if(intents[0].intent=='no'){
                 session.send('Okay, let us move on...');
-                session.beginDialog('demo');
+                session.beginDialog('feedback');
             }else{
                 session.send('Sorry I could not understand...');
                 session.beginDialog('asset');
