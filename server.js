@@ -206,8 +206,8 @@ bot.dialog('greet',[
 bot.dialog('garage',[
     function(session){
         session.send('This is our Innovation Garage. We have interns from universities across India working on projects related to:');
-        var facts = {"facts":[' Infinity labs is UST\'s innovation incubation system.','Infinity labs is located at 5 cities worldwide(Trivandrum,Aliso Viejo,Bentonville,Tel Aviv,Madrid ) and 4 more coming in Leon,London,Costa Rica,Bangalore','These are some of the fields in which infinity labs is involved : Knowledge management system , accelerated training , industry specific models etc.','These are some of the highlights of infinity labs @ Trivandrum : Innovation in machine learning and AI , Blockchain innovations , Vibrant internship programs , Social platforms','Infinity labs occassionally conduct various programs like hackathons , ideathons , tech talks and trainings.','Infinity labs research areas includes : smart cities and digital Governments , industrial IOT , Blockchain and digital finance, cyber defence , quantum computing and cryptography.','Infinity labs have completed almost 70 business problems , 12 hackathons , 25 tech talks , 150 Academic internships and involved in many activities in 200 days.']}
-        builder.Prompts.choice(session,ser.ser, "Quantum computing|Mobility|Machine learning|IOT|Image processing|Cyber security|Blockchain|Augmented reality|Artificial intelligence", { listStyle: 4 });
+        
+        builder.Prompts.choice(session,'', "Quantum computing|Mobility|Machine learning|IOT|Image processing|Cyber security|Blockchain|Augmented reality|Artificial intelligence", { listStyle: 4 });
     },
     function(session,results,next){
         session.send('Please choose an area to know more about current projects.')
@@ -282,7 +282,7 @@ bot.dialog('garage2',[
         }
     },
     function(session,results){
-        builder.Prompts.choice(session,'Please choose an option', "Another Area|Move on", { listStyle: 4 });
+        builder.Prompts.choice(session,'Please choose an option', "Another Area|Move on|Lab trivia", { listStyle: 4 });
     },
     function(session,results,next){
         if(results.response.entity=='Another area'){
@@ -290,10 +290,41 @@ bot.dialog('garage2',[
         }else if(results.response.entity=='Move on'){
             session.send('Okay, moving on...');
             session.beginDialog('ezone1');
-        }else{
-            session.send('Invalid selection');
-            session.beginDialog('garage2');
+        }else if(results.response.entity=='Move on'){
+            session.beginDialog('garage3');
         }
+    }
+]);
+
+bot.dialog('garage3',[
+    function(session){
+        var facts = {"facts":[' Infinity labs is UST\'s innovation incubation system.','Infinity labs is located at 5 cities worldwide(Trivandrum,Aliso Viejo,Bentonville,Tel Aviv,Madrid ) and 4 more coming in Leon,London,Costa Rica,Bangalore','These are some of the fields in which infinity labs is involved : Knowledge management system , accelerated training , industry specific models etc.','These are some of the highlights of infinity labs @ Trivandrum : Innovation in machine learning and AI , Blockchain innovations , Vibrant internship programs , Social platforms','Infinity labs occassionally conduct various programs like hackathons , ideathons , tech talks and trainings.','Infinity labs research areas includes : smart cities and digital Governments , industrial IOT , Blockchain and digital finance, cyber defence , quantum computing and cryptography.','Infinity labs have completed almost 70 business problems , 12 hackathons , 25 tech talks , 150 Academic internships and involved in many activities in 200 days.']}
+        session.send('%s',facts.facts);
+        builder.Prompts.text(session,'Would you like to know more facts?');
+    },
+    function(session,results,args){
+        var response = session.message.text;
+        builder.LuisRecognizer.recognize(response, LuisModelUrl, function (err, intents, entities,next){
+            var results = {};
+            results.intents == intents;
+            if(intents[0].intent=='SmallTalk'){
+                session.beginDialog('smallTalk');
+            }else if(intents[0].intent=='yes'||intents[0].intent=='done'){
+                session.send('Sure thing %s',session.userData.name);
+                session.beginDialog('garage3');
+            }else if(intents[0].intent=='no'){
+                session.send('Okay %s moving on');
+                session.beginDialog('ezone1');
+            }else{
+                session.send('I did not quite get that');
+                session.beginDialog('garage3');
+            }
+        })
+    },
+    function(session,results){
+        var back ={"back":['So where were we again? yes..','What were we talking about? yes...']};
+        session.send(back.back);
+        session.beginDialog('garage3');
     }
 ]);
 
