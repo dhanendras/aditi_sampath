@@ -359,11 +359,6 @@ bot.dialog('ezone5',[
     }
 ]);
 
-bot.dialog('ezone5',[
-    function(session){
-        session.send()
-    }
-]);
 
 
 bot.dialog('smallTalk',[
@@ -946,7 +941,7 @@ bot.dialog('end',[
 });
 bot.dialog('cheer1',[
     function(session){
-
+        var jokes = {"jokes":['The past, preswent and future walked into a bar. It was tense','']}
         session.send('Hope that made your day slightly better...');
         session.beginDialog('cheer2');
     }
