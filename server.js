@@ -311,7 +311,7 @@ bot.dialog('garage3',[
                 session.send('Sure thing %s',session.userData.name);
                 session.beginDialog('garage3');
             }else if(intents[0].intent=='no'){
-                session.send('Okay %s moving on');
+                session.send('Okay %s moving on',session.userData.name);
                 session.beginDialog('ezone1');
             }else{
                 session.send('I did not quite get that');
