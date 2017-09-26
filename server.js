@@ -1039,7 +1039,7 @@ bot.dialog('cheer2',[
             if (intents[0].intent == 'yes'||intents[0].intent=='done'){
                 session.send('Happy to cheer you...');
                 session.beginDialog('service1');
-            }else if(intents[0].intnet='SmallTalk'){
+            }else if(intents[0].intnet='SmallTalk'&&intents[0].score>0.8){
                 session.beginDialog('smallTalk');
             }else if(intents[0].intent=='no'){
                 session.send('Well, let me tell you another joke then...');
