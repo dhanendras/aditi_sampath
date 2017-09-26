@@ -206,11 +206,9 @@ bot.dialog('greet',[
 bot.dialog('garage',[
     function(session){
         session.send('This is our Innovation Garage. We have interns from universities across India working on projects related to:');
-        
-        builder.Prompts.choice(session,'', "Quantum computing|Mobility|Machine learning|IOT|Image processing|Cyber security|Blockchain|Augmented reality|Artificial intelligence", { listStyle: 4 });
+        builder.Prompts.choice(session,'Please choose an area to know more about current projects.', "Quantum computing|Mobility|Machine learning|IOT|Image processing|Cyber security|Blockchain|Augmented reality|Artificial intelligence", { listStyle: 4 });
     },
     function(session,results,next){
-        session.send('Please choose an area to know more about current projects.')
         if(results.response.entity=='Quantum computing'){
             session.userData.proj=1;
             next();
@@ -251,32 +249,32 @@ bot.dialog('garage',[
     }
 ]);
 bot.dialog('garage2',[
-    function(session){
-        if(session.userData.proj=1){
+    function(session,results,next){
+        if(session.userData.proj==1){
             session.send('We have the following ongoing projects: quantum cryptography, quantum blockchain,quantum machine learning ');
             next();
-        }else if(session.userData.proj=2){
+        }else if(session.userData.proj==2){
             session.send('We have the following ongoing projects: Task management agile projects, securing traffic violtion details of the users, development of a map view of all government institutions, simple chat application in Android and ios');
             next();
-        }else if(session.userData.proj=3){
+        }else if(session.userData.proj==3){
             session.send('We have the following ongoing projects: creating a digital experience of infinity labs');
             next();
-        }else if(session.userData.proj=4){
+        }else if(session.userData.proj==4){
             session.send('We have the following ongoing projects: tracking abandoned carts using Lora technology, electronic shelf label, integrating autonomous car');
             next();
-        }else if(session.userData.proj=5){
+        }else if(session.userData.proj==5){
             session.send('We have the following ongoing projects: securing authenticity using blockchain by capturing fingerprint, biometric blockchain verification');
             next();
-        }else if(session.userData.proj=6){
+        }else if(session.userData.proj==6){
             session.send('We have the following ongoing projects: automation of penetration tools using python and ML, developing a new communication protocol for private network, ransomware using ML ');
             next();
-        }else if(session.userData.proj=7){
+        }else if(session.userData.proj==7){
             session.send('We have the following ongoing projects: secruring the land registry details, media player desktop application, browser addon');
             next();
-        }else if(session.userData.proj=8){
+        }else if(session.userData.proj==8){
             session.send('We have the following ongoing projects: data visualisation templates, Creating an AR experience room ');
             next();
-        }else if(session.userData.proj=9){
+        }else if(session.userData.proj==9){
             session.send('We have the following ongoing projects: AI enabled finance trading system, development of a context sensitive dynamic feedback platform ');
             next();
         }
