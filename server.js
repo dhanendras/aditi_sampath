@@ -118,7 +118,7 @@ bot.dialog('name',[
                         session.send(hey.hey,name);   
                         session.userData.name=name;
                     }else{
-                        session.send('That name seems too elegant for me...');
+                        session.send('Oops, I could not get your name...');
                         session.beginDialog('name');    
                     }
                 session.beginDialog('greet');
