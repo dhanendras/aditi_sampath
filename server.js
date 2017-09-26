@@ -542,7 +542,7 @@ bot.dialog('service4',[
 bot.dialog('service5',[
     function(session){
         session.send('Please refer to the comprehensive list on the television screen')
-        builder.Prompts.text(session,'Let me know if you are looking for a specefic service from the list');
+        builder.Prompts.text(session,'Let me know if you are looking for a specific service from the list');
     },
     function(session,results){
         var response = session.message.text;
@@ -564,10 +564,10 @@ bot.dialog('service5',[
                     session.beginDialog('smallTalk');
             }else if(intents[0].intent=='no'){
                 session.send('Okay, let us move on...');
-                session.beginDialog('service7');
-            }else{
-                session.send('Please ask for an innovation area');
                 session.beginDialog('asset');
+            }else{
+                session.send('Sorry I couldnot get that');
+                session.beginDialog('service5');
             }
         })
     },
