@@ -107,7 +107,7 @@ bot.dialog('name',[
                     session.userData.name = {};
                     if(entities[0].type=='name'||entities[0].entity=='encyclopedia'){
                         var name = entities[0].entity;
-                        var hey ={"hey": ['Hello %s','Hey %s','Nice to meet you %s','Hey there %s','Hola %s','Great meeting you %s']};
+                        var hey ={"hey": ['Hello %s','Hey %s','Nice to meet you %s','Hey there %s','Great meeting you %s']};
                         session.send(hey.hey,name);   
                         session.userData.name=name;
                     }else{
@@ -1033,7 +1033,7 @@ bot.dialog('cheer2',[
             if (intents[0].intent == 'yes'||intents[0].intent=='done'){
                 session.send('Happy to cheer you...');
                 session.beginDialog('service1');
-            }else if(intents[0].intnet='SmallTalk'&&intents[0].score>0.8){
+            }else if(intents[0].intent='SmallTalk'&&intents[0].score>0.8){
                 session.beginDialog('smallTalk');
             }else if(intents[0].intent=='no'){
                 session.send('Well, let me tell you another joke then...');
