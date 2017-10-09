@@ -11,15 +11,44 @@ var config =
 
 const conn = new mysql.createConnection(config);
 
-module.export = function prepro(session,results,next){
-    conn.connect();
-    var sql = "SELECT * FROM service_catalog WHERE subcategory LIKE";
-    conn.query(sql, function (err,results,fields) {
-        if(err) throw err;
-        else{
-            return(results);}
+module.exports = [
+    function (session,results,next){
+        conn.connect();
+        var sql_sel = "SELECT * FROM "+session.userData.table;
+        var sql_ins = "INSERT"
+        conn.query(sql, function (err,results,fields) {
+            if(err) throw err;
+            else{
+                console.log('db'+JSON.stringify(results));
 
-        console.log('db'+JSON.stringify(results));
+            }
+        });
+    },
+    function(session,results){
+        conn.end();
+        session.userData.table={};
+
     }
-    );
+];
+ 
+exports.get = (table,act) => {
+    conn.connect();
+    var sql_sel = "SELECT * FROM "+table;
+    var sql_ins = "INSERT INTO"+table;
+    if(c==1){
+        conn.query(sql_sel,function (err,results,fields) {
+            if(err) throw err;
+            else{
+                console.log('db'+JSON.stringify(results));
+            }
+        });
+    }else{
+        conn.query(sql_ins,function (err,results,fields) {
+            if(err) throw err;
+            else{
+                console.log('db'+JSON.stringify(results));
+            }
+        });
+    }
+    
 }

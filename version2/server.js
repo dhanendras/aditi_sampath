@@ -15,8 +15,8 @@ var connector = new builder.ChatConnector({
 server.post('/api/messages', connector.listen());
 
 var bot = new builder.UniversalBot(connector, [
-    /*function (session) {
-       session.beginDialog('greet');
+    function (session) {
+       session.beginDialog('corenlp');
     },
     function(session,results,res){
         session.send(session.userData.response);
@@ -29,7 +29,7 @@ var bot = new builder.UniversalBot(connector, [
         }else{
             console.log('stuck in server');
         }
-    },*/
+    },
     function(session,results){
         builder.Prompts.text(session,'Text to be analysed');   
     },
@@ -41,11 +41,13 @@ var bot = new builder.UniversalBot(connector, [
     }
 ]);
 
-bot.dialog('greet',require('./greet'));
+bot.dialog('greet',require('./dialogs/greet'));
 bot.dialog('luis',require('./luis'));
 bot.dialog('anal',require('./anal'));
+bot.dialog('corenlp',require('./corenlp'));
 
 // log any bot errors into the console
 bot.on('error', function (e) {
     console.log('And error ocurred', e);
 });
+

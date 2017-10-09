@@ -1,21 +1,17 @@
 var builder = require('botbuilder');
-var hours = new Date().hours;
+var d = new Date();
+var time = d.getHours();
 
 module.exports = [
     function(session){
-        if(hours > 12){
-             alert("Good Afternoon!");   
+        console.log(time);
+        if(time > 12){
+             console.log("Good Afternoon")  
         }
         else{
-             alert("Good Morning!");   
+             console.log("Good Morning!");   
         }
         var intro ={"know": ['May I bother you to introduce yourself?','Could you please introduce yourself?','May I know your name?','How about yours?','And you are?']};
         builder.Prompts.text(session,intro.know);
-    },
-    function(session,next){
-        session.userData.response = session.message.text;
-        session.send(session.userData.response);
-        session.endDialog();
-        
     }
 ];
