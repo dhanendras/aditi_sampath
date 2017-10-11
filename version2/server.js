@@ -1,5 +1,6 @@
 var builder = require('botbuilder');
 var restify = require('restify');
+var ling = require('./linguistics');
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -16,19 +17,27 @@ server.post('/api/messages', connector.listen());
 
 var bot = new builder.UniversalBot(connector, [
     function (session) {
-       session.beginDialog('corenlp');
+        builder.Prompts.text(session,'What is your name?');
     },
-    function(session,results,res){
-        session.send(session.userData.response);
-        builder.Prompts.text(session,'type shit');
+    function(session,results,next){
+        var tokens = session.message.text.split(" ");
+        if(tokens.length==1){
+            console.log(tokens);
+            ling.ling(session.message.text).then(result => {            
+                console.log(JSON.stringify(result));
+                if(result=='NN'){
+                    session.userData.name=session.message.text;
+                }else{
+
+                }
+                next();
+            }); 
+        }else{
+            session.beginDialog('luis');
+        }
     },
     function(session,next,results){
-        session.beginDialog('luis');
-        if(results!=null){
-            next();
-        }else{
-            console.log('stuck in server');
-        }
+        session.send('Hi %s',session.userData.name);
     },
     function(session,results){
         builder.Prompts.text(session,'Text to be analysed');   
@@ -43,8 +52,6 @@ var bot = new builder.UniversalBot(connector, [
 
 bot.dialog('greet',require('./dialogs/greet'));
 bot.dialog('luis',require('./luis'));
-bot.dialog('anal',require('./anal'));
-bot.dialog('corenlp',require('./corenlp'));
 
 // log any bot errors into the console
 bot.on('error', function (e) {

@@ -5,7 +5,7 @@
 const request = require('request');
 
 const LINGUISTICS_API_URL = 'https://westus.api.cognitive.microsoft.com/linguistics/v1.0/analyze',
-      LINGUISTICS_KEY = '6e7ddb0d6fec4fe4b36de6da156e884e';
+      LINGUISTICS_KEY = '59c10e35d77245b99b113f3e4744f0de';
 
 /**
  * Gets the correct spelling for the given text
@@ -26,7 +26,7 @@ exports.ling = text => {
                     json: true,
                     body: {
                         "language" : "en",
-                        //"analyzerIds" : ["4fa79af1-f22c-408d-98bb-b7d7aeef7f04", "22a6b758-420f-4745-8a3c-46835a67c0d2"],
+                        "analyzerIds" : ["4fa79af1-f22c-408d-98bb-b7d7aeef7f04", "22a6b758-420f-4745-8a3c-46835a67c0d2"],
                         "text" : text
                     }
                 }
@@ -39,10 +39,11 @@ exports.ling = text => {
                         reject(body);
                     }
                     else {
+                        console.log(JSON.stringify(body));
                         var result = '';
 
-                        for (var i = 0; i < body.result.length; i++) {
-                            result += body.result[i];
+                        for (var i = 0; i < body[0].result.length; i++) {
+                            result += body[0].result[i];
                         }
 
                         resolve(result);
