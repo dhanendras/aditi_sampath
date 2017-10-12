@@ -10,9 +10,9 @@ module.exports = [
     function(session,results,next){
         luis.luis(session.message.text).then(result => {            
             console.log(JSON.stringify(result));
-            if(intents[0].intent=='yes'){
+            if(session.userData.intent=='yes'){
                 next();
-            }else if(intents[0].intent=='no'){
+            }else if(session.userData.intent=='no'){
                 session.endDialog();
                 session.userData.trigger='pod not continue';
             }
@@ -63,7 +63,7 @@ function locations(session, results, next){
 
 function lpods(session, results, next){
     session.delay(3000);
-    session.send('The inphographic displays the geographical locations of our innovation centres and the areas where each centre primarily focuses.');
+    session.send('Innovation pods is UST\'s innovation acceleration method that we have developed to discover and develop' );
     session.delay(2000);
     session.send('The labs in Trivanrum and Aliso Vejo have the maximum customer exposure.');
     session.send('The lab in Trivandrum focuses on Digital Technologies. The lab in Aliso Vejo focuses on Legacy modernization. We have a retail focus lab in Bentonville, cyber security focus lab in Tel Aviv and a fintech lab in Madrid.');
