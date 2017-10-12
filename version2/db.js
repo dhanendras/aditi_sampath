@@ -1,10 +1,10 @@
 const mysql = require('mysql');
 var config =
 {
-    host: 'myserver4aditibot.mysql.database.azure.com',
-    user: 'aditi.bot@myserver4aditibot',
-    password: 'digass@1234',
-    database: 'aditidb',
+    host: 'divine-surface-182707:asia-east1:aditi-instance',
+    user: 'root',
+    password: 'Bot@1234',
+    database: 'aditi_dashborad',
     port: 3306,
     ssl: true
 };
