@@ -33,7 +33,7 @@ server.listen(port, function() {
   console.log('%s listening at %s', server.name, server.url);
 });
 
-const LuisModelUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/00075350-0d1e-4f2d-8f6e-75e253066b43?subscription-key=e512d01835354a6f829e54078ca66503&timezoneOffset=0&verbose=true&q=  ';
+const LuisModelUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/00075350-0d1e-4f2d-8f6e-75e253066b43?subscription-key=e512d01835354a6f829e54078ca66503&timezoneOffset=0&verbose=true&q=';
 
 
 

@@ -19,7 +19,18 @@ server.post('/api/messages', connector.listen());
 
 var bot = new builder.UniversalBot(connector, [
     function(session){
-        builder.Prompts.text(session,'luis test');
+        session.beginDialog('ezone');
+    },
+    function(session,results){
+        if(session.userData.trigger=='pod not continue'){
+            session.beginDialog('issue');
+        }else{
+            session.userData.trigger='pod continue';
+            session.beginDialog('ezone');
+        }
+    },
+    function(session, results){
+        session.beginDialog(session.userData.dialog);
     },
     function(session,results){
         luis.luis(session.message.text).then(result => {            
@@ -41,26 +52,18 @@ var bot = new builder.UniversalBot(connector, [
         var hey ={"hey":['Welcome to Infinity Labs','Warm welcome to Infinity Labs','Great to have you here at Infinity Labs'],"aditi":['My name is Aditi','I am Aditi']};
         session.send(hey.hey);
         session.send(hey.aditi);
-        session.beginDialog('name');
-    },
-    function(session,next,results){
-        if(session.userData.name=={}){
-            if(session.userData.trigger=='not NN'){
-                session.send('Not Noun');
-                session.beginDialog('name');
-            }else if(session.userData.trigger=='multi token'){
-                session.beginDialog('luis');
-            }
-        }else{
-            session.userData.trigger='got name';
-            session.beginDialog('name');
-        }
+        session.beginDialog('id3?');
+
     },
     function(session,results){
-        session.beginDialog('id3');  
+          if(session.userData.trigger=='id3 not continue'){
+              session.beginDialog('issue');
+          }else{
+              session.beginDialog('id3');
+          }
     },
     function(session,results){
-        session.beginDialog('luis');
+        session.send('garage');
     },
     function(session,results){
         console.log(session.userData.senti);
@@ -68,6 +71,7 @@ var bot = new builder.UniversalBot(connector, [
 ]);
 
 bot.dialog('name',require('./dialogs/greet'));
+bot.dialog('ezone',require('./dialogs/ezone'));
 
 // log any bot errors into the console
 bot.on('error', function (e) {

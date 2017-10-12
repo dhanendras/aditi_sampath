@@ -25,8 +25,10 @@ module.exports = [
                     next();
                 }); 
             }else{
-                session.endDialog();
-                session.userData.trigger='multi token'; 
+                luis.luis(session.message.text).then(result => {            
+                    console.log(JSON.stringify(result));
+                });
+                console.log(session.userData.intent);
             }
         },
         function(session,results,next){
@@ -36,7 +38,7 @@ module.exports = [
                     if(session.userData.entityType=='name'||session.userData.entityType=='encyclopedia'){
                         session.userData.name=session.userData.entity;
                     }else{
-    
+                        session.endDialog()
                     }
                 }else{
     
