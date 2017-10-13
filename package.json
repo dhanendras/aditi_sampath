@@ -18,6 +18,6 @@
     "request-promise": "^4.2.1",
     "mysql2": "^1.4.2",
     "util":"^0.10.3",
-    "fs":"^0.1-security"
+    "fs":"^0.1"
   }
 }
