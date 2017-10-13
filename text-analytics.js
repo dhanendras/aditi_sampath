@@ -4,7 +4,7 @@
 
 const request = require('request');
 
-const TEXT_ANALYTICS_API_URL = 'https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment',
+const TEXT_ANALYTICS_API_URL = 'https://westeurope.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment',
       TEXT_ANALYTICS_KEY = '79468429dc9c43c4a33a696f027fc1eb';
 
 /**

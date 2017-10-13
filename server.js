@@ -270,6 +270,7 @@ bot.on('error', function (e) {
 
 bot.dialog('end',[
     function(session){
+        session.delay(4000);
         var bye={"bye":['Good bye!','See you','Thank you. Good bye','So long!','See you again']};
         builder.Prompts.text(session,bye.bye);
     },
