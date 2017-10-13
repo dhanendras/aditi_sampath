@@ -25,8 +25,8 @@ module.exports = [
                     } 
                     else {
                         session.send('Thank you for the honest input %s. We will definetly work on it',session.userData.name);
-                        session.endDialog();
                         session.userData.fbtrigger='bad';
+                        session.endDialog();
                     }
     
                 }

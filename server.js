@@ -54,6 +54,7 @@ var bot = new builder.UniversalBot(connector, [
         session.beginDialog('feedback');
     },
     function(session,results,next){
+        console.log(session.userData.fbtrigger);
         if(session.userData.fbtrigger=='bad'){
             session.beginDialog('input');
         }else{
