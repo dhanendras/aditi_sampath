@@ -7,5 +7,10 @@ module.exports = [
         session.send('%s would be able to answer that...',session.userData.poc);
         builder.Prompts.text(session,'Please let me know when your done');
         
+    },
+    function(session,results){
+        session.delay(6000);
+        session.send('I hope that answered that ');
+        session.endDialog();
     }
 ]

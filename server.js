@@ -48,6 +48,9 @@ var bot = new builder.UniversalBot(connector, [
         session.beginDialog('ezone1');
     },
     function(session){
+        session.beginDialog('ezone2');
+    },
+    function(session){
         session.beginDialog('feedback');
     },
     function(session,results,next){
@@ -79,7 +82,7 @@ bot.dialog('id3?',[
         console.log(session.userData.intent);
         if(session.userData.intent=='yes'){
             session.userData.trigger='id3 1';
-            session.beginDialog('id3');
+            next();
             console.log(session.userData.trigger);
         }else if(session.userData.intent=='no'){
             session.userData.trigger='id3 not continue 1';
@@ -87,13 +90,18 @@ bot.dialog('id3?',[
         }else if(session.userData.intent=='question'){
             session.beginDialog('question');
         }else{
-
+            next();
         }
     },
     function(session,results){
-        var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
-        session.send(back.back);
-        session.beginDialog('id3?');
+        if(session.userData.intent=='yes'){
+            session.beginDialog('id3');
+        }else{
+            var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
+            session.send(back.back);
+            session.beginDialog('id3?');
+        }
+        
 }
 ]);
 bot.dialog('id3-2?',[
@@ -107,7 +115,7 @@ bot.dialog('id3-2?',[
         console.log(session.userData.intent);
         if(session.userData.intent=='yes'){
             session.userData.trigger='id3 2';
-            session.beginDialog('id3');
+            next();
             console.log(session.userData.trigger);
         }else if(session.userData.intent=='no'){
             session.userData.trigger='id3 not continue 1';
@@ -115,13 +123,17 @@ bot.dialog('id3-2?',[
         }else if(session.userData.intent=='question'){
             session.beginDialog('question');
         }else{
-
+            next();
         }
     },
     function(session,results){
-        var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
-        session.send(back.back);
-        session.beginDialog('id3-2?');
+        if(session.userData.intent=='yes'){
+            session.beginDialog('id3');
+        }else{
+            var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
+            session.send(back.back);
+            session.beginDialog('id3-2?');
+        }
 }
 ]);
 bot.dialog('ezoneEnter',[
@@ -136,14 +148,19 @@ bot.dialog('ezoneEnter',[
     function(session,results,next){
         if(session.userData.intent=='question'){
             session.beginDialog('question');
+            session.userData.ezone = 'question';
         }else{
-            session.beginDialog('ezone1');
+            session.endDialog();
         }
     },
-    function(session,results){
-        var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
-        session.send(back.back);
-        session.beginDialog('ezoneEnter');
+    function(session,results,next){
+        if(session.userData.ezone=='question'){
+            var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
+            session.send(back.back);
+            session.beginDialog('ezoneEnter');
+        }else{
+            session.endDialog();
+        }
 }
 ]);
 bot.dialog('ezone1',[
@@ -157,7 +174,7 @@ bot.dialog('ezone1',[
         console.log(session.userData.intent);
         if(session.userData.intent=='yes'){
             session.userData.trigger='ezone 1';
-            session.beginDialog('ezone');
+            next();
             console.log(session.userData.trigger);
         }else if(session.userData.intent=='no'){
             session.userData.trigger='ezone not continue 1';
@@ -169,9 +186,13 @@ bot.dialog('ezone1',[
         }
     },
     function(session,results){
-        var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
-        session.send(back.back);
-        session.beginDialog('ezone1');
+        if(session.userData.intent=='yes'){
+            session.beginDialog('ezone');
+        }else{
+            var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
+            session.send(back.back);
+            session.beginDialog('ezone1');
+        }
     }
 ]);
 
@@ -186,7 +207,7 @@ bot.dialog('ezone2',[
         console.log(session.userData.intent);
         if(session.userData.intent=='yes'){
             session.userData.trigger='ezone 2';
-            session.beginDialog('ezone');
+            next();
             console.log(session.userData.trigger);
         }else if(session.userData.intent=='no'){
             session.userData.trigger='ezone not continue 2';
@@ -198,10 +219,14 @@ bot.dialog('ezone2',[
         }
     },
     function(session,results){
-        var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
-        session.send(back.back);
-        session.beginDialog('ezone2');
-}
+        if(session.userData.intent=='yes'){
+            session.beginDialog('ezone');
+        }else{
+            var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
+            session.send(back.back);
+            session.beginDialog('ezone2');
+        }
+    }
 ]);
 bot.dialog('issue',[
     function(session){

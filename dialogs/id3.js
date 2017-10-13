@@ -29,6 +29,8 @@ module.exports = [
             session.send('In our final Industrialize phase, we ');
             session.delay(3000);
             session.endDialog();
+        }else{
+            session.endDialog();
         }
     }
 ];
