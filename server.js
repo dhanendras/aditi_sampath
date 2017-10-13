@@ -25,10 +25,10 @@ var bot = new builder.UniversalBot(connector, [
     function(session,next){
         console.log(session.userData.intent);
         console.log(time);
-        if(time < 11){
+        if(time < 12){
              session.send("Good Morning, %s",session.userData.name);  
         }
-        else if(time>=11&&time<17){
+        else if(time>=12&&time<16){
              session.send("Good Afternoon, %s",session.userData.name);   
         }else{
             session.send("Good Evening, %s",session.userData.name);
