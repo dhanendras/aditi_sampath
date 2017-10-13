@@ -45,7 +45,7 @@ var bot = new builder.UniversalBot(connector, [
             session.beginDialog('id3');
             console.log(session.userData.trigger);
         }else if(session.userData.intent=='no'){
-            session.userData.trigger='ezone not continue 1';
+            session.userData.trigger='id3 not continue 1';
             session.beginDialog('issue');
         }else if(session.userData.intent=='question'){
             session.beginDialog('question');
@@ -66,7 +66,7 @@ var bot = new builder.UniversalBot(connector, [
             session.beginDialog('id3');
             console.log(session.userData.trigger);
         }else if(session.userData.intent=='no'){
-            session.userData.trigger='ezone not continue 2';
+            session.userData.trigger='id3 not continue 2';
             session.beginDialog('issue');
         }else if(session.userData.intent=='question'){
             session.beginDialog('question');
@@ -75,7 +75,7 @@ var bot = new builder.UniversalBot(connector, [
         }
     },
     function(session,results){
-        builder.Prompts.text(session,'Shall we proceed with the tour?');
+        builder.Prompts.text(session,'Next, we will move on to Innovation Pods. Is that alright?');
     },
     function(session,results){
         session.beginDialog('luis');

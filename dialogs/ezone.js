@@ -1,7 +1,6 @@
 var builder = require('botbuilder');
 var fs = require('fs');
 var util = require('util');
-var luis = require('../luis');
 
 module.exports = [
     function(session,results,next){
@@ -21,12 +20,7 @@ module.exports = [
         }
     },
     function(session,results,next){
-        if(session.userData.trigger=='ezone 3'){
-            session.userData.image='assets';
-            sendInline(session,'./images/assets.png','image/png','Assets');
-        }else{
-            next();
-        }
+        
     }
 
 ]
