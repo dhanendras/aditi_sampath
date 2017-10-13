@@ -21,7 +21,12 @@ module.exports = [
         }
     },
     function(session,results,next){
-        
+        if(session.userData.trigger=='ezone 3'){
+            session.userData.image='assets';
+            sendInline(session,'./images/assets.png','image/png','Assets');
+        }else{
+            next();
+        }
     }
 
 ]

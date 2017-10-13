@@ -75,7 +75,7 @@ var bot = new builder.UniversalBot(connector, [
         }
     },
     function(session,results){
-        builder.Prompts.text(session,'Next, we will move on to Innovation Pods. Is that alright?');
+        builder.Prompts.text(session,'Shall we proceed with the tour?');
     },
     function(session,results){
         session.beginDialog('luis');
@@ -83,7 +83,7 @@ var bot = new builder.UniversalBot(connector, [
     function(session,results,next){
         console.log(session.userData.intent);
         if(session.userData.intent=='yes'){
-            session.userData.trigger='ezone 2';
+            session.userData.trigger='ezone 1';
             session.beginDialog('ezone');
             console.log(session.userData.trigger);
         }else if(session.userData.intent=='no'){
