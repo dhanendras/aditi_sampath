@@ -47,7 +47,7 @@ var bot = new builder.UniversalBot(connector, [
     function(session,results){
         session.beginDialog('ezone1');
     },
-    function(session){
+    function(session,results){
         session.beginDialog('ezone2');
     },
     function(session){
