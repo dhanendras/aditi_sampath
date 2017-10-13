@@ -6,7 +6,7 @@ module.exports = [
     function(session,results,next){
         if(session.userData.trigger=='ezone 1'){
             session.userData.image='locations';
-            sendInline(session, './images/locations.png', 'image/png', 'Locations');
+            sendInline(session, 'https://imgur.com/sYolJEp', 'Locations');
         }else{
             next();
         }
@@ -24,20 +24,14 @@ module.exports = [
     }
 
 ]
-function sendInline(session, filePath, contentType, attachmentFileName) {
-    fs.readFile(filePath, function (err, data) {
-        if (err) {
-            return session.send('Oops. Error reading file.');
-        }
+function sendInline(session, contentUrl, name) {
+    var msg = new builder.Message(session)
+    .addAttachment({
+        contentUrl: contenturl,
+        contentType: 'image/png',
+        name: name
+    });
 
-        var base64 = Buffer.from(data).toString('base64');
-
-        var msg = new builder.Message(session)
-            .addAttachment({
-                contentUrl: util.format('data:%s;base64,%s', contentType, base64),
-                contentType: contentType,
-                name: attachmentFileName
-            });
         session.send(msg);
         if(session.userData.image=='locations'){
             locations(session);
@@ -47,8 +41,7 @@ function sendInline(session, filePath, contentType, attachmentFileName) {
             assets(session);
         }
         
-    });
-}
+    }
 
 function locations(session, results, next){
     session.delay(3000);
