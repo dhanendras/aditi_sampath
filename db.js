@@ -35,7 +35,18 @@ exports.insert = (session,text) => {
         var sql = "INSERT INTO client_questions (name, address) VALUES("+session.userData.id+","+text+")";
         con.query(sql,function (err, result) {
           if (err) throw err;
-          console.log("Number of records inserted: " + result.affectedRows);
+          console.log(JSON.stringify(result));
+        });
+      });
+} 
+exports.select = (session,table) => {
+    con.connect(function(err) {
+        if (err) throw err;
+        console.log("Connected...");
+        var sql = "SELECT * FROM "+table;
+        con.query(sql,function (err, result) {
+          if (err) throw err;
+          console.log(JSON.stringify(result));
         });
       });
 } 
