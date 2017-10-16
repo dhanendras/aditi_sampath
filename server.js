@@ -18,6 +18,7 @@ var connector = new builder.ChatConnector({
 });
 server.post('/api/messages', connector.listen());
 
+
 var bot = new builder.UniversalBot(connector, [
     function(session){
         session.beginDialog('prepro');

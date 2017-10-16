@@ -24,7 +24,7 @@ module.exports = [
             session.send('Okay');
             session.userData.trigger=='cancel';
         } else{
-            session.beginDialog('help')
+            
         }
     },
     function(session,results){
