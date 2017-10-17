@@ -40,9 +40,11 @@ var bot = new builder.UniversalBot(connector, [
         session.beginDialog('id3?');
     },
     function(session){
+        session.userData.currentDialog = 'id3-2?';
         session.beginDialog('id3-2?');
     },
     function(session,results){
+        session.userData.currentDialog = 'ezoneEnter';
         session.beginDialog('ezoneEnter');
     },
     function(session,results){
@@ -72,6 +74,7 @@ bot.dialog('luis',require('./luis'));
 bot.dialog('id3',require('./dialogs/id3'));
 bot.dialog('feedback',require('./dialogs/feedback'));
 bot.dialog('input',require('./dialogs/input'));
+bot.dialog('question',require('./dialogs/question'));
 
 bot.dialog('id3?',[
     function(session){
@@ -262,7 +265,7 @@ bot.dialog('issue',[
 ]).triggerAction({
     matches: /^help$|^start over$|^skip$|^go back*restart/i
 })
-bot.dialog('prepro',require('./db'));
+//bot.dialog('prepro',require('./db'));
 // log any bot errors into the console
 bot.on('error', function (e) {
     console.log('And error ocurred', e);

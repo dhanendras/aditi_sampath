@@ -11,7 +11,7 @@ var config =
 
 const conn = new mysql.createConnection(config);
 
-/*module.exports = [
+module.exports = [
     function (session,results,next){
         conn.connect();
         var sql = "SELECT * FROM client_details ORDER BY id DESC LIMIT 1";
@@ -27,26 +27,4 @@ const conn = new mysql.createConnection(config);
             }
         });
     }
-];*/
-exports.insert = (session,text) => {
-    conn.connect(function(err) {
-        if (err) throw err;
-        console.log("Connected...");
-        var sql = "INSERT INTO client_questions (name, address) VALUES("+session.userData.id+","+text+")";
-        conn.query(sql,function (err, result) {
-          if (err) throw err;
-          console.log(JSON.stringify(result));
-        });
-      });
-} 
-exports.select = (session,table) => {
-    conn.connect(function(err) {
-        if (err) throw err;
-        console.log("Connected...");
-        var sql = "SELECT * FROM "+table;
-        conn.query(sql,function (err, result) {
-          if (err) throw err;
-          console.log(JSON.stringify(result));
-        });
-      });
-} 
+];

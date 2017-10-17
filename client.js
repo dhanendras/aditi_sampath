@@ -12,14 +12,14 @@ function Client(opts) {
     this.scoreThreshold = opts.scoreThreshold ? opts.scoreThreshold : 20; // 20 is the default
 }
 
-Client.prototype.post = function (opts, cb) {
+exports.post = function (opts, cb) {
 
     if (!opts.question) throw new Error('question is required');
     cb = cb || (() => { });
 
     var self = this;
 
-    var url = 'https://westus.api.cognitive.microsoft.com/qnamaker/v2.0/knowledgebases/' + this.knowledgeBaseId + '/generateAnswer';
+    var url = 'https://westus.api.cognitive.microsoft.com/qnamaker/v2.0/knowledgebases/59e99a97-65c9-4515-b4e9-994515544053/generateAnswer';
 
     var options = {
         method: 'POST',
@@ -27,7 +27,7 @@ Client.prototype.post = function (opts, cb) {
         json: true,
         body: opts,
         headers: {
-            "Ocp-Apim-Subscription-Key": this.subscriptionKey,
+            "Ocp-Apim-Subscription-Key": 'da1fb5f9886d4005af686e8b4219f744',
             "Content-Type": "application/json"
         }
     };
@@ -37,11 +37,13 @@ Client.prototype.post = function (opts, cb) {
             // POST succeeded
             var botreply;
             var answerobj = body.answers[0];
-
-            if (answerobj.score >= self.scoreThreshold) {
+            console.log(JSON.stringify(body));
+            console.log(JSON.stringify(answerobj.answer));
+            console.log(answerobj.answer);
+            if (answerobj.score >= 75) {
                 // Answer confidence score is acceptable - use QnA maker's response
-                var botreplylist = smallTalkReplies[answerobj.answer];
-                botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                //var botreplylist = smallTalkReplies[answerobj.answer];
+                botreply = answerobj.answer;
             }
 
             return cb(null, botreply);
@@ -52,4 +54,4 @@ Client.prototype.post = function (opts, cb) {
         });
 }
 
-module.exports = Client;
+
