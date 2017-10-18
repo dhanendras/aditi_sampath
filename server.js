@@ -251,7 +251,7 @@ bot.dialog('ezone2',[
     }
 ]);
 
-bot.dialog('questions?',[
+bot.dialog('question?',[
     function(session,results,next){
         builder.Prompts.text(session,'Do you have any questions?');
     },
