@@ -6,7 +6,7 @@ module.exports = [
     function(session,results,next){
         if(session.userData.trigger=='ezone 1'){
             session.userData.image='locations';
-            sendInline(session, '../images/locations.png', 'images/png','Locations');
+            sendInline(session, 'https://imgur.com/u00RE5B','Assets');
         }else{
             next();
         }
@@ -25,7 +25,7 @@ module.exports = [
 
 ]
 
-function sendInline(session, filePath, contentType, attachmentFileName) {
+/*function sendInline(session, filePath, contentType, attachmentFileName) {
     fs.readFile(filePath, function (err, data) {
         if (err) {
             return session.send('Oops. Error reading file.');
@@ -42,9 +42,9 @@ function sendInline(session, filePath, contentType, attachmentFileName) {
 
         session.send(msg);
     });
-}
+}*/
 
-/*function sendInline(session, contentUrl, name) {
+function sendInline(session, contentUrl, name) {
     var msg = new builder.Message(session)
     .addAttachment({
         contentUrl: contentUrl,
@@ -57,7 +57,7 @@ function sendInline(session, filePath, contentType, attachmentFileName) {
     }else if(session.userData.image=='assets'){
         assets(session);
     }
-}*/
+}
 function locations(session, results, next){
     session.delay(3000);
     session.send('The inphographic displays the geographical locations of our innovation centres and the areas where each centre primarily focuses.');
