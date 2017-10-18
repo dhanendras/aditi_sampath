@@ -1,4 +1,5 @@
 const mysql = require('mysql2');
+var builder = require('botbuilder');
 var config =
 {
     host: 'aditi-admin.mysql.database.azure.com',
@@ -21,8 +22,10 @@ module.exports = [
                 console.log('db '+JSON.stringify(results));
                 session.userData.name = results[0].client;
                 session.userData.poc = results[0].primary_poc;
+                session.userData.demotype = results[0].demo_type;
                 console.log(session.userData.name);
                 console.log(session.userData.poc);
+                console.log(session.userData.demotype);
                 session.endDialog();
             }
         });

@@ -28,15 +28,19 @@ var bot = new builder.UniversalBot(connector, [
         console.log(time);
         if(time < 12){
              session.send("Good Morning, %s",session.userData.name);  
-        }
-        else if(time>=12&&time<16){
+        }else if(time>=12&&time<16){
              session.send("Good Afternoon, %s",session.userData.name);   
         }else{
             session.send("Good Evening, %s",session.userData.name);
         }
         var hey ={"hey":['Welcome to Infinity Labs','Warm welcome to Infinity Labs','Great to have you here at Infinity Labs'],"aditi":['My name is Aditi','I am Aditi']};
         session.send(hey.hey);
+        session.delay(3000);
         session.send(hey.aditi);
+        session.delay(3000);
+        session.beginDialog('confirm');
+    },
+    function(session,results){
         session.beginDialog('id3?');
     },
     function(session){
@@ -75,6 +79,8 @@ bot.dialog('id3',require('./dialogs/id3'));
 bot.dialog('feedback',require('./dialogs/feedback'));
 bot.dialog('input',require('./dialogs/input'));
 bot.dialog('question',require('./dialogs/question'));
+bot.dialog('prepro',require('./dialogs/prepro'));
+bot.dialog('confirm',require('./dialogs/confirm'));
 
 bot.dialog('id3?',[
     function(session){

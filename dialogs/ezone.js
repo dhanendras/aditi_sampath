@@ -6,15 +6,20 @@ module.exports = [
     function(session,results,next){
         if(session.userData.trigger=='ezone 1'){
             session.userData.image='locations';
+<<<<<<< HEAD
+            sendimage(session, 'http://imgsv.imaging.nikon.com/lineup/lens/zoom/normalzoom/af-s_dx_18-140mmf_35-56g_ed_vr/img/sample/sample1_l.jpg','Locations');
+       }else{
+=======
             sendInline(session, 'https://imgur.com/u00RE5B','Assets');
         }else{
+>>>>>>> 605043163b7ee1bb491ddcb694a9cc516c3f29ab
             next();
         }
     },
     function(session,results,next){
         if(session.userData.trigger=='ezone 2'){
             session.userData.image='assets';
-            sendInline(session,'https://imgur.com/u00RE5B','Assets');
+            sendimage(session,'https://imgur.com/u00RE5B','Assets');
         }else{
             next();
         }
@@ -25,7 +30,7 @@ module.exports = [
 
 ]
 
-function sendInline(session, filePath, contentType, attachmentFileName) {
+/*function sendInline(session, filePath, contentType, attachmentFileName) {
     fs.readFile(filePath, function (err, data) {
         if (err) {
             return session.send('Oops. Error reading file.');
@@ -42,9 +47,24 @@ function sendInline(session, filePath, contentType, attachmentFileName) {
 
         session.send(msg);
     });
+}*/
+
+function sendimage(session,url,title) {
+    var msg = new builder.Message(session);
+    msg.attachments([
+        new builder.HeroCard(session)
+            .title(title)
+            .images([builder.CardImage.create(session, url)])
+    ]);
+    session.send(msg);
+    if(session.userData.image=='locations'){
+        locations(session);
+    }else if(session.userData.image=='assets'){
+        assets(session);
+    }
 }
 
-/*function sendInline(session, contentUrl, name) {
+function sendurl(session, contentUrl, name) {
     var msg = new builder.Message(session)
     .addAttachment({
         contentUrl: contentUrl,
@@ -56,7 +76,12 @@ function sendInline(session, filePath, contentType, attachmentFileName) {
         locations(session);
     }else if(session.userData.image=='assets'){
         assets(session);
+<<<<<<< HEAD
+    }
+}
+=======
   */
+>>>>>>> 605043163b7ee1bb491ddcb694a9cc516c3f29ab
 function locations(session, results, next){
     session.delay(3000);
     session.send('The inphographic displays the geographical locations of our innovation centres and the areas where each centre primarily focuses.');
