@@ -274,14 +274,17 @@ bot.dialog('issue',[
     function(session){
         session.send('%s, could you please look into this?',session.userData.poc);
         session.delay(3000);
-        builder.Prompts.choice(session, 'Alternatively, you can choose an instance where you want to go...', "ID3|Experience Zone|Feedback|Restart|End|Cancel", { listStyle: 4 });
+        builder.Prompts.choice(session, 'Alternatively, you can choose an instance where you want to go...', "Mode|ID3|Experience Zone|Feedback|Restart|End|Cancel", { listStyle: 4 });
     },
     function(session,results){
-        if(results.response.entity=='ID3'){
+        if(results.response.entity=='Mode'){
+            session.send('Okay, heading over to Mode...');
+            session.beginDialog('confirm');
+        }else if(results.response.entity=='ID3'){
             session.send('Okay, heading over to ID3...');
             session.beginDialog('id3');
         }else if(results.response.entity=='Experience Zone'){
-            session.send('Okay, heading over to E Zone narrative');
+            session.send('Okay, heading over to Experience Zone narrative');
             session.beginDialog('ezone1');
         }else if(results.response.entity=='Feedback'){
             session.send('Okay, heading over to Feedback...');
@@ -290,7 +293,7 @@ bot.dialog('issue',[
             session.send('Okay, starting over...');
             session.beginDialog('/');
         }else if(results.response.entity=='End'){
-            session.send('Okay');
+            session.send('Okay...');
             session.beginDialog('end');
         }else if(results.response.entity=='Cancel'){
             session.send('Okay');

@@ -14,7 +14,7 @@ module.exports = [
     function(session,results,next){
         if(session.userData.trigger=='ezone 2'){
             session.userData.image='assets';
-            sendimage(session,'https://imgur.com/u00RE5B','Assets');
+            sendimage(session,'http://imgsv.imaging.nikon.com/lineup/lens/zoom/normalzoom/af-s_dx_18-140mmf_35-56g_ed_vr/img/sample/sample1_l.jpg','Assets');
         }else{
             next();
         }
