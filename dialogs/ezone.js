@@ -6,13 +6,8 @@ module.exports = [
     function(session,results,next){
         if(session.userData.trigger=='ezone 1'){
             session.userData.image='locations';
-<<<<<<< HEAD
             sendimage(session, 'http://imgsv.imaging.nikon.com/lineup/lens/zoom/normalzoom/af-s_dx_18-140mmf_35-56g_ed_vr/img/sample/sample1_l.jpg','Locations');
        }else{
-=======
-            sendInline(session, 'https://imgur.com/u00RE5B','Assets');
-        }else{
->>>>>>> 605043163b7ee1bb491ddcb694a9cc516c3f29ab
             next();
         }
     },
