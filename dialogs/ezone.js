@@ -6,7 +6,7 @@ module.exports = [
     function(session,results,next){
         if(session.userData.trigger=='ezone 1'){
             session.userData.image='locations';
-            sendimage(session, 'http://imgsv.imaging.nikon.com/lineup/lens/zoom/normalzoom/af-s_dx_18-140mmf_35-56g_ed_vr/img/sample/sample1_l.jpg','Locations');
+            sendimage(session, 'https://imgur.com/sYolJEp','Locations');
        }else{
             next();
         }
@@ -14,7 +14,7 @@ module.exports = [
     function(session,results,next){
         if(session.userData.trigger=='ezone 2'){
             session.userData.image='assets';
-            sendimage(session,'http://imgsv.imaging.nikon.com/lineup/lens/zoom/normalzoom/af-s_dx_18-140mmf_35-56g_ed_vr/img/sample/sample1_l.jpg','Assets');
+            sendimage(session,'https://imgur.com/u00RE5B','Assets');
         }else{
             next();
         }
@@ -78,7 +78,7 @@ function locations(session, results, next){
     if(session.userData.demotype=='Quick'){
         session.delay(3000);
         session.send('The inphographic displays the geographical locations of our innovation centres and the areas where each centre primarily focuses.');
-        session.delay(2000);
+        session.delay(4000);
         session.send('The labs in Trivanrum and Aliso Vejo have the maximum customer exposure.');
         session.delay(3000);
         session.send('Each lab has a particular focus area mentioned.');
@@ -87,11 +87,11 @@ function locations(session, results, next){
     }else{
         session.delay(3000);
         session.send('The inphographic displays the geographical locations of our innovation centres and the areas where each centre primarily focuses.');
-        session.delay(2000);
+        session.delay(4000);
         session.send('The labs in Trivanrum and Aliso Vejo have the maximum customer exposure.');
         session.delay(3000);
         session.send('The lab in Trivandrum focuses on Digital Technologies. The lab in Aliso Vejo focuses on Legacy modernization. We have a retail focus lab in Bentonville, cyber security focus lab in Tel Aviv and a fintech lab in Madrid.');
-        session.delay(3000);
+        session.delay(6000);
         session.send('Leon, London, Costa Rica and Bangalore...These labs are in our pipeline for further expansion');
         session.delay(3000);
         session.endDialog();
