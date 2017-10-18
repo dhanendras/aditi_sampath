@@ -25,7 +25,7 @@ module.exports = [
 
 ]
 
-/*function sendInline(session, filePath, contentType, attachmentFileName) {
+function sendInline(session, filePath, contentType, attachmentFileName) {
     fs.readFile(filePath, function (err, data) {
         if (err) {
             return session.send('Oops. Error reading file.');
@@ -42,9 +42,9 @@ module.exports = [
 
         session.send(msg);
     });
-}*/
+}
 
-function sendInline(session, contentUrl, name) {
+/*function sendInline(session, contentUrl, name) {
     var msg = new builder.Message(session)
     .addAttachment({
         contentUrl: contentUrl,
@@ -56,8 +56,7 @@ function sendInline(session, contentUrl, name) {
         locations(session);
     }else if(session.userData.image=='assets'){
         assets(session);
-    }
-}
+  */
 function locations(session, results, next){
     session.delay(3000);
     session.send('The inphographic displays the geographical locations of our innovation centres and the areas where each centre primarily focuses.');
