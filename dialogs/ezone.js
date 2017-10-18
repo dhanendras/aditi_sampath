@@ -71,12 +71,9 @@ function sendurl(session, contentUrl, name) {
         locations(session);
     }else if(session.userData.image=='assets'){
         assets(session);
-<<<<<<< HEAD
     }
 }
-=======
-  */
->>>>>>> 605043163b7ee1bb491ddcb694a9cc516c3f29ab
+
 function locations(session, results, next){
     session.delay(3000);
     session.send('The inphographic displays the geographical locations of our innovation centres and the areas where each centre primarily focuses.');
