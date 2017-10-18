@@ -26,6 +26,11 @@ module.exports = [
                 console.log(session.userData.name);
                 console.log(session.userData.poc);
                 console.log(session.userData.demotype);
+                if(session.userData.demotype=='Quick'){
+                    session.userData.demotypeother='Detailed';
+                }else{
+                    session.userData.demotypeother='Quick';
+                }
                 session.endDialog();
             }
         });

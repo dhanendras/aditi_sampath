@@ -2,6 +2,7 @@ var builder = require('botbuilder');
 
 module.exports = [
     function(session){
+        session.delay(3000);
         session.send('%s, would be your primary POC through this tour.',session.userData.poc);
         session.delay(3000);
         session.send('I see that you have the %s mode set up for this tour',session.userData.demotype);
@@ -12,8 +13,8 @@ module.exports = [
             session.send('Okay, we will stick to %s',session.userData.demotype);
             next();
         }else {
-            session.send('Okay, heading over to E Zone narrative');
-            session.userData.demotype='Detailed';
+            session.send('Okay, mode shifted to %s',session.userData.demotypeother);
+            session.userData.demotype=session.userData.demotypeother;
             next();
         }
     },

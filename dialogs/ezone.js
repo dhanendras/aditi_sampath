@@ -75,15 +75,28 @@ function sendurl(session, contentUrl, name) {
 }
 
 function locations(session, results, next){
-    session.delay(3000);
-    session.send('The inphographic displays the geographical locations of our innovation centres and the areas where each centre primarily focuses.');
-    session.delay(2000);
-    session.send('The labs in Trivanrum and Aliso Vejo have the maximum customer exposure.');
-    session.delay(3000);
-    session.send('The lab in Trivandrum focuses on Digital Technologies. The lab in Aliso Vejo focuses on Legacy modernization. We have a retail focus lab in Bentonville, cyber security focus lab in Tel Aviv and a fintech lab in Madrid.');
-    session.delay(3000);
-    session.send('Leon, London, Costa Rica and Bangalore...These labs are in our pipeline for further expansion');
-    session.endDialog();
+    if(session.userData.demotype=='Quick'){
+        session.delay(3000);
+        session.send('The inphographic displays the geographical locations of our innovation centres and the areas where each centre primarily focuses.');
+        session.delay(2000);
+        session.send('The labs in Trivanrum and Aliso Vejo have the maximum customer exposure.');
+        session.delay(3000);
+        session.send('Each lab has a particular focus area mentioned.');
+        session.delay(3000);
+        session.endDialog();
+    }else{
+        session.delay(3000);
+        session.send('The inphographic displays the geographical locations of our innovation centres and the areas where each centre primarily focuses.');
+        session.delay(2000);
+        session.send('The labs in Trivanrum and Aliso Vejo have the maximum customer exposure.');
+        session.delay(3000);
+        session.send('The lab in Trivandrum focuses on Digital Technologies. The lab in Aliso Vejo focuses on Legacy modernization. We have a retail focus lab in Bentonville, cyber security focus lab in Tel Aviv and a fintech lab in Madrid.');
+        session.delay(3000);
+        session.send('Leon, London, Costa Rica and Bangalore...These labs are in our pipeline for further expansion');
+        session.delay(3000);
+        session.endDialog();
+    }
+    
 }
 
 function assets(session, results, next){

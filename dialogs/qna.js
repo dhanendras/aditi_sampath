@@ -12,13 +12,14 @@ exports.client = (session,text) => {
         if (results) {
             // Send reply from QnA back to user
             session.send(results);
+            session.userData.question = 'yes';
             console.log('no err');
             session.endDialog();
         } else {
             // Put whatever default message/attachments you want here
             session.endDialog();
             console.log('no answer');
-            session.userData.trigger = 'no answer';
+            session.userData.question = 'no';
         }
     });
 }

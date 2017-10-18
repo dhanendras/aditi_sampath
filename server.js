@@ -41,6 +41,7 @@ var bot = new builder.UniversalBot(connector, [
         session.beginDialog('confirm');
     },
     function(session,results){
+        session.userData.currentDialog='id3?';
         session.beginDialog('id3?');
     },
     function(session){
@@ -52,12 +53,19 @@ var bot = new builder.UniversalBot(connector, [
         session.beginDialog('ezoneEnter');
     },
     function(session,results){
+        session.userData.currentDialog='ezone1';
         session.beginDialog('ezone1');
     },
     function(session,results){
+        session.userData.currentDialog='ezone2';
         session.beginDialog('ezone2');
     },
     function(session){
+        session.userData.currentDialog='question?';
+        session.beginDialog('question?');
+    },
+    function(session){
+        session.userData.currentDialog='feedback';
         session.beginDialog('feedback');
     },
     function(session,results,next){
@@ -69,6 +77,7 @@ var bot = new builder.UniversalBot(connector, [
         }
     },
     function(session,results){
+        session.userData.currentDialog='end';
         session.beginDialog('end');
     }
 ]);
@@ -101,7 +110,7 @@ bot.dialog('id3?',[
         }else if(session.userData.intent=='question'){
             session.beginDialog('question');
         }else{
-            next();
+            session.beginDialog('issue');
         }
     },
     function(session,results){
@@ -149,9 +158,10 @@ bot.dialog('id3-2?',[
 ]);
 bot.dialog('ezoneEnter',[
     function(session){
-    session.send('The reminder of this tour would be in our Experience Zone. It is onto your left when facing the ID3 framework chart');
-    session.delay(2000);
-    builder.Prompts.text(session,'Please let me know when you are done');
+        session.delay(3000);
+        session.send('The reminder of this tour would be in our Experience Zone. It is onto your left when facing the ID3 framework chart');
+        session.delay(2000);
+        builder.Prompts.text(session,'Please let me know when you reach there');
     },
     function(session,results){
         session.beginDialog('luis');
@@ -176,7 +186,8 @@ bot.dialog('ezoneEnter',[
 ]);
 bot.dialog('ezone1',[
     function(session){
-    builder.Prompts.text(session,'Let us start with the presentation shall we?');
+        session.send('So %s...',session.userData.name);
+        builder.Prompts.text(session,'Let us get going with the presentation shall we?');
     },
     function(session,results){
         session.beginDialog('luis');
@@ -193,7 +204,7 @@ bot.dialog('ezone1',[
         }else if(session.userData.intent=='question'){
             session.beginDialog('question');
         }else{
-
+            session.beginDialog('issue');
         }
     },
     function(session,results){
@@ -239,6 +250,26 @@ bot.dialog('ezone2',[
         }
     }
 ]);
+
+bot.dialog('questions?',[
+    function(session,results,next){
+        builder.Prompts.text(session,'Do you have any questions?');
+    },
+    function(session,results,next){
+        console.log(session.userData.intent);
+        if(session.userData.intent=='yes'){
+            session.beginDialog('question');
+        }else if(session.userData.intent=='no'){
+            next();
+        }else if(session.userData.intent=='question'){
+            session.beginDialog('question');
+        }
+    },
+    function(session,results){
+        session.endDialog();
+    }
+]);
+
 bot.dialog('issue',[
     function(session){
         session.send('%s, could you please look into this?',session.userData.poc);
@@ -271,17 +302,10 @@ bot.dialog('issue',[
 ]).triggerAction({
     matches: /^help$|^start over$|^skip$|^go back*restart/i
 })
-//bot.dialog('prepro',require('./db'));
-// log any bot errors into the console
-bot.on('error', function (e) {
-    console.log('And error ocurred', e);
-});
-
-
 
 bot.dialog('end',[
     function(session){
-        session.delay(4000);
+        session.delay(3000);
         var bye={"bye":['Good bye!','See you','Thank you. Good bye','So long!','See you again']};
         builder.Prompts.text(session,bye.bye);
     },
