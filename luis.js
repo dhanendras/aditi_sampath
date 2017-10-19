@@ -9,6 +9,7 @@ module.exports = [
             results.intents = intents;
             console.log('%s',JSON.stringify(intents));
             session.userData.intent=intents[0].intent;
+            session.userData.score = intents[0].score;
             console.log(session.userData.intent);
             session.endDialog();
         });

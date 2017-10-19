@@ -309,7 +309,7 @@ bot.dialog('question?',[
             session.userData.trigger = 'no q';
         }else if(session.userData.intent=='no'){
             next();
-        }else if(session.userData.intent=='question'){
+        }else if(session.userData.intent=='question'&&session.userData.score>0.8){
             session.beginDialog('question');
         }else{
             session.beginDialog('question?');
