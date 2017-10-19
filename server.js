@@ -159,6 +159,7 @@ bot.dialog('id3-2?',[
 bot.dialog('ezoneEnter',[
     function(session){
         session.delay(3000);
+        sendimage(session,'https://imgur.com/a/9ws1H','Map');
         session.send('The reminder of this tour would be in our Experience Zone. It is onto your left when facing the ID3 framework chart');
         session.delay(2000);
         builder.Prompts.text(session,'Please let me know when you reach there');
@@ -332,3 +333,13 @@ bot.dialog('end',[
 ]).triggerAction({
     matches: /^bye$|^goodbye$|^good bye*see you/i
 });
+
+function sendimage(session,url,title) {
+    var msg = new builder.Message(session);
+    msg.attachments([
+        new builder.HeroCard(session)
+            .title(title)
+            .images([builder.CardImage.create(session, url)])
+    ]);
+    session.send(msg);
+}
