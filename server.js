@@ -3,6 +3,7 @@ var restify = require('restify');
 var ling = require('./linguistics');
 var d = new Date();
 var time = d.getHours();
+var newTime = time+10;
 var luis = require('./luis');
 var analyticsService = require('./text-analytics');
 // Setup Restify Server
@@ -26,9 +27,9 @@ var bot = new builder.UniversalBot(connector, [
     function(session,next){
         console.log(session.userData.intent);
         console.log(time);
-        if(time>0 && time<= 11){
+        if(newTime>0 && newTime<= 11){
              session.send("Good Morning, %s",session.userData.name);  
-        }else if(time>11&&time<=16){
+        }else if(newTime>11&&newTime<=16){
              session.send("Good Afternoon, %s",session.userData.name);   
         }else{
             session.send("Good Evening, %s",session.userData.name);
