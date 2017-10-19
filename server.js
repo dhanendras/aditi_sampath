@@ -257,6 +257,9 @@ bot.dialog('question?',[
     function(session,results,next){
         builder.Prompts.text(session,'Do you have any questions?');
     },
+    function(session,results){
+        session.beginDialog('luis');
+    },
     function(session,results,next){
         console.log(session.userData.intent);
         if(session.userData.intent=='yes'){
@@ -266,6 +269,8 @@ bot.dialog('question?',[
             next();
         }else if(session.userData.intent=='question'){
             session.beginDialog('question');
+        }else{
+            session.beginDialog('question?');
         }
     },
     function(session,results){
