@@ -36,9 +36,9 @@ var bot = new builder.UniversalBot(connector, [
         }
         var hey ={"hey":['Welcome to Infinity Labs','Warm welcome to Infinity Labs','Great to have you here at Infinity Labs'],"aditi":['My name is Aditi','I am Aditi']};
         session.send(hey.hey);
-        session.delay(1500);
+        session.delay(1000);
         session.send(hey.aditi);
-        session.delay(2000);
+        session.delay(1500);
         session.beginDialog('confirm');
     },
     function(session,results){
@@ -162,7 +162,7 @@ bot.dialog('ezoneEnter',[
         session.delay(3000);
         sendimage(session,'https://i.imgur.com/Kjh2FY6.png','Map');
         session.send('The reminder of this tour would be in our Experience Zone. It is onto your left when facing the ID3 framework chart');
-        session.delay(2000);
+        session.delay(8000);
         builder.Prompts.text(session,'Please let me know when you reach there');
     },
     function(session,results){
@@ -276,7 +276,7 @@ bot.dialog('question?',[
 bot.dialog('issue',[
     function(session){
         session.send('%s, could you please look into this?',session.userData.poc);
-        session.delay(3000);
+        session.delay(4000);
         builder.Prompts.choice(session, 'Alternatively, you can choose an instance where you want to go...', "Mode|ID3|Experience Zone|Question|Feedback|Restart|End|Cancel", { listStyle: 4 });
     },
     function(session,results){

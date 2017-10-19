@@ -3,11 +3,11 @@ var analyticsService = require('../text-analytics');
 module.exports = [
     function(session){
         session.delay(3000);
-        session.send('Well %s, that marks the end of this tour...',session.userData.name);
+        session.send('Well %s, that marks the end of this...',session.userData.name);
         session.delay(3000);
         var fb ={"fb": ['How did you find the tour?','What do you think about the tour?','So what do have have to say about the tour?']}
         session.send(fb.fb);
-        session.delay(3000);
+        session.delay(4000);
         builder.Prompts.text(session,'We would appreciate a candid feedback');
     },
     function (session, results, next) {

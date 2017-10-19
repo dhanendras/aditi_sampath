@@ -78,22 +78,22 @@ function locations(session, results, next){
     if(session.userData.demotype=='Quick'){
         session.delay(3000);
         session.send('The inphographic displays the geographical locations of our innovation centres and the areas where each centre primarily focuses.');
-        session.delay(4000);
+        session.delay(5000);
         session.send('The labs in Trivanrum and Aliso Vejo have the maximum customer exposure.');
-        session.delay(3000);
+        session.delay(4000);
         session.send('Each lab has a particular focus area mentioned.');
         session.delay(3000);
         session.endDialog();
     }else{
         session.delay(3000);
         session.send('The inphographic displays the geographical locations of our innovation centres and the areas where each centre primarily focuses.');
-        session.delay(4000);
+        session.delay(5000);
         session.send('The labs in Trivanrum and Aliso Vejo have the maximum customer exposure.');
-        session.delay(3000);
+        session.delay(4000);
         session.send('The lab in Trivandrum focuses on Digital Technologies. The lab in Aliso Vejo focuses on Legacy modernization. We have a retail focus lab in Bentonville, cyber security focus lab in Tel Aviv and a fintech lab in Madrid.');
-        session.delay(6000);
+        session.delay(10000);
         session.send('Leon, London, Costa Rica and Bangalore...These labs are in our pipeline for further expansion');
-        session.delay(3000);
+        session.delay(7000);
         session.endDialog();
     }
     
@@ -102,12 +102,12 @@ function locations(session, results, next){
 function assets(session, results, next){
     session.delay(3000);
     session.send('These are our assets categoraized according to the fields');
-    session.delay(2000);
+    session.delay(4000);
     session.send('The red boxes indicate assets in the MVP stage.');
     session.send('The green boxes are the assets in MVC stage ');
-    session.delay(2000);
+    session.delay(4000);
     session.send('The white boxes indicates assets that are still in our pipeline');
-    session.delay(3000);
+    session.delay(4000);
     session.endDialog();
 }
 
