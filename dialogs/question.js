@@ -19,6 +19,7 @@ module.exports = [
     },
     function(session,results){
         if(session.userData.question = 'no'){
+            session.delay(3000);
             session.send('I am verry sorry. I do not know the answer to that...');
             session.delay(4000);
             session.send('Perhaps %s would be able to answer that question',session.userData.poc);
@@ -28,7 +29,7 @@ module.exports = [
         }   
     },
     function(session,results){
-        session.delay(6000);
+        session.delay(3000);
         session.send('I hope that answered your question %s',session.userData.name);
         session.endDialog();
     }

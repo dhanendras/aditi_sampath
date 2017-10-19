@@ -6,7 +6,7 @@ module.exports = [
     function(session,results,next){
         if(session.userData.trigger=='ezone 1'){
             session.userData.image='locations';
-            sendimage(session, 'https://i.imgur.com/ZcOQHUB.png','Locations');
+            sendimage(session, 'https://i.imgur.com/ZcOQHUB.png','Locations worldwide');
        }else{
             next();
         }
@@ -14,13 +14,18 @@ module.exports = [
     function(session,results,next){
         if(session.userData.trigger=='ezone 2'){
             session.userData.image='assets';
-            sendimage(session,'https://i.imgur.com/9hpNji2.png','Assets');
+            sendimage(session,'https://i.imgur.com/9hpNji2.png','Asset Catalog');
         }else{
             next();
         }
     },
     function(session,results,next){
-        
+        if(session.userData.trigger=='ezone 3'){
+            session.userData.image='research';
+            sendimage(session,'https://i.imgur.com/SkghhSa.png','Research Areas');
+        }else{
+            next();
+        }
     }
 
 ]
@@ -71,15 +76,17 @@ function sendurl(session, contentUrl, name) {
         locations(session);
     }else if(session.userData.image=='assets'){
         assets(session);
+    }else if(session.userData.image=='research'){
+        research(session);
     }
 }
 
 function locations(session, results, next){
     if(session.userData.demotype=='Quick'){
         session.delay(3000);
-        session.send('The inphographic displays the geographical locations of our innovation centres and the areas where each centre primarily focuses.');
+        session.send('The infographic displays the geographical locations of our innovation centres and the areas where each centre primarily focuses.');
         session.delay(5000);
-        session.send('The labs in Trivanrum and Aliso Vejo have the maximum customer exposure.');
+        session.send('The labs in Trivandrum and Aliso Vejo have the maximum customer exposure.');
         session.delay(4000);
         session.send('Each lab has a particular focus area mentioned.');
         session.delay(3000);
@@ -88,7 +95,7 @@ function locations(session, results, next){
         session.delay(3000);
         session.send('The inphographic displays the geographical locations of our innovation centres and the areas where each centre primarily focuses.');
         session.delay(5000);
-        session.send('The labs in Trivanrum and Aliso Vejo have the maximum customer exposure.');
+        session.send('The labs in Trivandrum and Aliso Vejo have the maximum customer exposure.');
         session.delay(4000);
         session.send('The lab in Trivandrum focuses on Digital Technologies. The lab in Aliso Vejo focuses on Legacy modernization. We have a retail focus lab in Bentonville, cyber security focus lab in Tel Aviv and a fintech lab in Madrid.');
         session.delay(10000);
@@ -103,11 +110,20 @@ function assets(session, results, next){
     session.delay(3000);
     session.send('These are our assets categoraized according to the fields');
     session.delay(4000);
-    session.send('The red boxes indicate assets in the MVP stage.');
+    session.send('The red boxes indicate finished Products');
     session.send('The green boxes are the assets in MVC stage ');
     session.delay(4000);
-    session.send('The white boxes indicates assets that are still in our pipeline');
+    session.send('The white boxes indicates assets that are in the MVP stage');
     session.delay(4000);
     session.endDialog();
 }
 
+function research(session,results,next){
+    session.delay(3000);
+    session.send('These are the various areas we focus on...');
+    session.delay(3000);
+    sendimage(session,'https://i.imgur.com/EZ78zrb.png','Success Story');
+    session.send('Since our inception, we had over 150 academic interns, solved over 70 business problems and organised over 25 Hackathons');
+    session.delay(8000);
+    session.endDialog();
+}

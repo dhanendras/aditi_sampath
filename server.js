@@ -45,9 +45,13 @@ var bot = new builder.UniversalBot(connector, [
         session.userData.currentDialog='id3?';
         session.beginDialog('id3?');
     },
-    function(session){
-        session.userData.currentDialog = 'id3-2?';
-        session.beginDialog('id3-2?');
+    function(session,results,next){
+        if(session.userData.demotype=='Quick'){
+            next();
+        }else{
+            session.userData.currentDialog = 'id3-2?';
+            session.beginDialog('id3-2?');  
+        }
     },
     function(session,results){
         session.userData.currentDialog = 'ezoneEnter';
@@ -60,6 +64,10 @@ var bot = new builder.UniversalBot(connector, [
     function(session,results){
         session.userData.currentDialog='ezone2';
         session.beginDialog('ezone2');
+    },
+    function(session,results){
+        session.userData.currentDialog='ezone3';
+        session.beginDialog('ezone3');
     },
     function(session){
         session.userData.currentDialog='question?';
@@ -253,6 +261,40 @@ bot.dialog('ezone2',[
     }
 ]);
 
+bot.dialog('ezone3',[
+    function(session){
+        session.send('Okay %s...',session.userData.name);
+        builder.Prompts.text(session,'Shall we proceed?');
+    },
+    function(session,results){
+        session.beginDialog('luis');
+    },
+    function(session,results,next){
+        console.log(session.userData.intent);
+        if(session.userData.intent=='yes'){
+            session.userData.trigger='ezone 3';
+            next();
+            console.log(session.userData.trigger);
+        }else if(session.userData.intent=='no'){
+            session.userData.trigger='ezone not continue 3';
+            session.beginDialog('issue');
+        }else if(session.userData.intent=='question'){
+            session.beginDialog('question');
+        }else{
+
+        }
+    },
+    function(session,results){
+        if(session.userData.intent=='yes'){
+            session.beginDialog('ezone');
+        }else{
+            var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
+            session.send(back.back);
+            session.beginDialog('ezone3');
+        }
+    }
+]);
+
 bot.dialog('question?',[
     function(session,results,next){
         builder.Prompts.text(session,'Do you have any questions?');
@@ -319,6 +361,7 @@ bot.dialog('issue',[
 
 bot.dialog('end',[
     function(session){
+        sendimage(session,'https://i.imgur.com/x45dZYT.png','Thank You');
         session.delay(3000);
         var bye={"bye":['Good bye!','See you','Thank you. Good bye','So long!','See you again']};
         builder.Prompts.text(session,bye.bye);
