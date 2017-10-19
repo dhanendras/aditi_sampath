@@ -44,7 +44,7 @@ module.exports = [
     function(session,results){
         if(session.userData.trigger=='id3 2'){
             session.send('After define, we move on to Innovate phase. This is where Infinity Labs ges primarily involved. Here we focus on coming up with what we call a Minimum Viable Concept. Our Executive teams, Academic partners and the Hackathons we organize collectively help us here.');
-            session.delay(12000);
+            session.delay(14000);
             session.send('Then in the instrument phase, we get back to the SMEs, take their input and come up with a Minimum Viable Product.');
             session.delay(6000);
             session.send('In our final Industrialize phase, we spend considerably longer time and come up with scalable products.');
