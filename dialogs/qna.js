@@ -14,10 +14,10 @@ exports.client = (session,text) => {
             session.send(results);
             session.userData.question = 'yes';
             console.log('no err');
-            session.endDialog();
+            //session.endDialog();
         } else {
             // Put whatever default message/attachments you want here
-            session.endDialog();
+            //session.endDialog();
             console.log('no answer');
             session.userData.question = 'no';
         }

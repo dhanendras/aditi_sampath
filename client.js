@@ -40,7 +40,7 @@ exports.post = function (opts, cb) {
             console.log(JSON.stringify(body));
             console.log(JSON.stringify(answerobj.answer));
             console.log(answerobj.answer);
-            if (answerobj.score >= 75) {
+            if (answerobj.score >= 80) {
                 // Answer confidence score is acceptable - use QnA maker's response
                 //var botreplylist = smallTalkReplies[answerobj.answer];
                 botreply = answerobj.answer;

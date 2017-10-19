@@ -35,9 +35,9 @@ var bot = new builder.UniversalBot(connector, [
         }
         var hey ={"hey":['Welcome to Infinity Labs','Warm welcome to Infinity Labs','Great to have you here at Infinity Labs'],"aditi":['My name is Aditi','I am Aditi']};
         session.send(hey.hey);
-        session.delay(3000);
+        session.delay(1500);
         session.send(hey.aditi);
-        session.delay(3000);
+        session.delay(2000);
         session.beginDialog('confirm');
     },
     function(session,results){
@@ -259,6 +259,7 @@ bot.dialog('question?',[
         console.log(session.userData.intent);
         if(session.userData.intent=='yes'){
             session.beginDialog('question');
+            session.userData.trigger = 'no q';
         }else if(session.userData.intent=='no'){
             next();
         }else if(session.userData.intent=='question'){
@@ -274,7 +275,7 @@ bot.dialog('issue',[
     function(session){
         session.send('%s, could you please look into this?',session.userData.poc);
         session.delay(3000);
-        builder.Prompts.choice(session, 'Alternatively, you can choose an instance where you want to go...', "Mode|ID3|Experience Zone|Feedback|Restart|End|Cancel", { listStyle: 4 });
+        builder.Prompts.choice(session, 'Alternatively, you can choose an instance where you want to go...', "Mode|ID3|Experience Zone|Question|Feedback|Restart|End|Cancel", { listStyle: 4 });
     },
     function(session,results){
         if(results.response.entity=='Mode'){
@@ -289,6 +290,9 @@ bot.dialog('issue',[
         }else if(results.response.entity=='Feedback'){
             session.send('Okay, heading over to Feedback...');
             session.beginDialog('feedback');
+        }else if(results.response.entity=='Question'){
+            session.send('Okay, heading over to Questions...');
+            session.beginDialog('question?');
         }else if(results.response.entity=='Restart'){
             session.send('Okay, starting over...');
             session.beginDialog('/');
