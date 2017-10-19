@@ -34,10 +34,10 @@ var bot = new builder.UniversalBot(connector, [
         }else{
             session.send("Good Evening, %s",session.userData.name);
         }
-        var hey ={"hey":['Welcome to Infinity Labs','Warm welcome to Infinity Labs','Great to have you here at Infinity Labs'],"aditi":['My name is Aditi','I am Aditi']};
+        var hey ={"hey":['Welcome to Infinity Labs','Warm welcome to Infinity Labs','Great to have you here at Infinity Labs']};
         session.send(hey.hey);
         session.delay(1000);
-        session.send(hey.aditi);
+        session.say('My name is Aditi','My name is Adhithi');
         session.delay(1500);
         session.beginDialog('confirm');
     },
@@ -324,17 +324,16 @@ bot.dialog('end',[
         builder.Prompts.text(session,bye.bye);
     },
     function(session,results){
-        var responseFour = session.message.text;
-        builder.LuisRecognizer.recognize(responseFour, LuisModelUrl, function (err, intents, entities) {
-            var resultThree = {};
-            resultThree.intents = intents;
-            if (intents[0].intent == 'bye'){
-                session.beginDialog('bye');
-            }else {
-                session.send('The session has ended. Type help to go to a specefic instance');
-                session.beginDialog('end')
-            }
-        })
+        session.beginDialog('luis');
+    },
+    function(session,results){
+        if (session.userData.intent== 'bye'){
+            session.beginDialog('end');
+        }else {
+            session.send('The session has ended. Type help to go to a specefic instance');
+            session.beginDialog('end')
+        }
+
     }
 ]).triggerAction({
     matches: /^bye$|^goodbye$|^good bye*see you/i
