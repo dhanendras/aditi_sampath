@@ -61,6 +61,8 @@ function sendimage(session,url,title) {
         locations(session);
     }else if(session.userData.image=='assets'){
         assets(session);
+    }else if(session.userData.image=='research'){
+        research(session);
     }
 }
 
@@ -108,7 +110,7 @@ function locations(session, results, next){
 
 function assets(session, results, next){
     session.delay(3000);
-    session.send('These are our assets categoraized according to the fields');
+    session.send('These are our assets categorized according to the fields');
     session.delay(4000);
     session.send('The red boxes indicate finished Products');
     session.send('The green boxes are the assets in MVC stage ');
