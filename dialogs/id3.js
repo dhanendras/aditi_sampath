@@ -4,6 +4,8 @@ module.exports = [
     function(session,results,next){
         if(session.userData.demotype=='Quick'){
             if(session.userData.trigger=='id3 1'){
+                sendimage(session,'https://i.imgur.com/Zf0ug00.png','ID3');
+                session.delay(2000);
                 session.send('ID3 is the framework that helps us come up with innovative solutions in a constrained environment.');
                 session.delay(3000);
                 session.send('Please refer to the ID3 framework chart next to the entrance while I briefly explain the process. ');
@@ -55,3 +57,12 @@ module.exports = [
     }
 ];
 
+function sendimage(session,url,title) {
+    var msg = new builder.Message(session);
+    msg.attachments([
+        new builder.HeroCard(session)
+            .title(title)
+            .images([builder.CardImage.create(session, url)])
+    ]);
+    session.send(msg);
+}
