@@ -37,7 +37,7 @@ var bot = new builder.UniversalBot(connector, [
         var hey ={"hey":['Welcome to Infinity Labs','Warm welcome to Infinity Labs','Great to have you here at Infinity Labs']};
         session.send(hey.hey);
         session.delay(1000);
-        session.say('My name is Aditi','My name is Adhiti');
+        session.say('My name is Aditi','My name is Adheati');
         session.delay(1500);
         session.beginDialog('confirm');
     },
