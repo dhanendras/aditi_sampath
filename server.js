@@ -26,9 +26,9 @@ var bot = new builder.UniversalBot(connector, [
     function(session,next){
         console.log(session.userData.intent);
         console.log(time);
-        if(time < 12){
+        if(time>0 && time<= 11){
              session.send("Good Morning, %s",session.userData.name);  
-        }else if(time>=12&&time<16){
+        }else if(time>11&&time<=16){
              session.send("Good Afternoon, %s",session.userData.name);   
         }else{
             session.send("Good Evening, %s",session.userData.name);
@@ -159,7 +159,7 @@ bot.dialog('id3-2?',[
 bot.dialog('ezoneEnter',[
     function(session){
         session.delay(3000);
-        sendimage(session,'https://imgur.com/a/9ws1H','Map');
+        sendimage(session,'https://i.imgur.com/Kjh2FY6.png','Map');
         session.send('The reminder of this tour would be in our Experience Zone. It is onto your left when facing the ID3 framework chart');
         session.delay(2000);
         builder.Prompts.text(session,'Please let me know when you reach there');

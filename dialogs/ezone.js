@@ -6,7 +6,7 @@ module.exports = [
     function(session,results,next){
         if(session.userData.trigger=='ezone 1'){
             session.userData.image='locations';
-            sendimage(session, 'https://imgur.com/sYolJEp','Locations');
+            sendimage(session, 'https://i.imgur.com/ZcOQHUB.png','Locations');
        }else{
             next();
         }
@@ -14,7 +14,7 @@ module.exports = [
     function(session,results,next){
         if(session.userData.trigger=='ezone 2'){
             session.userData.image='assets';
-            sendimage(session,'https://imgur.com/u00RE5B','Assets');
+            sendimage(session,'https://i.imgur.com/9hpNji2.png','Assets');
         }else{
             next();
         }
