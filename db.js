@@ -1,5 +1,5 @@
 const mysql = require('mysql2');
-var config =
+var pool = mysql.createPool(
 {
     host: 'aditi-admin.mysql.database.azure.com',
     user: 'aditi.admin@aditi-admin',
@@ -7,9 +7,9 @@ var config =
     database: 'aditi_dashboard',
     port: 3306,
     ssl: true
-};
+});
 
-const conn = new mysql.createConnection(config);
+//const conn = new mysql.createConnection(config);
 
 /*module.exports = [
     function (session,results,next){
@@ -29,24 +29,19 @@ const conn = new mysql.createConnection(config);
     }
 ];*/
 exports.insert = (session,text) => {
-    conn.connect(function(err) {
-        if (err) throw err;
-        console.log("Connected...");
-        var sql = "INSERT INTO client_questions (name, address) VALUES("+session.userData.id+","+text+")";
-        conn.query(sql,function (err, result) {
+    pool.getConnection(function(err, connection) {
+        var post  = {id: session.userData.id, question: text};
+        connection.query('INSERT INTO client_questions SET ?',post,function (err, result) {
           if (err) throw err;
           console.log(JSON.stringify(result));
+          connection.release();
         });
-      });
+    });
 } 
-exports.select = (session,table) => {
-    conn.connect(function(err) {
-        if (err) throw err;
-        console.log("Connected...");
-        var sql = "SELECT * FROM "+table;
-        conn.query(sql,function (err, result) {
-          if (err) throw err;
-          console.log(JSON.stringify(result));
-        });
-      });
-} 
+/*exports.select = (session,table) => {
+    var sql = "SELECT * FROM "+table;
+    pool.query(sql,function (err, result) {
+      if (err) throw err;
+      console.log(JSON.stringify(result));
+    });
+} */
