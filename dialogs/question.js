@@ -32,7 +32,8 @@ module.exports = [
     },
     function(session,results){
         session.delay(3000);
-        session.send('%s ...I hope that answered your question %s',session.userData.answer,session.userData.name);
+        session.send(session.userData.answer);
+        session.send('I hope that answered your question %s',session.userData.name);
         session.endDialog();
     }
 ]
