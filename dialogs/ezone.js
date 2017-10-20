@@ -77,11 +77,11 @@ function locations(session, results, next){
     if(session.userData.demotype=='Quick'){
         session.delay(3000);
         session.send('The infographic displays the geographical locations of our innovation centres and the areas where each centre primarily focuses.');
-        session.delay(5000);
+        session.delay(8000);
         session.send('The labs in Trivandrum and Aliso Vejo have the maximum customer exposure.');
-        session.delay(4000);
+        session.delay(5000);
         session.send('Each lab has a particular focus area mentioned.');
-        session.delay(3000);
+        session.delay(4000);
         session.endDialog();
     }else{
         session.delay(3000);
@@ -113,11 +113,11 @@ function assets(session, results, next){
 function research(session,results,next){
     session.delay(3000);
     session.send('These are the various areas we focus on...');
-    session.delay(3000);
+    session.delay(4000);
     session.endDialog();
 }
 function success(session,results){
     session.send('Since our inception, we had over 150 academic interns, solved over 70 business problems and organised over 25 Hackathons');
-    session.delay(8000);
+    session.delay(11000);
     session.endDialog();
 }

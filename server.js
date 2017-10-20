@@ -35,10 +35,11 @@ var bot = new builder.UniversalBot(connector, [
             session.send("Good Evening, %s",session.userData.name);
         }
         var hey ={"hey":['Welcome to Infinity Labs','Warm welcome to Infinity Labs','Great to have you here at Infinity Labs']};
+        session.delay(3000);
         session.send(hey.hey);
-        session.delay(1000);
+        session.delay(3000);
         session.say('My name is Aditi');
-        session.delay(1500);
+        session.delay(2500);
         session.beginDialog('confirm');
     },
     function(session,results){

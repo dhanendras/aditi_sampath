@@ -10,12 +10,13 @@ module.exports = [
                 sendimage(session,'https://i.imgur.com/Zf0ug00.png','ID3');
                 session.delay(7000);
                 session.send('As you can see, the entire process is made up of six phases - Discover, Distill, Define, Innovate, Instrument and Industrialize');
-                session.delay(7000);
-                session.send('The chart explains the Contributor, Duration and the Outcome of each phase. The first three phases - Discover, Distill and Define help us identify ideas and come up with problem definitions.');
                 session.delay(10000);
+                session.send('The chart explains the Contributor, Duration and the Outcome of each phase. The first three phases - Discover, Distill and Define help us identify ideas and come up with problem definitions.');
+                session.delay(15000);
                 sendimage(session,'https://i.imgur.com/Lgz97hE.png','Innovation Pods');
+                session.delay(3000);
                 session.send('In the last three phases, we develop what we call Minimum Viable Concepts, Minimum Viable Products and then move on to generate scalable Products');
-                session.delay(7000);
+                session.delay(10000);
                 session.send('I hope you are with me so far %s',session.userData.name);
                 session.endDialog();
             }else{
