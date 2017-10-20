@@ -11,9 +11,10 @@ exports.client = (session,text) => {
         }
         if (results) {
             // Send reply from QnA back to user
-            session.send(results);
-            session.userData.question = 'yes';
-            console.log('no err');
+           // session.send(results);
+            console.log('qna file res');
+            session.userData.question = results;
+            console.log(results);
             //session.endDialog();
         } else {
             // Put whatever default message/attachments you want here

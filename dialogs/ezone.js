@@ -26,6 +26,9 @@ module.exports = [
         }else{
             next();
         }
+    },
+    function(session,results,next){
+        sendimage(session,'https://i.imgur.com/EZ78zrb.png','Success Story');
     }
 
 ]
@@ -63,25 +66,11 @@ function sendimage(session,url,title) {
         assets(session);
     }else if(session.userData.image=='research'){
         research(session);
+    }else{
+        success(session);
     }
 }
 
-function sendurl(session, contentUrl, name) {
-    var msg = new builder.Message(session)
-    .addAttachment({
-        contentUrl: contentUrl,
-        contentType: 'image',
-        name: name
-    });
-    session.send(msg);
-    if(session.userData.image=='locations'){
-        locations(session);
-    }else if(session.userData.image=='assets'){
-        assets(session);
-    }else if(session.userData.image=='research'){
-        research(session);
-    }
-}
 
 function locations(session, results, next){
     if(session.userData.demotype=='Quick'){
@@ -124,7 +113,9 @@ function research(session,results,next){
     session.delay(3000);
     session.send('These are the various areas we focus on...');
     session.delay(3000);
-    sendimage(session,'https://i.imgur.com/EZ78zrb.png','Success Story');
+    session.endDialog();
+}
+function success(session,results){
     session.send('Since our inception, we had over 150 academic interns, solved over 70 business problems and organised over 25 Hackathons');
     session.delay(8000);
     session.endDialog();

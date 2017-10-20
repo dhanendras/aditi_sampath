@@ -69,9 +69,16 @@ var bot = new builder.UniversalBot(connector, [
         session.userData.currentDialog='ezone3';
         session.beginDialog('ezone3');
     },
+    function(session,results){
+        session.userData.trigger='ezone 4';
+        session.beginDialog('ezone');
+    },
     function(session){
         session.userData.currentDialog='question?';
         session.beginDialog('question?');
+    },
+    function(session,results,next){
+        session.beginDialog('morequestions?');
     },
     function(session){
         session.userData.currentDialog='feedback';
@@ -305,19 +312,59 @@ bot.dialog('question?',[
     function(session,results,next){
         console.log(session.userData.intent);
         if(session.userData.intent=='yes'){
-            session.beginDialog('question');
             session.userData.trigger = 'no q';
+            next();
         }else if(session.userData.intent=='no'){
             next();
-        }else if(session.userData.intent=='question'&&session.userData.score>0.8){
+        }else if(session.userData.intent=='question'){
             session.beginDialog('question');
         }else{
             session.beginDialog('question?');
         }
     },
+    function(session,results,next){
+        if(session.userData.intent == 'yes'){
+            session.beginDialog('question');
+        }else{
+            next(); 
+        }
+    },
     function(session,results){
-        session.endDialog();
+        session.send('I hope that answered your question %s',session.userData.name);
+        session.delay(4000);
+        session.userData.question = {};
+        session.userData.trigger = {};
+        session.beginDialog('morequestions?');
     }
+]);
+
+bot.dialog('morequestions?',[
+    function(session,results,next){
+        builder.Prompts.text(session,'Do you have any more questions?');
+    },
+    function(session,results){
+        session.beginDialog('luis');
+    },
+    function(session,results,next){
+        console.log(session.userData.intent);
+        if(session.userData.intent=='yes'){
+            session.userData.trigger = 'no q';
+            next();
+        }else if(session.userData.intent=='no'){
+            next();
+        }else if(session.userData.intent=='question'){
+            session.beginDialog('question');
+        }else{
+            session.beginDialog('morequestions?');
+        }
+    },
+    function(session,results,next){
+        if(session.userData.intent == 'yes'){
+            session.beginDialog('question');
+        }else{
+            next(); 
+        }
+    },
 ]);
 
 bot.dialog('issue',[

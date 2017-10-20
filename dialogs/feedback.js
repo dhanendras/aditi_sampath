@@ -7,7 +7,6 @@ module.exports = [
         session.delay(3000);
         var fb ={"fb": ['How did you find the tour?','What do you think about the tour?','So what do have have to say about the tour?']}
         session.send(fb.fb);
-        session.delay(4000);
         builder.Prompts.text(session,'We would appreciate a candid feedback');
     },
     function (session, results, next) {
@@ -18,19 +17,22 @@ module.exports = [
             if (!isNaN(newScore)) {
                     if (newScore > 0.8) {
                         session.send('Thanks %s! It means a lot to us. Hope we get to see you again',session.userData.name);
-                        session.endDialog();
+                        next();
                     } 
                     else if (newScore > 0.5) {
                         session.send('Thanks for that positive input %s. We hope to impress you next time',session.userData.name);
-                        session.endDialog();
+                        next();
                     } 
                     else {
                         session.send('Thank you for the honest input %s. We will definetly work on it',session.userData.name);
                         session.userData.fbtrigger='bad';
-                        session.endDialog();
+                        next();
                     }
     
                 }
             })
-        }
+        },
+    function(session,results){
+        session.endDialog();
+    }
 ]
