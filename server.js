@@ -37,7 +37,7 @@ var bot = new builder.UniversalBot(connector, [
         var hey ={"hey":['Welcome to Infinity Labs','Warm welcome to Infinity Labs','Great to have you here at Infinity Labs']};
         session.send(hey.hey);
         session.delay(1000);
-        session.say('My name is Aditi','My name is Adheati');
+        session.say('My name is Aditi');
         session.delay(1500);
         session.beginDialog('confirm');
     },
@@ -101,6 +101,7 @@ var bot = new builder.UniversalBot(connector, [
         session.beginDialog('end');
     }
 ]);
+
 bot.dialog('name',require('./dialogs/greet'));
 bot.dialog('ezone',require('./dialogs/ezone'));
 bot.dialog('luis',require('./luis'));
@@ -325,9 +326,12 @@ bot.dialog('question?',[
             session.beginDialog('question?');
         }
     },
+    function(session,results,next){
+        session.beginDialog('question');
+    },
     function(session,results){
         session.send('I hope that answered your question %s',session.userData.name);
-        session.delay(4000);
+        //session.delay(4000);
         //session.userData.question = {};
         //session.userData.trigger = {};
         session.beginDialog('morequestions?');

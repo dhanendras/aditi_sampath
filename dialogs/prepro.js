@@ -26,6 +26,7 @@ module.exports = [
                     session.userData.poc = results[0].primary_poc;
                     session.userData.demotype = results[0].demo_type;
                     session.userData.id = session.userData.name+time;
+                    session.userData.trigger={};
                     console.log(session.userData.name);
                     console.log(session.userData.poc);
                     console.log(session.userData.demotype);
