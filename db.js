@@ -33,7 +33,7 @@ exports.insert = (session,text) => {
         var post  = {id: session.userData.id, question: text};
         connection.query('INSERT INTO client_questions SET ?',post,function (err, result) {
           if (err) throw err;
-          console.log(JSON.stringify(result));
+          //console.log(JSON.stringify(result));
           connection.release();
         });
     });

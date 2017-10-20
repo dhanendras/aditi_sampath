@@ -9,15 +9,13 @@ module.exports = [
         }else{
             next();
         }
-        
     },
     function(session,results,next){
         qna.client(session,session.message.text);
-        console.log('qna client done');
         //session.send('Okay %s, I see you have a question...Let me get back to you',session.userData.name);
         db.insert(session,session.message.text);
-        console.log('Question inserted');
-        session.endDialog();
+        //session.endDialog();
+        next();
     },
     function(session,results,next){
         if(session.userData.question == 'no'){
@@ -31,8 +29,6 @@ module.exports = [
         }   
     },
     function(session,results){
-        session.delay(3000);
-        session.send(session.userData.answer);
         session.send('I hope that answered your question %s',session.userData.name);
         session.endDialog();
     }

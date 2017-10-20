@@ -78,13 +78,6 @@ var bot = new builder.UniversalBot(connector, [
         session.userData.currentDialog='question?';
         session.beginDialog('question?');
     },
-    function(session,results,next){
-        if(session.userData.intent=='no'){
-            next();
-        }else{
-            session.beginDialog('morequestions?');
-        }
-    },
     function(session){
         session.userData.currentDialog='feedback';
         session.beginDialog('feedback');
@@ -327,37 +320,11 @@ bot.dialog('question?',[
             session.beginDialog('question?');
         }
     },
-    function(session,results,next){
-        session.userData.trigger = 'question 2';
-        session.beginDialog('question');
-        
-    },
     function(session,results){
-        session.beginDialog('morequestions?');
+        session.beginDialog('question?');
     }
 ]);
 
-bot.dialog('morequestions?',[
-    function(session,results,next){
-        builder.Prompts.text(session,'Do you have any more questions?');
-    },
-    function(session,results){
-        session.beginDialog('luis');
-    },
-    function(session,results,next){
-        console.log(session.userData.intent);
-        if(session.userData.intent=='yes'){
-            session.userData.trigger = 'no q';
-            session.beginDialog('question');
-        }else if(session.userData.intent=='no'){
-            session.endDialog();
-        }else if(session.userData.intent=='question'){
-            session.beginDialog('question');
-        }else{
-            session.beginDialog('morequestions?');
-        }
-    },
-]);
 
 bot.dialog('issue',[
     function(session){
