@@ -30,7 +30,7 @@ module.exports = [
             builder.Prompts.text(session,'Please let me know when your done');
         }else{
             session.send(session.userData.question);
-            console.log('watfall 2');
+            console.log('waterfall 2');
             next();
         }   
     },

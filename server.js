@@ -318,7 +318,7 @@ bot.dialog('question?',[
         if(session.userData.intent=='yes'){
             session.beginDialog('question');
         }else if(session.userData.intent=='no'){
-            next();
+            session.endDialog();
         }else if(session.userData.intent=='question'){
             session.beginDialog('question');
         }else{
@@ -328,8 +328,8 @@ bot.dialog('question?',[
     function(session,results){
         session.send('I hope that answered your question %s',session.userData.name);
         session.delay(4000);
-        session.userData.question = {};
-        session.userData.trigger = {};
+        //session.userData.question = {};
+        //session.userData.trigger = {};
         session.beginDialog('morequestions?');
     }
 ]);
