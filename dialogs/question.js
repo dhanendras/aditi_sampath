@@ -4,29 +4,20 @@ var qna = require('./qna');
 
 module.exports = [
     function(session,results,next){
-        if(session.userData.trigger=='question 2'){
-            next();
+        if(session.userData.intent =='yes'){
+            builder.Prompts.text(session,'Okay, what is the question?');
         }else{
-            if(session.userData.intent =='yes'){
-                builder.Prompts.text(session,'Okay, what is the question?');
-            }else{
-                next();
-            }
+            next();
         }
         
     },
     function(session,results,next){
-        if(session.userData.trigger=='question 2'){
-            next();
-        }else{
-            qna.client(session,session.message.text);
-            console.log('qna client done');
-            //session.send('Okay %s, I see you have a question...Let me get back to you',session.userData.name);
-            db.insert(session,session.message.text);
-            console.log('Question inserted');
-            session.endDialog();
-        }
-        
+        qna.client(session,session.message.text);
+        console.log('qna client done');
+        //session.send('Okay %s, I see you have a question...Let me get back to you',session.userData.name);
+        db.insert(session,session.message.text);
+        console.log('Question inserted');
+        session.endDialog();
     },
     function(session,results,next){
         if(session.userData.question == 'no'){
@@ -40,14 +31,8 @@ module.exports = [
         }   
     },
     function(session,results){
-        if(session.userData.trigger=='question 2'){
-            session.delay(3000);
-            session.send('I hope that answered your question %s',session.userData.name);
-            session.userData.trigger = {};
-            session.endDialog();
-        }else{
-            session.endDialog();
-        }
-        
+        session.delay(3000);
+        session.send('%s ...I hope that answered your question %s',session.userData.answer,session.userData.name);
+        session.endDialog();
     }
 ]

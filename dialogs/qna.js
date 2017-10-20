@@ -10,18 +10,15 @@ exports.client = (session,text) => {
             return;
         }
         if (results) {
-            session.userData.trigger = 'question 2';
             // Send reply from QnA back to user
-            session.send(results+'...I hope that answered your question');
-            console.log('qna file res');
-            //session.userData.question = results;
-            console.log(results);
-            //session.endDialog();
+            session.userData.answer = results;
+            return;
         } else {
             // Put whatever default message/attachments you want here
             //session.endDialog();
             console.log('no answer');
             session.userData.question = 'no';
+            return;
         }
     });
 }

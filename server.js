@@ -332,10 +332,6 @@ bot.dialog('question?',[
         
     },
     function(session,results){
-        //session.send('I hope that answered your question %s',session.userData.name);
-        //session.delay(4000);
-        //session.userData.question = {};
-        //session.userData.trigger = {};
         session.beginDialog('morequestions?');
     }
 ]);
@@ -351,20 +347,13 @@ bot.dialog('morequestions?',[
         console.log(session.userData.intent);
         if(session.userData.intent=='yes'){
             session.userData.trigger = 'no q';
-            next();
+            session.beginDialog('question');
         }else if(session.userData.intent=='no'){
-            next();
+            session.endDialog();
         }else if(session.userData.intent=='question'){
             session.beginDialog('question');
         }else{
             session.beginDialog('morequestions?');
-        }
-    },
-    function(session,results,next){
-        if(session.userData.intent == 'no'){
-            session.endDialog();
-        }else{
-            session.beginDialog('question');
         }
     },
 ]);
