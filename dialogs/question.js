@@ -24,6 +24,7 @@ module.exports = [
             //session.send('Okay %s, I see you have a question...Let me get back to you',session.userData.name);
             db.insert(session,session.message.text);
             console.log('Question inserted');
+            session.endDialog();
         }
         
     },
@@ -35,14 +36,18 @@ module.exports = [
             session.send('Perhaps %s would be able to answer that question',session.userData.poc);
             builder.Prompts.text(session,'Please let me know when your done');
         }else{
-            //session.send(session.userData.question);
-            console.log('waterfall 2');
             next();
         }   
     },
     function(session,results){
-        session.delay(3000);
-        session.send('I hope that answered your question %s',session.userData.name);
-        session.endDialog();
+        if(session.userData.trigger=='question 2'){
+            session.delay(3000);
+            session.send('I hope that answered your question %s',session.userData.name);
+            session.userData.trigger = {};
+            session.endDialog();
+        }else{
+            session.endDialog();
+        }
+        
     }
 ]

@@ -327,10 +327,12 @@ bot.dialog('question?',[
         }
     },
     function(session,results,next){
+        session.userData.trigger = 'question 2';
         session.beginDialog('question');
+        
     },
     function(session,results){
-        session.send('I hope that answered your question %s',session.userData.name);
+        //session.send('I hope that answered your question %s',session.userData.name);
         //session.delay(4000);
         //session.userData.question = {};
         //session.userData.trigger = {};
@@ -359,10 +361,10 @@ bot.dialog('morequestions?',[
         }
     },
     function(session,results,next){
-        if(session.userData.intent == 'yes'){
-            session.beginDialog('question');
+        if(session.userData.intent == 'no'){
+            session.endDialog();
         }else{
-            session.endDialog(); 
+            session.beginDialog('question');
         }
     },
 ]);
