@@ -362,7 +362,7 @@ bot.dialog('morequestions?',[
         if(session.userData.intent == 'yes'){
             session.beginDialog('question');
         }else{
-            next(); 
+            session.endDialog(); 
         }
     },
 ]);

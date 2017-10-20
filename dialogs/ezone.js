@@ -28,6 +28,7 @@ module.exports = [
         }
     },
     function(session,results,next){
+        session.userData.image='success';
         sendimage(session,'https://i.imgur.com/EZ78zrb.png','Success Story');
     }
 
