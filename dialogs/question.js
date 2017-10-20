@@ -11,7 +11,10 @@ module.exports = [
         }
     },
     function(session,results,next){
-        qna.client(session,session.message.text);
+        qna.client(session,session.message.text,function(results){
+            session.send(results);
+            console.log('qna client fun res');
+        });
         console.log('qna client done');
         //session.send('Okay %s, I see you have a question...Let me get back to you',session.userData.name);
         db.insert(session,session.message.text);

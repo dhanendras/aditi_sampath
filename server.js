@@ -78,7 +78,11 @@ var bot = new builder.UniversalBot(connector, [
         session.beginDialog('question?');
     },
     function(session,results,next){
-        session.beginDialog('morequestions?');
+        if(session.userData.intent=='no'){
+            next();
+        }else{
+            session.beginDialog('morequestions?');
+        }
     },
     function(session){
         session.userData.currentDialog='feedback';
@@ -312,21 +316,13 @@ bot.dialog('question?',[
     function(session,results,next){
         console.log(session.userData.intent);
         if(session.userData.intent=='yes'){
-            session.userData.trigger = 'no q';
-            next();
+            session.beginDialog('question');
         }else if(session.userData.intent=='no'){
             next();
         }else if(session.userData.intent=='question'){
             session.beginDialog('question');
         }else{
             session.beginDialog('question?');
-        }
-    },
-    function(session,results,next){
-        if(session.userData.intent == 'yes'){
-            session.beginDialog('question');
-        }else{
-            next(); 
         }
     },
     function(session,results){
