@@ -1,4 +1,4 @@
-var qna = require('../client');
+
 var builder = require('botbuilder');
 var request = require('sync-request');
 
