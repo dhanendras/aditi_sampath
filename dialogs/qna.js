@@ -21,6 +21,7 @@ exports.client = (session,text) => {
         session.userData.answer = final;
         session.userData.question = 'yes'
     }else{
+        session.userData.answer = final;
         session.userData.question = 'no';
     }
 

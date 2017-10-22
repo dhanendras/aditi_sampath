@@ -28,6 +28,7 @@ module.exports = [
         }   
     },
     function(session,results){
+        session.userData.idqnum = session.userData.idqnum+1;
         db.insert(session,session.userData.q,session.userData.answer);
         session.send('I hope that answered your question %s',session.userData.name);
         session.endDialog();
