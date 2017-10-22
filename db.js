@@ -28,10 +28,10 @@ var pool = mysql.createPool(
         });
     }
 ];*/
-exports.insert = (session,text) => {
+exports.insert = (session,q,a) => {
     pool.getConnection(function(err, connection) {
         session.userData.idqnum = session.userData.idqnum+1; 
-        var post  = {id: session.userData.id+session.userData.idqnum, question: text};
+        var post  = {id: session.userData.id+session.userData.idqnum, question: q,answer: a };
         connection.query('INSERT INTO client_questions SET ?',post,function (err, result) {
           if (err) throw err;
           //console.log(JSON.stringify(result));

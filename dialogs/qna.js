@@ -18,6 +18,7 @@ exports.client = (session,text) => {
     score = results.score;
     if(score>80){
         session.send(final);
+        session.userData.answer = final;
         session.userData.question = 'yes'
     }else{
         session.userData.question = 'no';

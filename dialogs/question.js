@@ -11,9 +11,9 @@ module.exports = [
         }
     },
     function(session,results,next){
+        session.userData.q = session.message.text;
         qna.client(session,session.message.text);
         //session.send('Okay %s, I see you have a question...Let me get back to you',session.userData.name);
-        db.insert(session,session.message.text);
         //session.endDialog();
         next();
     },
@@ -28,6 +28,7 @@ module.exports = [
         }   
     },
     function(session,results){
+        db.insert(session,session.userData.q,session.userData.answer);
         session.send('I hope that answered your question %s',session.userData.name);
         session.endDialog();
     }
