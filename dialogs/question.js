@@ -19,7 +19,6 @@ module.exports = [
     },
     function(session,results,next){
         if(session.userData.question == 'no'){
-            session.delay(3000);
             session.send('I am very sorry. I do not know the answer to that...');
             session.delay(4000);
             session.send('Perhaps %s would be able to answer that question',session.userData.poc);

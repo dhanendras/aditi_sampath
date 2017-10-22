@@ -1,4 +1,4 @@
-var builder = require('botbuilder');
+/*var builder = require('botbuilder');
 const LuisModelUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/06f59422-0288-40a7-821d-e8f7ebde4cd2?subscription-key=e9bfbbd5344e4777b390538ba3aa4322&timezoneOffset=0&verbose=true&q= ';
 
 module.exports = [
@@ -14,32 +14,25 @@ module.exports = [
             session.endDialog();
         });
     }
-]
+]*/
 
 
 var builder = require('botbuilder');
 var request = require('sync-request');
 
-exports.client = (session,text) => {      
+exports.luis = (session,text) => {      
     // Post user's question to QnA smalltalk kb
-    var res = request('POST', 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/06f59422-0288-40a7-821d-e8f7ebde4cd2?subscription-key=e9bfbbd5344e4777b390538ba3aa4322&timezoneOffset=0&verbose=true&q= ', {
+    var res = request('GET', 'https://westus.api.cognitive.microsoft.com/luis/v1/application/preview?id=06f59422-0288-40a7-821d-e8f7ebde4cd2&q='+text, {
         'headers': {
-            "Ocp-Apim-Subscription-Key": 'da1fb5f9886d4005af686e8b4219f744',
+            "Ocp-Apim-Subscription-Key": 'e9bfbbd5344e4777b390538ba3aa4322',
             "Content-Type": "application/json"
           },
-      json: { question: text }
+      json: { q: text }
     });
-    console.log(res.getBody('utf8'));
+    //console.log(res.getBody('utf8'));
     body = JSON.parse(res.getBody('utf8'));
     //body = res.getBody('utf8');
-    var results = body.answers[0];
-    final = results.answer;
-    score = results.score;
-    if(score>80){
-        session.send(final);
-    }else{
-        session.userData.question = 'no';
-    }
-
-   
+    var results = body.topScoringIntent;
+    session.userData.intent = results.intent;
+    session.userData.score = results.score;   
 }
