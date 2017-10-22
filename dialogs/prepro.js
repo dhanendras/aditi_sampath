@@ -1,6 +1,7 @@
 const mysql = require('mysql2');
 var d = new Date();
-var time = d.getHours();
+var date = d.getDate();
+var month = d.getMonth();
 var builder = require('botbuilder');
 var pool = mysql.createPool(
 {
@@ -23,9 +24,10 @@ module.exports = [
                 else{
                     console.log('db '+JSON.stringify(results));
                     session.userData.name = results[0].client;
+                    session.userData.idqnum = 0;
                     session.userData.poc = results[0].primary_poc;
                     session.userData.demotype = results[0].demo_type;
-                    session.userData.id = session.userData.name+time;
+                    session.userData.id = session.userData.name+'_'+date+month+'_q';
                     session.userData.trigger={};
                     console.log(session.userData.name);
                     console.log(session.userData.poc);

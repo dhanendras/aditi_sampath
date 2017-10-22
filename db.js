@@ -30,7 +30,8 @@ var pool = mysql.createPool(
 ];*/
 exports.insert = (session,text) => {
     pool.getConnection(function(err, connection) {
-        var post  = {id: session.userData.id, question: text};
+        session.userDataidqnum = session.userData.idqnum+1; 
+        var post  = {id: session.userData.id+session.userData.idqnum, question: text};
         connection.query('INSERT INTO client_questions SET ?',post,function (err, result) {
           if (err) throw err;
           //console.log(JSON.stringify(result));
