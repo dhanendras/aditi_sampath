@@ -22,44 +22,26 @@
     <title>Bot Chat</title>
 
     <link href="https://unpkg.com/botframework-webchat/botchat.css" rel="stylesheet" />
-    <!-- <link rel="stylesheet" href="botchat1.css"> -->
-    
 
     <style>
       .example {
         float: left;
         margin-right: 20px;
         width: 300px;
-        background-color: lightblue;
-        
       }
 
       .example > h2 {
         font-family: 'Segoe UI';
-        background-color: lightblue;
       }
 
       #BotChatGoesHere {
         border: 1px solid #333;
-        /* border: 1px solid rgb(109, 238, 92); */
         float: left;
-        margin-left:-10px;
-        margin-top: -10px;
-        margin-bottom: 10px;
-        height: 100%;
-        position: fixed;
-        width: 100%;
-        /* Image code Starts here-----*/
-        background-image: url("img/aditi_icon.png");
-        /* background-position: center; */
-        background-repeat:no-repeat;
-        background-size:contain;
-        background-position-x:center;
-        /* background-size:cover; */
+        height: 600px;
+        position: relative;
+        width: 460px;
+		
       }
-      /* body {
-        background-color: lightblue;
-      } */
     </style>
   </head>
   <body>
@@ -68,23 +50,21 @@
     <div id="BotChatGoesHere"></div>
 
     <script src="https://unpkg.com/botframework-webchat/botchat.js"></script>
-    <!-- <script src="botchat_js.js"></script> -->
 
     <!-- If you do not want to use Cognitive Services library, comment out the following line -->
     <script src="https://unpkg.com/botframework-webchat/CognitiveServices.js"></script>
-    <!-- <script src="CognitiveServices_js.js"></script> -->
 
     <script>
       const params = BotChat.queryParams(location.search);
 
       const user = {
         id:  'aditi',
-        name:  'Aditi'
+        name:  'aditi'
       };
 
       const bot = {
         id:  'chat',
-        name: 'Chat'
+        name: 'chat'
       };
 
       window.botchatDebug = params['debug'] && params['debug'] === 'true';
@@ -151,7 +131,7 @@
         bot: bot,
         locale: params['locale'],
         resize: 'detect',
-        // sendTyping: true,    // defaults to false. set to true to send 'typing' activities to bot (and other users) when user is typing
+        // sendTyping: true,    // defaults to false. set to true to send 'typing' activities to bot (and other users) when user is typingstyle="height:460px;"
         speechOptions: speechOptions,
         user: user,
 
@@ -159,6 +139,6 @@
 
       }, document.getElementById('BotChatGoesHere'));
     </script>
-    <!-- <img src="img/aditi_icon.png" alt="Aditi Icon" style="width:50%;" align="right" valign="center"/> -->
+	<img src="https://images.pexels.com/photos/132037/pexels-photo-132037.jpeg?w=940&h=650&auto=compress&cs=tinysrgb" alt="HTML5 Icon" width="100%" height="100%">
   </body>
 </html>
