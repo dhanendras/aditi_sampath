@@ -35,7 +35,8 @@ body .wc-app, .wc-app button, .wc-app input, .wc-app textarea {
 .wc-header {
 
 
-  background-color: #212121;
+  /* background-color: #212121; */
+  background-color: #0078D7;
   box-shadow: 0 1px rgba(0, 0, 0, 0.2);
   box-sizing: content-box;
   color: #ffffff;
@@ -372,7 +373,7 @@ bottom: 0;}
     padding: 0;
     position: absolute;
     top: 50%;
-    width: 28px; }
+    width: 80%; }
   .wc-carousel button.scroll:disabled {
     display: none; }
   .wc-carousel button.scroll:hover {
@@ -425,7 +426,10 @@ bottom: 0;}
 .wc-message-from-bot .wc-message-content {
 
   background-color: #eceff1;
-  color: #000000; }
+  color: #000000;
+  /* background-color: #000000;
+  color: #eceff1; */
+ }
 
 .wc-message-from-bot svg.wc-message-callout path {
   fill: #eceff1; }
@@ -498,7 +502,7 @@ visibility: hidden;
     right: 350px;
     height: 25px;
     #background-color: #b22b21;
-margin: 1;
+    margin: 1;
     align-items : center;
 }
 
@@ -562,4 +566,6 @@ margin: 1;
   background-color: transparent; }
 
 .wc-app ::-webkit-scrollbar-thumb {
-  background-color: #dbdee1; }
+  background-color: #dbdee1;
+  /* background-color: #4fa1ee;  */
+}
