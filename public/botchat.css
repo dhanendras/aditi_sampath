@@ -373,7 +373,7 @@ bottom: 0;}
     padding: 0;
     position: absolute;
     top: 50%;
-    width: 28px; }
+    width: 80%; }
   .wc-carousel button.scroll:disabled {
     display: none; }
   .wc-carousel button.scroll:hover {
