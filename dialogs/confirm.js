@@ -4,7 +4,7 @@ module.exports = [
     function(session){
         session.send('%s would be your primary POC through this tour.',session.userData.poc);
         session.delay(4500);
-        session.send('I see that you have the %s mode set up...',session.userData.demotype);
+        session.send('I see that you have the %s mode set up',session.userData.demotype);
         session.delay(3500);
         builder.Prompts.choice(session,'Would you like to change it?',"Quick|Detailed", { listStyle: 3 });
     },
