@@ -96,7 +96,6 @@ var bot = new builder.UniversalBot(connector, [
 
 bot.dialog('name',require('./dialogs/greet'));
 bot.dialog('ezone',require('./dialogs/ezone'));
-//bot.dialog('luis',require('./luis'));
 bot.dialog('id3',require('./dialogs/id3'));
 bot.dialog('feedback',require('./dialogs/feedback'));
 bot.dialog('input',require('./dialogs/input'));
@@ -121,7 +120,7 @@ bot.dialog('id3?',[
     },
     function(session,results){
         if(session.userData.intent=='question'){
-            var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
+            var back ={"back":['So where were we again? yes ','What were we talking about? yes ']};
             session.send(back.back);
             session.beginDialog('id3?');
         }else{
@@ -150,7 +149,7 @@ bot.dialog('ezoneEnter',[
     },
     function(session,results){
         if(session.userData.intent=='question'){
-            var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
+            var back ={"back":['So where were we again? yes ','What were we talking about? yes ']};
             session.send(back.back);
             session.beginDialog('ezoneEnter');
         }else{
@@ -161,7 +160,7 @@ bot.dialog('ezoneEnter',[
 bot.dialog('ezone1',[
     function(session){
         session.userData.dialogNum = 2;
-        session.send('So %s...',session.userData.name);
+        session.send('So %s ',session.userData.name);
         builder.Prompts.text(session,'Shall we begin with the presentation?');
     },
     function(session,results,next){
@@ -177,7 +176,7 @@ bot.dialog('ezone1',[
     },
     function(session,results){
         if(session.userData.intent=='question'){
-            var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
+            var back ={"back":['So where were we again? yes ','What were we talking about? yes ']};
             session.send(back.back);
             session.beginDialog('ezone1');
         }else{
@@ -203,7 +202,7 @@ bot.dialog('ezone2',[
     },
     function(session,results){
         if(session.userData.intent=='question'){
-            var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
+            var back ={"back":['So where were we again? yes ','What were we talking about? yes ']};
             session.send(back.back);
             session.beginDialog('ezone2');
         }else{
@@ -229,7 +228,7 @@ bot.dialog('ezone3',[
     },
     function(session,results){
         if(session.userData.intent=='question'){
-            var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
+            var back ={"back":['So where were we again? yes ','What were we talking about? yes ']};
             session.send(back.back);
             session.beginDialog('ezone3');
         }else{
@@ -252,7 +251,7 @@ bot.dialog('question?',[
         }else if(session.userData.intent=='question'){
             session.beginDialog('question');
         }else{
-            session.send('i am sorry, I could not understand that...');
+            session.send('i am sorry, I could not understand that ');
             session.delay(4000);
             session.beginDialog('question?');
         }
@@ -267,29 +266,29 @@ bot.dialog('issue',[
     function(session){
         session.send('%s, could you please look into this?',session.userData.poc);
         session.delay(4000);
-        builder.Prompts.choice(session, 'Alternatively, you can choose an instance where you want to go...', "Mode|ID3|Experience Zone|Question|Feedback|Restart|End|Cancel", { listStyle: 4 });
+        builder.Prompts.choice(session, 'Alternatively, you can choose an instance where you want to go ', "Mode|ID3|Experience Zone|Question|Feedback|Restart|End|Cancel", { listStyle: 4 });
     },
     function(session,results){
         if(results.response.entity=='Mode'){
-            session.send('Okay, heading over to Mode...');
+            session.send('Okay, heading over to Mode ');
             session.beginDialog('confirm');
         }else if(results.response.entity=='ID3'){
-            session.send('Okay, heading over to ID3...');
+            session.send('Okay, heading over to ID3 ');
             session.beginDialog('id3');
         }else if(results.response.entity=='Experience Zone'){
             session.send('Okay, heading over to Experience Zone narrative');
             session.beginDialog('ezone1');
         }else if(results.response.entity=='Feedback'){
-            session.send('Okay, heading over to Feedback...');
+            session.send('Okay, heading over to Feedback ');
             session.beginDialog('feedback');
         }else if(results.response.entity=='Question'){
-            session.send('Okay, heading over to Questions...');
+            session.send('Okay, heading over to Questions ');
             session.beginDialog('question?');
         }else if(results.response.entity=='Restart'){
-            session.send('Okay, starting over...');
+            session.send('Okay, starting over ');
             session.beginDialog('/');
         }else if(results.response.entity=='End'){
-            session.send('Okay...');
+            session.send('Okay ');
             session.beginDialog('end');
         }else if(results.response.entity=='Cancel'){
             session.send('Okay');
@@ -355,7 +354,7 @@ bot.dialog('skip',[
     },
     function(session,results){
         if(session.userData.intent=='question'){
-            var back ={"back":['So where were we again? yes...','What were we talking about? yes...']};
+            var back ={"back":['So where were we again? yes ','What were we talking about? yes ']};
             session.send(back.back);
             session.beginDialog('skip');
         }else{
