@@ -56,8 +56,8 @@ function sendimage(session,url,title) {
 
 function locations(session, results, next){
     session.delay(3000);
-    session.send('The infographic displays the geographical locations of our innovation centres and the areas where each centre primarily focuses. The labs in Trivandrum and Aliso Vejo have the maximum customer exposure. Leon, London, Costa Rica and Bangalore...These labs are in our pipeline for further expansion');
-    session.delay(20000);
+    session.send('The infographic displays the geographical locations of our innovation centres and the areas where each centre primarily focuses. The labs in Trivandrum and Aliso Vejo have the maximum customer exposure. Leon, London, Costa Rica and Bangalore These labs are in our pipeline for further expansion');
+    session.delay(10000);
     session.endDialog();
 }
 
@@ -70,12 +70,12 @@ function assets(session, results, next){
 
 function research(session,results,next){
     session.delay(2000);
-    session.send('These are the various areas we focus on...');
-    session.delay(4000);
+    session.send('These are the various areas we focus on ');
+    session.delay(3000);
     session.endDialog();
 }
 function success(session,results){
     session.send('Since our inception, we had over 150 academic interns, solved over 70 business problems and organised over 25 Hackathons');
-    session.delay(11000);
+    session.delay(7000);
     session.endDialog();
 }
