@@ -2,20 +2,20 @@ var builder = require('botbuilder');
 module.exports = [
     function(session){
         session.send('Gokul, could you please look into this?');
-        builder.Prompts.choice(session, 'Alternatively, you can choose an instance where you want to go...', "ID3|Experience Zone|Feedback|Restart|End|Cancel", { listStyle: 4 });
+        builder.Prompts.choice(session, 'Alternatively, you can choose an instance where you want to go  ', "ID3|Experience Zone|Feedback|Restart|End|Cancel", { listStyle: 4 });
     },
     function(session,results){
         if(results.response.entity=='ID3'){
-            session.send('Okay, heading over to ID3...');
+            session.send('Okay, heading over to ID3  ');
             session.userData.dialog='id3';
         }else if(results.response.entity=='Experience Zone'){
             session.send('Okay, heading over to E Zone narrative');
             session.userData.dialog='ezone';
         }else if(results.response.entity=='Feedback'){
-            session.send('Okay, heading over to Feedback...');
+            session.send('Okay, heading over to Feedback  ');
             session.userData.dialog='feedback';
         }else if(results.response.entity=='Restart'){
-            session.send('Okay, starting over...');
+            session.send('Okay, starting over  ');
             session.userData.dialog='/';
         }else if(results.response.entity=='End'){
             session.send('Okay');

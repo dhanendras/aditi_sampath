@@ -26,72 +26,72 @@ var bot = new builder.UniversalBot(connector, [
         session.userData.dialog = ['id3','ezoneEnter','ezone1','ezone2','ezone3','question','feedback','end'];
         session.userData.dialogNum = 0;
     },
-    function(session,next){
-        console.log(time);
-        if(newTime>0 && newTime<= 11){
-             session.send("Good Morning, %s",session.userData.name);  
-        }else if(newTime>11&&newTime<=16){
-             session.send("Good Afternoon, %s",session.userData.name);   
-        }else{
-            session.send("Good Evening, %s",session.userData.name);
-        }
-        var hey ={"hey":['Welcome to Infinity Labs','Warm welcome to Infinity Labs','Great to have you here at Infinity Labs']};
-        session.delay(3000);
-        session.send(hey.hey);
-        session.delay(3000);
-        session.say('My name is Aditi');
-        session.delay(2500);
-        session.beginDialog('confirm');
-    },
-    function(session,results){
-        session.beginDialog('id3?');
-    },
-    function(session,results){
-        session.userData.trigger = 'id3 2';
-        session.beginDialog('id3');
-    },
-    function(session,results){
-        session.beginDialog('ezoneEnter');
-    },
-    function(session,results){
-        session.userData.dialogNum = 2;
-        session.beginDialog('ezone1');
-    },
-    function(session,results){
-        session.userData.dialogNum = 3;
-        session.beginDialog('ezone2');
-    },
-    function(session,results){
-        session.userData.dialogNum = 4;
-        session.userData.trigger = 'ezone 3';
-        session.beginDialog('ezone3');
-    },
-    function(session,results){
-        session.userData.dialogNum = 5;
-        session.userData.trigger = 'ezone 4';
-        session.beginDialog('ezone');
-    },
+    // function(session,next){
+    //     console.log(time);
+    //     if(newTime>0 && newTime<= 11){
+    //          session.send("Good Morning, %s",session.userData.name);  
+    //     }else if(newTime>11&&newTime<=16){
+    //          session.send("Good Afternoon, %s",session.userData.name);   
+    //     }else{
+    //         session.send("Good Evening, %s",session.userData.name);
+    //     }
+    //     var hey ={"hey":['Welcome to Infinity Labs','Warm welcome to Infinity Labs','Great to have you here at Infinity Labs']};
+    //     session.delay(3000);
+    //     session.send(hey.hey);
+    //     session.delay(3000);
+    //     session.say('My name is Aditi');
+    //     session.delay(2500);
+    //     session.beginDialog('confirm');
+    // },
+    // function(session,results){
+    //     session.beginDialog('id3?');
+    // },
+    // function(session,results){
+    //     session.userData.trigger = 'id3 2';
+    //     session.beginDialog('id3');
+    // },
+    // function(session,results){
+    //     session.beginDialog('ezoneEnter');
+    // },
+    // function(session,results){
+    //     session.userData.dialogNum = 2;
+    //     session.beginDialog('ezone1');
+    // },
+    // function(session,results){
+    //     session.userData.dialogNum = 3;
+    //     session.beginDialog('ezone2');
+    // },
+    // function(session,results){
+    //     session.userData.dialogNum = 4;
+    //     session.userData.trigger = 'ezone 3';
+    //     session.beginDialog('ezone3');
+    // },
+    // function(session,results){
+    //     session.userData.dialogNum = 5;
+    //     session.userData.trigger = 'ezone 4';
+    //     session.beginDialog('ezone');
+    // },
     function(session){
         session.userData.dialogNum = 6;
         session.userData.currentDialog='question?';
         session.beginDialog('question?');
-    },
-    function(session){
-        session.userData.currentDialog='feedback';
-        session.beginDialog('feedback');
-    },
-    function(session,results,next){
-        console.log(session.userData.fbtrigger);
-        if(session.userData.fbtrigger=='bad'){
-            session.beginDialog('input');
-        }else{
-            next();
-        }
-    },
-    function(session,results){
-        session.userData.currentDialog='end';
-        session.beginDialog('end');
-    }
+    // },
+    // function(session){
+    //     session.userData.currentDialog='feedback';
+    //     session.beginDialog('feedback');
+    // },
+    // function(session,results,next){
+    //     console.log(session.userData.fbtrigger);
+    //     if(session.userData.fbtrigger=='bad'){
+    //         session.beginDialog('input');
+    //     }else{
+    //         next();
+    //     }
+    // },
+    // function(session,results){
+    //     session.userData.currentDialog='end';
+    //     session.beginDialog('end');
+    // }
 ]);
 
 bot.dialog('name',require('./dialogs/greet'));
