@@ -243,7 +243,7 @@ bot.dialog('question?',[
         builder.Prompts.text(session,'Do you have any questions?');
     },
     function(session,results,next){
-        lui.luis(session,session.message.text);
+        luis.luis(session,session.message.text);
         if(session.userData.intent=='yes'){
             session.beginDialog('question');
         }else if(session.userData.intent=='no'){
