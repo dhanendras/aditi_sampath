@@ -75,7 +75,7 @@ var bot = new builder.UniversalBot(connector, [
         session.userData.dialogNum = 6;
         session.userData.currentDialog='question?';
         session.beginDialog('question?');
-    // },
+    }
     // function(session){
     //     session.userData.currentDialog='feedback';
     //     session.beginDialog('feedback');
